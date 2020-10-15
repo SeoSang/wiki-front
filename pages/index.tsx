@@ -5,7 +5,9 @@ import {
   makeStyles,
   Theme,
 } from '@material-ui/core';
+import IndexSlide from '../components/IndexSlide';
 import SearchBar from '../components/SearchBar';
+import { subjects } from '../dummy';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -16,6 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       height: '100%',
     },
+    slide: {
+      padding: theme.spacing(2),
+    },
   })
 );
 
@@ -24,7 +29,10 @@ export default function Home() {
 
   return (
     <div className={classes.root}>
-      <SearchBar></SearchBar>
+      <SearchBar />
+      <div className={classes.slide}>
+        <IndexSlide subjects={subjects}></IndexSlide>
+      </div>
     </div>
   );
 }
