@@ -36,6 +36,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 // mobx
 import { useRouter } from 'next/dist/client/router';
+import Link from 'next/link';
 // cookie
 
 const drawerWidth = 240;
@@ -147,7 +148,11 @@ const MainLayout: FC<{
             <MenuIcon />
           </IconButton>
           <div className={classes.menuCenterDiv}>
-            <Typography variant="h5">WINGS WIKI</Typography>
+            <Link href="/">
+              <a>
+                <Typography variant="h5">WINGS WIKI</Typography>
+              </a>
+            </Link>
           </div>
           <div className={classes.menuRightDiv}>
             <AccountCircleIcon />
