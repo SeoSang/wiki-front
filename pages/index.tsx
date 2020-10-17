@@ -10,7 +10,7 @@ import IndexSlide from '../components/IndexSlide';
 import SearchBar from '../components/SearchBar';
 import { subjects } from '../dummy';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme: Theme) => 
   createStyles({
     root: {
       display: 'flex',
@@ -34,8 +34,8 @@ export default function Home() {
       <div className={classes.slide}>
         <IndexSlide subjects={subjects}></IndexSlide>
       </div>
-      <Link href="test">
-        <a>가자</a>
+      <Link href="post">
+        <a>게시판</a>
       </Link>
     </div>
   );
