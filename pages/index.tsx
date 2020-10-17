@@ -30,9 +30,7 @@ export default function Home() {
   return (
     <div className={classes.root}>
       <SearchBar />
-      <div className={classes.slide}>
-        <IndexSlide subjects={subjects}></IndexSlide>
-      </div>
+      <IndexSlide subjects={subjects}></IndexSlide>
     </div>
   );
 }
