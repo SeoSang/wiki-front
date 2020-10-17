@@ -5,6 +5,7 @@ import {
   makeStyles,
   Theme,
 } from '@material-ui/core';
+import Link from 'next/link';
 import IndexSlide from '../components/IndexSlide';
 import SearchBar from '../components/SearchBar';
 import { subjects } from '../dummy';
@@ -30,7 +31,12 @@ export default function Home() {
   return (
     <div className={classes.root}>
       <SearchBar />
-      <IndexSlide subjects={subjects}></IndexSlide>
+      <div className={classes.slide}>
+        <IndexSlide subjects={subjects}></IndexSlide>
+      </div>
+      <Link href="test">
+        <a>가자</a>
+      </Link>
     </div>
   );
 }

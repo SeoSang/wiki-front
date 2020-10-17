@@ -33,7 +33,9 @@ function Item({ item }: { item: Subject }) {
       <div className={classes.cardWrapper}>
         <Typography variant="h5">{item.name}</Typography>
         <Typography variant="h6">{item.professor}</Typography>
-        <Button className="CheckButton">Check it out!</Button>
+        <Button color="secondary" className="CheckButton">
+          Check it out!
+        </Button>
       </div>
     </Paper>
   );
