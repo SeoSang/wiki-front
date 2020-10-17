@@ -3,4 +3,10 @@ interface Subject {
   name: string;
   professor: string;
 }
-//test
+
+// user
+
+export interface LoginFormValues {
+  email: string;
+  password: string;
+}
