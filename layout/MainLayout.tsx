@@ -179,6 +179,14 @@ const MainLayout: FC<{
         </div>
         <Divider />
         <List>
+          <PageLink href = "board">
+            <ListItem button>
+              <ListItemIcon>
+              <AssignmentIcon />
+              </ListItemIcon>              
+              <ListItemText primary={'게시판'} />
+            </ListItem>
+          </PageLink>
           <PageLink href="posts">
             <ListItem button>
               <ListItemIcon>

@@ -34,7 +34,7 @@ export default function Home() {
       <div className={classes.slide}>
         <IndexSlide subjects={subjects}></IndexSlide>
       </div>
-      <Link href="post">
+      <Link href="board">
         <a>게시판</a>
       </Link>
     </div>
