@@ -39,6 +39,7 @@ import Popover from '@material-ui/core/Popover';
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
+import CardActions from '@material-ui/core/CardActions'
 import Avatar from '@material-ui/core/Avatar';
 // mobx
 import { useRouter } from 'next/dist/client/router';
@@ -120,13 +121,15 @@ const useStyles = makeStyles((theme: Theme) =>
       height : '290px',
       display : 'flex',
       alignItems:'center',
-      flexDirection:'column'
+      flexDirection:'column',
+      justifyContent : 'center'
     },
     popoverHeader:{      
       display:'flex',      
       margin : '15px 0px', 
       alignItems:'center',
-      justifyContent:'space-between'
+      justifyContent:'space-between',
+      border : '2px solid black'
     },
     popoverHeaderText:{
       display:'flex',
@@ -137,11 +140,44 @@ const useStyles = makeStyles((theme: Theme) =>
       height : 60, 
       '&:hover' : {
         opacity : 0.5
-      }    
+      },
+      
+    },
+    popoverTodayState :{
+      fontSize:'20px',
+      color:'black',
     },
     popoverText :{
       fontSize:'20px',
         color:'black',
+        transition : 'all .3s ease-in-out',
+        '&:hover' : {
+          color : '#FF913B'
+        }
+    },
+    title :{
+      fontSize : 20,
+      backgroundColor : '#000000',
+      color : 'white',
+      width : '75%',
+      marginBottom : '5px'
+    },
+    divider : {
+      width : '160px',
+      height : '.5px',
+      backgroundColor : '#000000'
+    },
+    listdivider : {      
+      width : '160px',
+      height : '.5px',
+      backgroundColor : '#000000',
+      margin : '5px 0px',
+    },
+    listAnimation :{
+      color : "#FF913B",
+      '&:hover':{
+        color : '#FF913B',
+      }
     }
   })
 );
@@ -221,7 +257,7 @@ const MainLayout: FC<{
       >
         
         <Card className={classes.popoverContainer}>
-          <div className={classes.popoverHeader}>
+          {/*<div className={classes.popoverHeader}>
             <Avatar className={classes.popoverAvatar} 
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTya3yidR9oENvi28M4HZMhUOOObxJFxvQExA&usqp=CAU"/>
             <div className={classes.popoverHeaderText}>
@@ -229,10 +265,30 @@ const MainLayout: FC<{
             <Typography>가톨릭대학교</Typography>
             <Typography>4학년</Typography>             
             </div>
-          </div>
+                              </div>*/}
+          <CardHeader
+            classes={{
+              title : classes.title,
+            }}
+            avatar={
+              <Avatar left aria-label="recipe" className={classes.popoverAvatar} src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTya3yidR9oENvi28M4HZMhUOOObxJFxvQExA&usqp=CAU">              
+              </Avatar>
+            }
+            title="오현재"
+            subheader="가톨릭대학교">
+          </CardHeader>
+          {/*<Divider classes ={{root : classes.divider}}/>*/}
+          
+          <Typography className={classes.popoverTodayState}>오늘은 학교가는 날</Typography>
           <CardContent>
-            <Typography className={classes.popoverText}>오늘은 학교가는 날</Typography>
+            <Typography className={classes.popoverText}>강의표</Typography>
+            <Divider classes ={{root : classes.listdivider}}/>
+            <Typography className={classes.popoverText}>즐겨찾기</Typography>
+            <Divider classes ={{root : classes.listdivider}}/>            
           </CardContent>
+          <CardActions>
+          <Button>상세 페이지 이동</Button>
+          </CardActions>
         </Card>
       </Popover>
           </div>
