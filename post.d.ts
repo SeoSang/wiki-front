@@ -7,3 +7,4 @@ interface Post {
     createdAt : string,   
 }
 
+interface

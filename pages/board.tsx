@@ -18,7 +18,7 @@ const tableStyles = makeStyles({
         backgroundColor: '#F0F3FF'
     },
     pagebuttons : {
-        marginTop : '20px'
+        marginTop : '20px',
     }
 })
 
@@ -71,7 +71,7 @@ function MyTable(){  //Table로 만든거
                 </TableRow>
             </TableHead>
             <TableBody>
-                {/*post.map(p=>
+                {post.map(p=>
                         <TableRow className = {p.postId %2== 0 ? tableStyle.evenrows : tableStyle.rows} key = {p.userId}>
                         <TableCell align = 'center'>{p.postId}</TableCell>
                         <TableCell align = 'center'>{p.userId}</TableCell>
@@ -79,15 +79,17 @@ function MyTable(){  //Table로 만든거
                         <TableCell align = 'center'>{p.title}</TableCell>
                         <TableCell align = 'center'>{p.content.length < 10 ? p.content : p.content.slice(0,10) + "..."}</TableCell>
                         <TableCell align = 'center'>{p.createdAt}</TableCell>
-                </TableRow>)*/}
-                {post.slice(0,3).map(p=><TableRow className = {p.postId %2== 0 ? tableStyle.evenrows : tableStyle.rows} key = {p.userId}>
+                </TableRow>)}
+
+                {//pagination}
+                /*post.slice(0,3).map(p=><TableRow className = {p.postId %2== 0 ? tableStyle.evenrows : tableStyle.rows} key = {p.userId}>
                         <TableCell align = 'center'>{p.postId}</TableCell>
                         <TableCell align = 'center'>{p.userId}</TableCell>
                         <TableCell align = 'center'>{p.subjectId}</TableCell>
                         <TableCell align = 'center'>{p.title}</TableCell>
                         <TableCell align = 'center'>{p.content.length < 10 ? p.content : p.content.slice(0,10) + "..."}</TableCell>
                         <TableCell align = 'center'>{p.createdAt}</TableCell>
-                </TableRow>)}
+                </TableRow>)*/}
             </TableBody>
         </Table>
     )
@@ -100,24 +102,30 @@ function PaginationButtons(){
 
     const rowsperPage:number = 3;
     return(
+        <div>
         <div className = {useStyles.pagebuttons}>
-        {currentPage !== 0 ? <Button color = 'primary' >뒤로</Button> : ""}
-        <Button onClick = {() => setCurrentPage(currentPage => currentPage+1)}>앞으로</Button>
-        <div>현재 페이지 : {currentPage}</div>
+        {currentPage !== 0 ? <Button onClick = {() => setCurrentPage(currentPage => currentPage-1)} >뒤로</Button> : ""}
+        <Button onClick = {() => setCurrentPage(currentPage => currentPage+1)}>앞으로</Button>        
+        </div>
+        {currentPage !==0 ? <div>현재 페이지 : {currentPage} </div> : ""}
         </div>
     )
 }
 
 export default function Board() {
-    const [totalPage, setTotalPage] = useState([]);
     const useStyles = tableStyles();
+
+    //pagination..
+    /*const array = [];
+    const [totalPage, setTotalPage] = useState<number>([]);
+    
     useEffect(()=>
         
     {for(let i=0; i++; i<post.length)
         setTotalPage(totalPage => totalPage.concat(i));
     console.log(totalPage);
     }
-    )
+    )*/
     return (
         <div className = {useStyles.root}>
         <MyTable/>

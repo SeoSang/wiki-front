@@ -4,6 +4,7 @@ import React, {
   ReactComponentElement,
   useCallback,
   useEffect,
+  useState
 } from 'react';
 import st from './MainLayout.module.css';
 import {
@@ -33,7 +34,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { PageLink } from '../components/PageLink';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-
+import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import Avatar from '@material-ui/core/Avatar';
 // mobx
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
@@ -109,6 +115,34 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       marginLeft: 'auto',
     },
+    popoverContainer:{
+      width : '200px',
+      height : '290px',
+      display : 'flex',
+      alignItems:'center',
+      flexDirection:'column'
+    },
+    popoverHeader:{      
+      display:'flex',      
+      margin : '15px 0px', 
+      alignItems:'center',
+      justifyContent:'space-between'
+    },
+    popoverHeaderText:{
+      display:'flex',
+      flexDirection:'column'
+    },
+    popoverAvatar :{
+      width : 60,
+      height : 60, 
+      '&:hover' : {
+        opacity : 0.5
+      }    
+    },
+    popoverText :{
+      fontSize:'20px',
+        color:'black',
+    }
   })
 );
 
@@ -127,6 +161,19 @@ const MainLayout: FC<{
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event:any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const opened = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   return (
     <div className={classes.root}>
@@ -155,10 +202,43 @@ const MainLayout: FC<{
             </Link>
           </div>
           <div className={classes.menuRightDiv}>
-            <AccountCircleIcon />
+          <Button aria-describedby={id} variant="contained" color="primary" onClick={handleClick}>
+            <AccountCircleIcon htmlColor="white" fontSize="large"/>
+          </Button>
+            <Popover
+                id={id}
+                open={opened}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                              }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                                }}
+      >
+        
+        <Card className={classes.popoverContainer}>
+          <div className={classes.popoverHeader}>
+            <Avatar className={classes.popoverAvatar} 
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTya3yidR9oENvi28M4HZMhUOOObxJFxvQExA&usqp=CAU"/>
+            <div className={classes.popoverHeaderText}>
+            <Typography>오현재</Typography>   
+            <Typography>가톨릭대학교</Typography>
+            <Typography>4학년</Typography>             
+            </div>
+          </div>
+          <CardContent>
+            <Typography className={classes.popoverText}>오늘은 학교가는 날</Typography>
+          </CardContent>
+        </Card>
+      </Popover>
           </div>
         </Toolbar>
       </AppBar>
+
       <Drawer
         className={classes.drawer}
         variant="persistent"

@@ -37,6 +37,9 @@ export default function Home() {
       <Link href="board">
         <a>게시판</a>
       </Link>
+      <Link href="practice">
+        <a>연습장으로</a>
+      </Link>
     </div>
   );
 }
