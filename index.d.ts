@@ -4,8 +4,6 @@ interface Subject {
   professor: string;
 }
 
-// user
-
 export interface LoginFormValues {
   email: string;
   password: string;

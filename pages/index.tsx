@@ -16,7 +16,7 @@ import { subjects } from '../dummy';
 import { useTypedSelector } from '../features';
 import { addTest, resetTest, userSlice } from '../features/user/userSclice';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme: Theme) => 
   createStyles({
     root: {
       display: 'flex',
