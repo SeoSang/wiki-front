@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import React, {
   FC,
   ReactComponentElement,
+  ReactElement,
   useCallback,
   useEffect,
   useState
@@ -29,8 +30,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import ChatIcon from '@material-ui/icons/Chat';
-import MapIcon from '@material-ui/icons/Map';
+import PeopleIcon from '@material-ui/icons/People';
 import DeleteIcon from '@material-ui/icons/Delete';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import { PageLink } from '../components/PageLink';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -44,6 +46,7 @@ import Avatar from '@material-ui/core/Avatar';
 // mobx
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
+import { OverridableComponent } from '@material-ui/core/OverridableComponent';
 // cookie
 
 const drawerWidth = 240;
@@ -182,6 +185,25 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const MenuItem = ({
+  href,
+  tag,
+  children,
+}: {
+  href: string;
+  tag: string;
+  children: ReactElement;
+}) => {
+  return (
+    <PageLink href={href}>
+      <ListItem button>
+        <ListItemIcon>{children}</ListItemIcon>
+        <ListItemText primary={tag} />
+      </ListItem>
+    </PageLink>
+  );
+};
+
 const MainLayout: FC<{
   children: ReactComponentElement<any, any>;
 }> = ({ children }) => {
@@ -315,50 +337,34 @@ const MainLayout: FC<{
         </div>
         <Divider />
         <List>
-          <PageLink href = "board">
-            <ListItem button>
-              <ListItemIcon>
-              <AssignmentIcon />
-              </ListItemIcon>              
-              <ListItemText primary={'게시판'} />
-            </ListItem>
-          </PageLink>
-          <PageLink href="posts">
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary={'과목 보기'} />
-            </ListItem>
-          </PageLink>
-          <PageLink href="rooms">
-            <ListItem button>
-              <ListItemIcon>
-                <ChatIcon />
-              </ListItemIcon>
-              <ListItemText primary={'채팅'} />
-            </ListItem>
-          </PageLink>
+
+          <MenuItem href="posts" tag="과목 보기">
+            <AssignmentIcon />
+          </MenuItem>
+          <MenuItem href="rooms" tag="채팅">
+            <ChatIcon />
+          </MenuItem>
+          <MenuItem href="board" tag="게시판">
+            <AssignmentIcon />
+          </MenuItem>
         </List>
         <Divider />
         <List>
-          <ListItem button>
-            <ListItemIcon>
-              <DeleteIcon />
-            </ListItemIcon>
-            <ListItemText primary={'쓰레기통!'} />
-          </ListItem>
+          <MenuItem href="trash" tag="쓰레기통">
+            <DeleteIcon />
+          </MenuItem>
+          <MenuItem href="login" tag="로그인">
+            <PeopleIcon />
+          </MenuItem>
+          <MenuItem href="register" tag="회원가입">
+            <GroupAddIcon />
+          </MenuItem>
         </List>
         <Divider />
         <List>
-          <PageLink href="/admin">
-            <ListItem button>
-              <ListItemIcon>
-                <SupervisorAccountIcon />
-              </ListItemIcon>
-              <ListItemText primary={'관리자'} />
-            </ListItem>
-          </PageLink>
+          <MenuItem href="admin" tag="관리자">
+            <SupervisorAccountIcon />
+          </MenuItem>
         </List>
       </Drawer>
       <main
