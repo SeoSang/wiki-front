@@ -25,7 +25,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function SearchBar() {
+interface SearchProps {
+  keyword: string,
+  onChange(keyword: string): void,
+  onSubmit(): void,
+}
+
+const SearchBar: React.FC<SearchProps> = (props) => {
   const classes = useStyles();
 
   return (
@@ -37,14 +43,19 @@ export default function SearchBar() {
         className={classes.input}
         placeholder="과목을 검색해주세요"
         inputProps={{ 'aria-label': 'search google maps' }}
+        name="searchKeyword"
+        value={props.keyword}
+        onChange={(e) => {props.onChange(e.target.value)}}
       />
       <IconButton
-        type="submit"
         className={classes.iconButton}
         aria-label="search"
+        onClick={(e) => {e.preventDefault(); props.onSubmit();}}
       >
         <SearchIcon />
       </IconButton>
     </Paper>
   );
 }
+
+export default SearchBar;

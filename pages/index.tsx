@@ -35,6 +35,8 @@ let intervalId = 0 as any;
 export default function Home() {
   const classes = useStyles();
   const { test } = useTypedSelector((state) => state.user);
+  const [submitClicked, setSubmitClicked] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -52,11 +54,17 @@ export default function Home() {
 
   return (
     <div className={classes.root}>
-      <SearchBar />
-      <div className={classes.slide}>
-        <IndexSlide subjects={subjects}></IndexSlide>
-      </div>
-      <Typography variant="h4">{test}</Typography>
+      <SearchBar 
+        onChange={(keyword: string) => setSearchKeyword(keyword)} 
+        keyword={searchKeyword} 
+        onSubmit={() => setSubmitClicked(true)}
+      />
+      {!submitClicked ? (
+        <div>
+          <div className={classes.slide}>
+            <IndexSlide subjects={subjects}></IndexSlide>
+          </div>
+          <Typography variant="h4">{test}</Typography>
       <div>
         <Button variant="contained" onClick={intervalStart}>
           카운팅 시작
@@ -87,6 +95,15 @@ export default function Home() {
           리셋
         </Button>
       </div>
+         </div>
+      ) : (
+        <SubjectTable subjects={subjects}/>
+      )}
+      <div className={classes.slide}>
+        <IndexSlide subjects={subjects}></IndexSlide>
+      </div>
+      
     </div>
   );
 }
+
