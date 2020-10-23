@@ -16,7 +16,7 @@ import { subjects } from '../dummy';
 import { useTypedSelector } from '../features';
 import { addTest, resetTest, userSlice } from '../features/user/userSclice';
 
-const useStyles = makeStyles((theme: Theme) => 
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 let intervalId = 0 as any;
 export default function Home() {
   const classes = useStyles();
-  const { test } = useTypedSelector((state) => state.user);
+  const { test } = useTypedSelector(state => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
