@@ -61,7 +61,7 @@ export default function Home() {
         onSubmit={() => setSubmitClicked(true)}
       />
       {!submitClicked ? (
-        <div>
+        <div className={classes.root}>
           <div className={classes.slide}>
             <IndexSlide subjects={subjects}></IndexSlide>
           </div>
@@ -100,9 +100,6 @@ export default function Home() {
       ) : (
         <SubjectTable subjects={subjects} />
       )}
-      <div className={classes.slide}>
-        <IndexSlide subjects={subjects}></IndexSlide>
-      </div>
     </div>
   );
 }
