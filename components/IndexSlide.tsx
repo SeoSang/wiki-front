@@ -7,6 +7,7 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
+import { Subject } from '..';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
