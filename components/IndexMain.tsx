@@ -20,9 +20,11 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
       alignItems: 'center',
       height: '100%',
+      width: '100%',
     },
     slide: {
       padding: theme.spacing(2),
+      width: '80%',
     },
   })
 );
