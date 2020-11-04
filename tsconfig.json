@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
     "jsx": "preserve",
-    "target": "esnext" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */ ,
-    "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */ ,
-                        /* commonjs 면 node*/
-    "allowJs": true /* Allow javascript files to be compiled. */ ,
-    "strict": true /* Enable all strict type-checking options. */ ,
-    "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */ ,
-                            /* true : export default 가 없는 라이브러리, 컴포넌트도 * as 를 사용하지 않고 import 가능 */
+    "target": "esnext" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */,
+    "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */,
+    /* commonjs 면 node*/
+    "allowJs": true /* Allow javascript files to be compiled. */,
+    "strict": true /* Enable all strict type-checking options. */,
+    "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
+    /* true : export default 가 없는 라이브러리, 컴포넌트도 * as 를 사용하지 않고 import 가능 */
     "experimentalDecorators": true,
-    "skipLibCheck": true /* Skip type checking of declaration files. */ ,
-    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */ ,
-    "lib": [ /*몇버전까지의 자바스크립트를 사용할 지*/
+    "skipLibCheck": true /* Skip type checking of declaration files. */,
+    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
+    "lib": [
+      /*몇버전까지의 자바스크립트를 사용할 지*/
       "dom",
       "dom.iterable",
       "esnext"
@@ -23,13 +24,10 @@
   },
   "include": [
     "next-env.d.ts",
-    "**/*.ts", 
+    "**/*.ts",
     "**/*.tsx"
     /* 디렉토리 내 모든 .ts와 .tsx 파일을 컴파일 하겠다.. ? */
   ],
-  "exclude": [
-    "node_modules",
-    "./stores/post.tsx"
-  ]
+  "exclude": ["node_modules"]
   /* 컴파일 대상에서 제외 될 디렉토리 or 파일 들 */
 }
