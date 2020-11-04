@@ -204,7 +204,7 @@ const MenuItem = ({
   );
 };
 
-const MainLayout: FC<{
+const MainLayout: React.FC<{
   children: ReactComponentElement<any, any>;
 }> = ({ children }) => {
   const classes = useStyles();
@@ -235,7 +235,7 @@ const MainLayout: FC<{
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
+      <CssBaseline />  {/* Normalize CSS */}
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -293,7 +293,7 @@ const MainLayout: FC<{
               title : classes.title,
             }}
             avatar={
-              <Avatar left aria-label="recipe" className={classes.popoverAvatar} src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTya3yidR9oENvi28M4HZMhUOOObxJFxvQExA&usqp=CAU">              
+              <Avatar aria-label="recipe" className={classes.popoverAvatar} src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTya3yidR9oENvi28M4HZMhUOOObxJFxvQExA&usqp=CAU">              
               </Avatar>
             }
             title="오현재"
