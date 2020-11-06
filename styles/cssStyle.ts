@@ -1,9 +1,28 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 export const useDivStyles = makeStyles((theme: Theme) =>
   createStyles({
+    startFlex: {
+      display: 'flex',
+    },
+    columnFlex: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
     centerFlex: {
       display: 'flex',
       justifyContent: 'center',
+      alignItems: 'center',
+    },
+    centerColFlex: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    spaceAroundColFlex: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-around',
       alignItems: 'center',
     },
     coloumCenterFlex: {

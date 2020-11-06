@@ -321,7 +321,9 @@ const MainLayout: React.FC<{
                   <Divider classes={{ root: classes.listdivider }} />
                 </CardContent>
                 <CardActions>
-                  <Button>상세 페이지 이동</Button>
+                  <PageLink href="mypage">
+                    <Button>마이 페이지 이동</Button>
+                  </PageLink>
                 </CardActions>
               </Card>
             </Popover>
