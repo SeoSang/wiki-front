@@ -203,7 +203,7 @@ const MenuItem = ({
   );
 };
 
-const MainLayout: FC<{
+const MainLayout: React.FC<{
   children: ReactComponentElement<any, any>;
 }> = ({ children }) => {
   const classes = useStyles();
@@ -234,7 +234,7 @@ const MainLayout: FC<{
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
+      <CssBaseline /> {/* Normalize CSS */}
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -328,7 +328,6 @@ const MainLayout: FC<{
           </div>
         </Toolbar>
       </AppBar>
-
       <Drawer
         className={classes.drawer}
         variant="persistent"
