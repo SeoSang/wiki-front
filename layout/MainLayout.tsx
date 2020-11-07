@@ -360,6 +360,16 @@ const MainLayout: FC<{
             </ListItem>
           </PageLink>
         </List>
+        <List>
+          <PageLink href="/trash">
+            <ListItem button>
+              <ListItemIcon>
+                <SupervisorAccountIcon />
+              </ListItemIcon>
+              <ListItemText primary={'위키 에디터 UI'} />
+            </ListItem>
+          </PageLink>
+        </List>
       </Drawer>
       <main
         className={clsx(classes.content, {
