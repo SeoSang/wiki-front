@@ -8,7 +8,7 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-//import { Subject } from '..';
+import { Subject } from '..';
 
 const COUNT = 3;
 

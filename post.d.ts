@@ -6,5 +6,3 @@ interface Post {
     content : string,
     createdAt : string,   
 }
-
-interface
