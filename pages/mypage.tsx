@@ -7,8 +7,19 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useDivStyles, useTypicalStyles } from '../styles/cssStyle';
 import ProfileCard from '../components/ProfileCard';
-import { Button, Divider, Grid, Input, TextField } from '@material-ui/core';
+import {
+  Button,
+  Divider,
+  Grid,
+  IconButton,
+  Paper,
+  TextField,
+} from '@material-ui/core';
+import InputBase from '@material-ui/core/InputBase';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
 import clsx from 'clsx';
+import IndexSlide from '../components/IndexSlide';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -58,6 +69,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(1),
     opacity: 0.7,
   },
+  searchBar: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: '80%',
+    marginBottom: theme.spacing(2),
+  },
+  searchInput: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  searchIconButton: {
+    padding: 10,
+  },
 }));
 
 const Column = ({ label, value }: { label: string; value: string }) => {
@@ -81,6 +106,7 @@ const Column = ({ label, value }: { label: string; value: string }) => {
 export default function SimpleTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [searchValue, setSearchValue] = React.useState('');
 
   const typ = useTypicalStyles();
   const div = useDivStyles();
@@ -99,6 +125,7 @@ export default function SimpleTabs() {
         >
           <Tab label="개인 정보 설정" {...a11yProps(0)} />
           <Tab label="보안 설정" {...a11yProps(1)} />
+          <Tab label="즐겨찾기 설정" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -145,6 +172,33 @@ export default function SimpleTabs() {
             </Grid>
           </div>
           <Button variant="outlined">변경하기</Button>
+        </div>
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <div className={div.columnFlex}>
+          <Paper component="form" className={classes.searchBar}>
+            <IconButton className={classes.searchIconButton} aria-label="menu">
+              <MenuIcon />
+            </IconButton>
+            <InputBase
+              className={classes.searchInput}
+              placeholder="과목을 검색해주세요"
+              inputProps={{ 'aria-label': 'search google maps' }}
+              name="searchKeyword"
+              value={searchValue}
+              onChange={e => {
+                setSearchValue(e.target.value);
+              }}
+            />
+            <IconButton
+              className={classes.searchIconButton}
+              aria-label="search"
+              onClick={e => {}}
+            >
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+          <IndexSlide></IndexSlide>
         </div>
       </TabPanel>
     </div>

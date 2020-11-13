@@ -3,12 +3,15 @@ import {
   Button,
   createStyles,
   Grid,
+  IconButton,
   makeStyles,
   Paper,
   Theme,
   Typography,
 } from '@material-ui/core';
 import { Subject } from '..';
+import { FC } from 'react';
+import CloseIcon from '@material-ui/icons/Close';
 
 const COUNT = 3;
 
@@ -49,10 +52,21 @@ const useStyles = makeStyles((theme: Theme) =>
     carousel: {
       width: '100%',
     },
+    deleteButton: {
+      position: 'absolute',
+      right: '1px',
+      top: '1px',
+      cursor: 'pointer',
+    },
   })
 );
 
-function Item({ item }: { item: Subject[] }) {
+interface ItemProps {
+  item: Subject[];
+  deleteable?: boolean;
+}
+
+const Item: FC<ItemProps> = ({ item, deleteable }) => {
   const classes = useStyles();
 
   return (
@@ -70,14 +84,27 @@ function Item({ item }: { item: Subject[] }) {
               <Button color="secondary" className="CheckButton">
                 Check it out!
               </Button>
+              {deleteable ? (
+                <IconButton color="secondary" className={classes.deleteButton}>
+                  <CloseIcon></CloseIcon>
+                </IconButton>
+              ) : (
+                ''
+              )}
             </div>
           </Grid>
         ))}
       </Grid>
     </Paper>
   );
+};
+
+interface SlideProps {
+  subjects: Subject[];
+  deleteable?: boolean;
 }
-const IndexSlide = ({ subjects }: { subjects: Subject[] }) => {
+
+const IndexSlide: FC<SlideProps> = ({ subjects }) => {
   const classes = useStyles();
 
   return (
