@@ -12,6 +12,10 @@ import { Subject } from '..';
 
 const COUNT = 3;
 
+const LOGIN_NEEDED_CARD = [
+  { id: '0', name: '로그인이 필요합니다.', professor: '로그인해줘잉' },
+];
+
 // count개씩 묶어주는 함수
 const bind3Subject = (subjects: Subject[], count: number) => {
   if (subjects.length <= count) return [subjects];
@@ -82,11 +86,13 @@ const IndexSlide = ({ subjects }: { subjects: Subject[] }) => {
       animation="slide"
       className={classes.carousel}
     >
-      {bind3Subject(subjects, COUNT).map((subject, i) => (
-        <>
-          <Item key={`${subject[0].name}_${i}`} item={subject} />
-        </>
-      ))}
+      {bind3Subject(subjects ? subjects : LOGIN_NEEDED_CARD, COUNT).map(
+        (subject, i) => (
+          <>
+            <Item key={`${subject[0].name}_${i}`} item={subject} />
+          </>
+        )
+      )}
     </Carousel>
   );
 };
