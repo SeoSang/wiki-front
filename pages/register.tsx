@@ -18,7 +18,7 @@ type FormValues = {
   password: string;
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -82,6 +82,35 @@ export default function register() {
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
           <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="school"
+                name="school"
+                variant="outlined"
+                required
+                fullWidth
+                id="school"
+                label="학교"
+                autoFocus
+                inputRef={register({
+                  maxLength: 10,
+                })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="schoolNumber"
+                label="학번"
+                name="schoolNumber"
+                autoComplete="schoolNumber"
+                inputRef={register({
+                  maxLength: 20,
+                })}
+              />
+            </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="name"
