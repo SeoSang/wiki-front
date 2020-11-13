@@ -7,7 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useDivStyles, useTypicalStyles } from '../styles/cssStyle';
 import ProfileCard from '../components/ProfileCard';
-import { Button, Grid, Input, TextField } from '@material-ui/core';
+import { Button, Divider, Grid, Input, TextField } from '@material-ui/core';
+import clsx from 'clsx';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -52,6 +53,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   labelContainer: {
     height: '100%',
+  },
+  caption: {
+    margin: theme.spacing(1),
+    opacity: 0.7,
   },
 }));
 
@@ -112,10 +117,35 @@ export default function SimpleTabs() {
         </Grid>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
+        <div className={div.columnFlex}>
+          <Typography variant="h4"> 비밀번호</Typography>
+          <Typography className={classes.caption} variant="caption">
+            *http방식을 사용해 보안의 위험이 있으니 비밀번호는 임시 비밀번호를
+            사용 바랍니다.
+          </Typography>
+          <Divider></Divider> <br />
+          <div className={div.startFlex}>
+            <Grid className={typ.marginTwo} container>
+              <Grid item xs={12} md={3}>
+                <Typography variant="h6">현재 비밀번호</Typography>
+              </Grid>
+              <Grid item xs={12} md={9}>
+                <TextField />
+              </Grid>
+            </Grid>
+          </div>
+          <div className={clsx(div.startFlex, typ.botMarginTwo)}>
+            <Grid className={typ.marginTwo} container>
+              <Grid item xs={12} md={3}>
+                <Typography variant="h6">새로운 비밀번호</Typography>
+              </Grid>
+              <Grid item xs={12} md={9}>
+                <TextField />
+              </Grid>
+            </Grid>
+          </div>
+          <Button variant="outlined">변경하기</Button>
+        </div>
       </TabPanel>
     </div>
   );
