@@ -2,8 +2,15 @@ import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/styles';
 import {Paper, Button,Divider} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import WikiContents from './wikicontents';
 
-const indexlist = [{
+interface indexlist {
+    id : string,
+    title : string,
+    content : string
+}
+
+const indexlist:indexlist[] = [{
     id : '1',
     title : '큰 목차 1',
     content : '이것은 큰 목차1'
@@ -91,7 +98,8 @@ export default function WikiEditor(){
                 {indexlist.map(i =><div style={{fontSize:'30px'}} className = {classes.indexTitle} >
                         <span><Button onClick={() => openContent(i.id)}><ExpandMoreIcon/></Button>{i.id}. {i.title} </span>                        
                         <Divider/>                        
-                        {isContentOpened === i.id ? <div>{i.content}</div> : ""}
+                        {/* {isContentOpened === i.id ? <WikiContents content={i.content}/> : ""}                       */}
+                        {isContentOpened === i.id ? i.content :""}
                     </div>)}
             </div>
         </Paper>
