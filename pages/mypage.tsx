@@ -20,6 +20,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import clsx from 'clsx';
 import IndexSlide from '../components/IndexSlide';
+import { subjects } from '../dummy';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -186,19 +187,19 @@ export default function SimpleTabs() {
               inputProps={{ 'aria-label': 'search google maps' }}
               name="searchKeyword"
               value={searchValue}
-              onChange={e => {
+              onChange={(e) => {
                 setSearchValue(e.target.value);
               }}
             />
             <IconButton
               className={classes.searchIconButton}
               aria-label="search"
-              onClick={e => {}}
+              onClick={(e) => {}}
             >
               <SearchIcon />
             </IconButton>
           </Paper>
-          <IndexSlide></IndexSlide>
+          <IndexSlide subjects={subjects} deleteable={true}></IndexSlide>
         </div>
       </TabPanel>
     </div>

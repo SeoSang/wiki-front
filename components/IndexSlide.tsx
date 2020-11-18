@@ -12,6 +12,8 @@ import {
 import { Subject } from '..';
 import { FC } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
+import { useDivStyles, useTypicalStyles } from '../styles/cssStyle';
+import BookmarksIcon from '@material-ui/icons/Bookmarks';
 
 const COUNT = 3;
 
@@ -53,10 +55,19 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
     },
     deleteButton: {
-      position: 'absolute',
-      right: '1px',
-      top: '1px',
       cursor: 'pointer',
+    },
+    deletableTitleContainer: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
+    },
+    titleContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
     },
   })
 );
@@ -68,6 +79,8 @@ interface ItemProps {
 
 const Item: FC<ItemProps> = ({ item, deleteable }) => {
   const classes = useStyles();
+  const div = useDivStyles();
+  const typ = useTypicalStyles();
 
   return (
     <Paper className={classes.slide}>
@@ -79,18 +92,46 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
             xs={Math.floor(12 / item.length) as any}
           >
             <div className={classes.cardWrapper}>
-              <Typography variant="h6">{subject.name}</Typography>
-              <Typography variant="subtitle1">{subject.professor}</Typography>
-              <Button color="secondary" className="CheckButton">
-                Check it out!
+              <div
+                className={
+                  deleteable
+                    ? classes.deletableTitleContainer
+                    : classes.titleContainer
+                }
+              >
+                {deleteable ? (
+                  <IconButton
+                    color="secondary"
+                    className={classes.deleteButton}
+                  >
+                    <BookmarksIcon></BookmarksIcon>
+                  </IconButton>
+                ) : (
+                  ''
+                )}
+                <Typography variant="h6">{subject.name}</Typography>
+                {deleteable ? (
+                  <IconButton
+                    color="secondary"
+                    className={classes.deleteButton}
+                  >
+                    <CloseIcon></CloseIcon>
+                  </IconButton>
+                ) : (
+                  ''
+                )}
+              </div>
+              <Typography variant="subtitle1" className={typ.botMarginOne}>
+                {subject.professor}
+              </Typography>
+              <Button
+                variant="contained"
+                color="secondary"
+                className="CheckButton"
+                style={{ color: 'white' }}
+              >
+                자세히보기
               </Button>
-              {deleteable ? (
-                <IconButton color="secondary" className={classes.deleteButton}>
-                  <CloseIcon></CloseIcon>
-                </IconButton>
-              ) : (
-                ''
-              )}
             </div>
           </Grid>
         ))}
@@ -104,7 +145,7 @@ interface SlideProps {
   deleteable?: boolean;
 }
 
-const IndexSlide: FC<SlideProps> = ({ subjects }) => {
+const IndexSlide: FC<SlideProps> = ({ subjects, deleteable }) => {
   const classes = useStyles();
 
   return (
@@ -116,7 +157,11 @@ const IndexSlide: FC<SlideProps> = ({ subjects }) => {
       {bind3Subject(subjects ? subjects : LOGIN_NEEDED_CARD, COUNT).map(
         (subject, i) => (
           <>
-            <Item key={`${subject[0].name}_${i}`} item={subject} />
+            <Item
+              key={`${subject[0].name}_${i}`}
+              item={subject}
+              deleteable={deleteable}
+            />
           </>
         )
       )}
