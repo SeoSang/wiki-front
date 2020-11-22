@@ -14,7 +14,9 @@ import { useDivStyles, useMarginStyles } from '../styles/cssStyle';
 import clsx from 'clsx';
 import moment from 'moment';
 import 'moment/locale/ko';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CommentCard from '../components/CommentCard';
+import CommentForm from '../form/CommentForm';
 
 const DUMMY_POST = `
   <ul>
@@ -44,6 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: '20vh',
       backgroundColor: 'white',
       marginTop: theme.spacing(5),
+      width: '90%',
     },
     textContainer: {
       height: '100%',
@@ -61,17 +64,14 @@ const post = () => {
   const st = useStyles();
   const div = useDivStyles();
   const mar = useMarginStyles();
-  const ReactQuill =
-    typeof window === 'object' ? require('react-quill') : () => false;
+  const xs = useMediaQuery('(min-width:600px)');
+  // const ReactQuill =
+  //   typeof window === 'object' ? require('react-quill') : () => false;
 
   useEffect(() => {
     moment.locale('ko');
   }, []);
 
-  const text = useMemo(() => {
-    try {
-    } catch (e) {}
-  }, []);
   if (error) return <div>에러가 발생하였습니다 ㅠ</div>;
 
   return (
@@ -95,10 +95,15 @@ const post = () => {
           >
             <PhoneIphoneIcon></PhoneIphoneIcon>
           </Grid>
-          <Grid container xs={10} md={7}>
+          <Grid container xs={9} md={6}>
             <Typography variant="subtitle1">작성자 임길동</Typography>
           </Grid>
-          <Grid container xs={8} md={3}>
+          {xs ? (
+            <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
+          ) : (
+            ''
+          )}
+          <Grid container xs={8} md={3} justify="center" alignItems="center">
             {moment().format('MMMM Do / a h:mm')}
           </Grid>
           <Grid container xs={4} md={1}>
@@ -118,8 +123,9 @@ const post = () => {
           'Animi rerum nihil deserunt odit vel exercitationem officia alias quo. Qui aspernatur et debitis. Labore aut dolores nisi aperiam illum corrupti quaerat recusandae vel.'
         }
       />
-      <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
-      <Divider variant="middle" />
+      {/* <Divider style={{ alignSelf: 'stretch' }} variant="middle" /> */}
+      {/* <Divider variant="middle" /> */}
+      <CommentForm></CommentForm>
     </div>
   );
 };

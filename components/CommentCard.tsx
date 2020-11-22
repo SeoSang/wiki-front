@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: '10vh',
       backgroundColor: 'white',
       marginTop: theme.spacing(5),
+      width: '90%',
     },
     textContainer: {
       height: '100%',
@@ -38,13 +39,13 @@ const CommentCard: FC<CommentCardProps> = ({ author, createdAt, content }) => {
   return (
     <Grid className={st.cardContainer} container>
       <Grid className={st.authorContainer} container>
-        <Grid xs={false} md={1} container alignItems="center" justify="center">
+        <Grid xs={1} md={1} container alignItems="center" justify="center">
           <AccountCircleIcon></AccountCircleIcon>
         </Grid>
         <Grid xs={7} md={7} container alignItems="center">
           <Typography variant="subtitle1">작성자 {author}</Typography>
         </Grid>
-        <Grid xs={5} md={4} container alignItems="center" justify="center">
+        <Grid xs={4} md={4} container alignItems="center" justify="center">
           {createdAt}
         </Grid>
       </Grid>
