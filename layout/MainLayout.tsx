@@ -359,7 +359,10 @@ const MainLayout: React.FC<{
           <MenuItem href="board" tag="게시판">
             <AssignmentIcon />
           </MenuItem>
-          <MenuItem href="addpost" tag="게시글추가(테스트)">
+          <MenuItem href="post" tag="게시글확인">
+            <AssignmentIcon />
+          </MenuItem>
+          <MenuItem href="addpost" tag="게시글추가">
             <AssignmentIcon />
           </MenuItem>
         </List>

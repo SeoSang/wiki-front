@@ -1,15 +1,20 @@
 import {
   createStyles,
   Divider,
+  Grid,
   makeStyles,
   Theme,
   Typography,
 } from '@material-ui/core';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import { useRouter } from 'next/dist/client/router';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useDivStyles, useTypicalStyles } from '../styles/cssStyle';
-
-const useStyles = makeStyles((theme: Theme) => createStyles({}));
+import { useDivStyles, useMarginStyles } from '../styles/cssStyle';
+import clsx from 'clsx';
+import moment from 'moment';
+import 'moment/locale/ko';
+import CommentCard from '../components/CommentCard';
 
 const DUMMY_POST = `
   <ul>
@@ -33,16 +38,35 @@ const DUMMY_POST = `
   </ul>
   `;
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    postContainer: {
+      minHeight: '20vh',
+      backgroundColor: 'white',
+      marginTop: theme.spacing(5),
+    },
+    textContainer: {
+      height: '100%',
+    },
+    authorContainer: {
+      padding: theme.spacing(1),
+    },
+  })
+);
+
 const post = () => {
   const router = useRouter();
   const { id } = router.query as { id: string };
   const [error, setError] = useState(false);
+  const st = useStyles();
   const div = useDivStyles();
-  const typ = useTypicalStyles();
+  const mar = useMarginStyles();
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
 
-  useEffect(() => {}, [id]);
+  useEffect(() => {
+    moment.locale('ko');
+  }, []);
 
   const text = useMemo(() => {
     try {
@@ -53,15 +77,47 @@ const post = () => {
   return (
     <div className={div.coloumCenterFlex}>
       <div className={div.startFlex}>
-        <Typography variant="h6">~~~~~ 님의 글</Typography>
+        <Typography variant="h4">자유게시판</Typography>
       </div>
-      <Typography variant="h5">더미 제목입니다</Typography>
-      <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
-
-      <div dangerouslySetInnerHTML={{ __html: DUMMY_POST }}></div>
-      <div className={div.startFlex}>
-        <Typography variant="h6">댓글</Typography>
+      <div className={st.postContainer}>
+        <Typography className={mar.mar2} variant="h6">
+          더미 제목입니다
+        </Typography>
+        <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
+        <Grid container className={st.authorContainer}>
+          <Grid
+            container
+            xs={2}
+            md={1}
+            direction="row"
+            justify="center"
+            alignItems="center"
+          >
+            <PhoneIphoneIcon></PhoneIphoneIcon>
+          </Grid>
+          <Grid container xs={10} md={7}>
+            <Typography variant="subtitle1">작성자 임길동</Typography>
+          </Grid>
+          <Grid container xs={8} md={3}>
+            {moment().format('MMMM Do / a h:mm')}
+          </Grid>
+          <Grid container xs={4} md={1}>
+            <VisibilityIcon></VisibilityIcon>
+            {'12'}
+          </Grid>
+        </Grid>
+        <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
+        <div className={clsx(st.postContainer, div.centerFlex)}>
+          <div dangerouslySetInnerHTML={{ __html: DUMMY_POST }}></div>
+        </div>
       </div>
+      <CommentCard
+        author={'홍꺽정'}
+        createdAt={moment().format('MMMM Do / a h:mm')}
+        content={
+          'Animi rerum nihil deserunt odit vel exercitationem officia alias quo. Qui aspernatur et debitis. Labore aut dolores nisi aperiam illum corrupti quaerat recusandae vel.'
+        }
+      />
       <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
       <Divider variant="middle" />
     </div>
