@@ -1,21 +1,72 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '..';
+import { loginAPI } from './api';
+import { UserState } from './type';
+
+const NAME = 'user';
+
+export const login = createAsyncThunk(
+  `${NAME}/login`, // 액션 이름 정의
+  async (
+    { email, password }: { email: string; password: string },
+    thunkAPI
+  ) => {
+    try {
+      return await loginAPI(email, password);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
+  }
+);
+
+const initialState: UserState = {
+  me: null,
+  favorites: [],
+  loginLoading: false,
+};
 
 export const userSlice = createSlice({
-  // 액션 타입 문자열의 prefix로 들어간다. ex) "todos/addTodo"
-  name: 'user',
+  name: NAME,
 
   // 초기값
-  initialState: { test: 0 },
+  initialState: initialState,
 
   reducers: {
-    addTest: (state) => {
-      state.test++;
+    resetUserState: (state) => {
+      state = initialState;
     },
-
-    resetTest: (state) => {
-      state.test = 0;
+  },
+  extraReducers: {
+    [login.pending.type]: (state, action) => {
+      // 호출 전
+      state.loginLoading = true;
+    },
+    [login.fulfilled.type]: (state, action) => {
+      // 성공
+      state.loginLoading = false;
+      console.log(action.payload);
+    },
+    [login.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      // 실패
+      state.loginLoading = false;
+      state.me = null;
+      state.favorites = [];
     },
   },
 });
 
-export const { addTest, resetTest } = userSlice.actions;
+export const { resetUserState } = userSlice.actions;
+
+export const favoritesSelector = (state: RootState) => state.user.favorites;
+export const meSelector = (state: RootState) => state.user.me;
+
+/* 
+  이런식으로 사용
+  const me = useSelector(meSelector);
+  const favorites = useSelector(favoritesSelector);
+*/
+
+export default userSlice.reducer;
