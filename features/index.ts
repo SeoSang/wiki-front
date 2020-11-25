@@ -1,12 +1,11 @@
 import { combineReducers, configureStore, createStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { userSlice } from './user/userSclice';
+import { UserState } from './user/type';
 import { pageSlice, pageSliceState } from './user/pageSlice';
 
-interface RootState {
-  user: {
-    test: number;
-  };
+export interface RootState {
+  user: UserState;
   page: pageSliceState;
 }
 

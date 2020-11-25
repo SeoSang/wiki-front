@@ -13,6 +13,7 @@
     "@material-ui/styles": "^4.10.0",
     "@reduxjs/toolkit": "^1.4.0",
     "@types/react-redux": "^7.1.9",
+    "axios": "^0.21.0",
     "clsx": "^1.1.1",
     "moment": "^2.29.1",
     "next": "9.5.5",
