@@ -9,10 +9,12 @@ import {
 } from '@material-ui/core';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import IndexMain from '../components/IndexMain';
 import SearchBar from '../components/SearchBar';
 import SubjectTable from '../components/SubjectTable';
 import { subjects } from '../dummy';
+import { loadPosts } from '../features/board/boardSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +36,7 @@ export default function Home() {
   const classes = useStyles();
   const [submitClicked, setSubmitClicked] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const dispatch = useDispatch();
 
   return (
     <div className={classes.root}>
@@ -47,6 +50,13 @@ export default function Home() {
       ) : (
         <SubjectTable subjects={subjects} />
       )}
+      <Button
+        onClick={() => {
+          dispatch(loadPosts({ page: 1, categoryId: 1 }));
+        }}
+      >
+        포스트 확인 테스트
+      </Button>
     </div>
   );
 }
