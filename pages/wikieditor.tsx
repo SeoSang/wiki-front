@@ -5,6 +5,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import WikiContents from './wikicontents';
 import { editorContainerStyles } from '../styles/cssStyle'
 import 'react-quill/dist/quill.snow.css';
+import '../features/user/api'
 
 interface IndexList {
     id : string,
@@ -45,8 +46,8 @@ export default function WikiEditor(){
 
      const onClickIndex = (id) => {  
          let focusContent = indexlist.find(i => i.id === id);
-         contentsRef.current = focusContent;
-         contentsRef.current.focus();
+         //contentsRef.current = focusContent;
+         //contentsRef.current.focus();
      }
     const openContent = (id) => {        
         if(isContentOpened.find(c=> c === id)){

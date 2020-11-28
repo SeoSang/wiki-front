@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Table,
@@ -11,15 +11,12 @@ import {
 import { Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
-import {getPostsAPI} from '../features/user/api'
-
 import {
   loadPosts,
   updateCurrentPage,
   updateStartEndPage,
 } from '../features/user/pageSlice';
 import { useTypedSelector } from '../features';
-
 const tableStyles = makeStyles({
   root: {
     display: 'flex',
@@ -70,7 +67,7 @@ function PaginationButtons() {
 
 export default function Board() {
   const dispatch = useDispatch();
-  const { page, amount, start, end, currentPosts } = useTypedSelector(
+  const { start, current, end, currentPosts } = useTypedSelector(
     state => state.page
   );
   const useStyles = tableStyles();
@@ -78,7 +75,6 @@ export default function Board() {
 
   useEffect(() => {
     dispatch(loadPosts());
-    getPostsAPI(1,1,10);
   }, []);
 
   for (let i = 0; i < end; i++) {
@@ -108,9 +104,9 @@ export default function Board() {
               <TableCell align="center">{p.subjectId}</TableCell>
               <TableCell align="center">{p.title}</TableCell>
               <TableCell align="center">
-                {p.text.length < 10
-                  ? p.text
-                  : p.text.slice(0, 10) + '...'}
+                {p.content.length < 10
+                  ? p.content
+                  : p.content.slice(0, 10) + '...'}
               </TableCell>
               <TableCell align="center">{p.createdAt}</TableCell>
             </TableRow>
@@ -120,15 +116,15 @@ export default function Board() {
       <div>
         <Button
           onClick={() => {
-            if (page === 1) return alert('첫번째 페이지 입니다');
-            else if (page % 10 === 1) {
+            if (current === 1) return alert('첫번째 페이지 입니다');
+            else if (current % 10 === 1) {
               const s = start - 10;
               const e = end - 10;
               const [range, setRange] = useState({});
               setRange({ s, e });
               //dispatch(updateStartEndPage())
             }
-            dispatch(updateCurrentPage(page - 1));
+            dispatch(updateCurrentPage(current - 1));
           }}
         ></Button>
       </div>
@@ -145,10 +141,10 @@ export default function Board() {
           </li>
         ))}
       </div>
-      현재 페이지 : {page}
+      현재 페이지 : {current}
     </div>
   );
-}
+}*/
 
 // export async function getStaticProps() {
 //   const dispatch = useDispatch();

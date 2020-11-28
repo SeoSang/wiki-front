@@ -9,7 +9,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { subjects } from '../dummy';
 import { useTypedSelector } from '../features';
-import { addTest, resetTest } from '../features/user/userSclice';
+//import { addTest, resetTest } from '../features/user/userSclice';
 import IndexSlide from './IndexSlide';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,7 +45,7 @@ const IndexMain = () => {
   const intervalStart = () => {
     if (intervalId) return;
     intervalId = setInterval(() => {
-      dispatch(addTest());
+      //dispatch(addTest());
     }, 1000);
   };
 
@@ -71,7 +71,7 @@ const IndexMain = () => {
         <Button
           variant="contained"
           onClick={() => {
-            dispatch(addTest());
+            //dispatch(addTest());
           }}
         >
           그냥 올리기
@@ -79,7 +79,7 @@ const IndexMain = () => {
         <Button
           variant="contained"
           onClick={() => {
-            dispatch(resetTest());
+            //dispatch(resetTest());
           }}
         >
           리셋

@@ -24,3 +24,20 @@ export interface UserState {
   favorites: [] | FavoriteSubjectInfo[];
   loginLoading: boolean;
 }
+
+export interface posts{
+  postId : number,
+  userId : number,
+  subjectId : number,
+  title : string,
+  text : string,
+  createdAt : string,   
+}
+
+export interface PageInfo {
+  page : number,
+  amount : number,
+  start : number,
+  end : number,
+  currentPosts : posts[]
+}
