@@ -11,6 +11,8 @@ export interface Post {
 }
 
 export interface BoardState {
+  post: Post | null;
   posts: Post[] | null;
+  isLoadingPost: boolean;
   isLoadingPosts: boolean;
 }

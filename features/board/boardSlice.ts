@@ -1,27 +1,16 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
+import { loadPost, loadPosts } from './action';
 import { loadPostsAPI } from './api';
 import { BoardState } from './type';
 
 const NAME = 'board';
 const AMOUNT = 8;
 
-export const loadPosts = createAsyncThunk(
-  `${NAME}/loadPosts`, // 액션 이름 정의
-  async (
-    { categoryId, page }: { categoryId: number; page: number },
-    thunkAPI
-  ) => {
-    try {
-      return await loadPostsAPI(categoryId, page, AMOUNT);
-    } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
-    }
-  }
-);
-
 const initialState: BoardState = {
+  post: null,
   posts: [],
+  isLoadingPost: false,
   isLoadingPosts: false,
 };
 
@@ -37,6 +26,26 @@ export const boardSlice = createSlice({
     },
   },
   extraReducers: {
+    [loadPost.pending.type]: (state, action) => {
+      // 호출 전
+      state.isLoadingPost = true;
+      state.post = null;
+    },
+    [loadPost.fulfilled.type]: (state, action) => {
+      // 성공
+      state.isLoadingPost = false;
+      console.log(action.payload);
+      state.post = action.payload.data;
+    },
+    [loadPost.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      // 실패
+      state.isLoadingPost = false;
+      state.post = null;
+      alert('에러가 발생하였습니다!');
+    },
     [loadPosts.pending.type]: (state, action) => {
       // 호출 전
       state.isLoadingPosts = true;

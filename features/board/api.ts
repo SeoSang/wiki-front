@@ -11,3 +11,10 @@ export const loadPostsAPI = async (
   });
   return result;
 };
+
+export const loadPostAPI = async (postId: number) => {
+  const result = await axios.get(`${BACKEND_URL}/board/list`, {
+    params: { postId },
+  });
+  return result;
+};

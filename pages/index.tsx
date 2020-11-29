@@ -14,7 +14,7 @@ import IndexMain from '../components/IndexMain';
 import SearchBar from '../components/SearchBar';
 import SubjectTable from '../components/SubjectTable';
 import { subjects } from '../dummy';
-import { loadPosts } from '../features/board/boardSlice';
+import { loadPosts } from '../features/board/action';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
