@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { loadPost, loadPosts } from './action';
+import { addPost, loadPost, loadPosts } from './action';
 import { loadPostsAPI } from './api';
 import { BoardState } from './type';
 
@@ -12,6 +12,7 @@ const initialState: BoardState = {
   posts: [],
   isLoadingPost: false,
   isLoadingPosts: false,
+  addingPostSuccess: false,
 };
 
 export const boardSlice = createSlice({
@@ -47,22 +48,33 @@ export const boardSlice = createSlice({
       alert('에러가 발생하였습니다!');
     },
     [loadPosts.pending.type]: (state, action) => {
-      // 호출 전
       state.isLoadingPosts = true;
     },
     [loadPosts.fulfilled.type]: (state, action) => {
-      // 성공
       state.isLoadingPosts = false;
       console.log(action.payload);
-      alert('성공!');
     },
     [loadPosts.rejected.type]: (
       state,
       action: PayloadAction<{ message: string; status: number }>
     ) => {
-      // 실패
       state.isLoadingPosts = false;
       state.posts = [];
+    },
+    [addPost.pending.type]: (state, action) => {
+      state.addingPostSuccess = false;
+    },
+    [addPost.fulfilled.type]: (state, action) => {
+      alert('게시글 추가에 성공하셨습니다!');
+      state.addingPostSuccess = true;
+    },
+    [addPost.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      console.log(action);
+      alert('오류가 발생하였습니다..');
+      state.addingPostSuccess = false;
     },
   },
 });
