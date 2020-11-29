@@ -13,7 +13,7 @@ export const loadPostsAPI = async (
 };
 
 export const loadPostAPI = async (postId: number) => {
-  const result = await axios.get(`${BACKEND_URL}/board/list`, {
+  const result = await axios.get(`${BACKEND_URL}/board/viewDetail`, {
     params: { postId },
   });
   return result;

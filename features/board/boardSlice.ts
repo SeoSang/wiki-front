@@ -70,6 +70,7 @@ export const boardSlice = createSlice({
 export const { resetBoardState } = boardSlice.actions;
 
 export const postsSelector = (state: RootState) => state.board.posts;
+export const postSelector = (state: RootState) => state.board.post;
 
 /* 
   이런식으로 사용
