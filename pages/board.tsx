@@ -12,9 +12,9 @@ import { Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
 import {getPostsAPI} from '../features/user/api'
+import {getPosts} from '../features/user/pageSlice'
 
 import {
-  loadPosts,
   updateCurrentPage,
   updateStartEndPage,
 } from '../features/user/pageSlice';
@@ -41,33 +41,6 @@ const tableStyles = makeStyles({
 
 const columns = ['게시물 번호', '학번', '강의', '제목', '내용', '생성 날짜'];
 
-function PaginationButtons() {
-  const useStyles = tableStyles();
-  const theme = useTheme();
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const rowsperPage: number = 3;
-  return (
-    <div>
-      <div className={useStyles.pagebuttons}>
-        {currentPage !== 0 ? (
-          <Button
-            onClick={() => setCurrentPage(currentPage => currentPage - 1)}
-          >
-            뒤로
-          </Button>
-        ) : (
-          ''
-        )}
-        <Button onClick={() => setCurrentPage(currentPage => currentPage + 1)}>
-          앞으로
-        </Button>
-      </div>
-      {currentPage !== 0 ? <div>현재 페이지 : {currentPage} </div> : ''}
-    </div>
-  );
-}
-
 export default function Board() {
   const dispatch = useDispatch();
   const { page, amount, start, end, currentPosts } = useTypedSelector(
@@ -77,8 +50,7 @@ export default function Board() {
   const array = [];
 
   useEffect(() => {
-    dispatch(loadPosts());
-    getPostsAPI(1,1,10);
+    dispatch(getPosts({categoryId : 1, page : 1,amount : 10}));
   }, []);
 
   for (let i = 0; i < end; i++) {
@@ -96,7 +68,8 @@ export default function Board() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {currentPosts?.map(p => (
+          {currentPosts.map(p => (
+            
             <TableRow
               key={p.postId}
               className={
@@ -110,11 +83,11 @@ export default function Board() {
               <TableCell align="center">
                 {p.text.length < 10
                   ? p.text
-                  : p.text.slice(0, 10) + '...'}
+                : p.text.slice(0, 10) + '...'}
               </TableCell>
               <TableCell align="center">{p.createdAt}</TableCell>
             </TableRow>
-          ))}
+                ))}
         </TableBody>
       </Table>
       <div>
@@ -136,9 +109,9 @@ export default function Board() {
         {target.map(value => (
           <li className={useStyles.pagebuttons} key={value}>
             <button
-              onClick={() => {
-                dispatch(updateCurrentPage(value));
-              }}
+              // onClick={() => {
+              //   dispatch(getPosts(1, 1, 10));
+              // }}
             >
               {value}
             </button>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {useDispatch } from 'react-redux';
 import 'react-quill/dist/quill.snow.css';
 import { useDivStyles, useTypicalStyles } from '../styles/cssStyle';
 import {
@@ -11,6 +12,9 @@ import {
   Typography,
 } from '@material-ui/core';
 import clsx from 'clsx';
+import { postPostsAPI } from '../features/user/api'
+import { updatePostId } from '../features/user/boardSlice'
+import { useTypedSelector } from '../features';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,14 +26,41 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function MyComponent() {
-  const [title, setTitle] = useState('');
   const typ = useTypicalStyles();
   const div = useDivStyles();
   const st = useStyles();
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
-  const [value, setValue] = useState('');
-  console.log(title);
+  const [contents, setContents] = useState({
+    postId : 0,
+    subjectId : 0,
+    title : "",
+    text : "",
+    createDate : "",
+    hitNum : 0    
+  });
+  const { postId, subjectId, title, text, createDate, hitNum} = contents;
+
+  
+  const dispatch = useDispatch();
+  
+  const { updatedPostId }  = useTypedSelector(state => state.board)
+  useEffect(()=> {
+    dispatch(updatePostId(1)); 
+    setContents({
+      postId : updatedPostId,
+      subjectId : 1,
+      title : "",
+      text : "",
+      createDate : "2020-10-20",
+      hitNum : 0    
+    })    
+  },[])
+
+  const submitPost = () => {
+    postPostsAPI(contents);
+  }
+
   return (
     <div>
       <Typography className={typ.marginThree} align="center" variant="h4">
@@ -43,7 +74,7 @@ function MyComponent() {
           <TextField
             value={title}
             onChange={(e) => {
-              setTitle(e.target.value);
+              setContents({...contents, title : e.target.value});            
             }}
             fullWidth
           />
@@ -52,11 +83,13 @@ function MyComponent() {
       <ReactQuill
         style={{ textAlign: 'left' }}
         theme="snow"
-        value={value}
-        onChange={setValue}
+        value={text}
+        onChange = {(e : string) => {
+            setContents({...contents, text : e})
+        }}
       />
       <div className={clsx(typ.center, typ.marginTwo)}>
-        <Button variant="contained">제출</Button>
+        <Button onClick = {submitPost} variant="contained">제출</Button>
       </div>
     </div>
   );

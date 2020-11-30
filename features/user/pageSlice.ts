@@ -20,7 +20,7 @@ export const getPosts = createAsyncThunk(
 const initialState : PageInfo = {
   page : 1,
   amount : 10,
-  start : 1,
+  start : 0,
   end : 5,
   currentPosts : [
     {
@@ -51,7 +51,7 @@ export const pageSlice = createSlice({
         end: action.payload.end,
       };
     },
-    loadPosts: state => {
+    /*loadPosts: state => {
       // 서버에서 posts 받아오기
       // 비동기 처리가 필요할수도
       // 페이지 개수세기
@@ -59,11 +59,15 @@ export const pageSlice = createSlice({
         ...state,
         currentPosts: initialState.currentPosts, // 이건 서버에서 받아온 posts
       };
-    },
+    },*/
   },
   extraReducers: {
-    [getPosts.pending] : (state, action) => {
-      
+    [getPosts.pending.type] : (state, action) => {
+        state.start = 1;
+        state.page = 1;
+    },
+    [getPosts.fulfilled.type] : (state, action) => {
+      state.currentPosts = action.payload;
     }
   }
 });
@@ -71,5 +75,6 @@ export const pageSlice = createSlice({
 export const {
   updateCurrentPage,
   updateStartEndPage,
-  loadPosts,
 } = pageSlice.actions;
+
+export default pageSlice.reducer;

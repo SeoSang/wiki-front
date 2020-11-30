@@ -41,3 +41,7 @@ export interface PageInfo {
   end : number,
   currentPosts : posts[]
 }
+
+export interface boardContentInfo {
+  updatedPostId : number
+}
