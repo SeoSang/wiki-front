@@ -5,8 +5,12 @@ import { useDivStyles, useTypicalStyles } from '../styles/cssStyle';
 import {
   Button,
   createStyles,
+  FormControl,
   Grid,
+  InputLabel,
   makeStyles,
+  MenuItem,
+  Select,
   TextField,
   Theme,
   Typography,
@@ -22,6 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(4),
       marginBottom: theme.spacing(4),
     },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
   })
 );
 
@@ -29,6 +37,8 @@ function MyComponent() {
   const typ = useTypicalStyles();
   const div = useDivStyles();
   const st = useStyles();
+  const router = useRouter();
+  const dispatch = useDispatch();
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
   const [contents, setContents] = useState({
@@ -67,10 +77,41 @@ function MyComponent() {
         게시글 작성
       </Typography>
       <Grid className={st.titleContainer} container>
-        <Grid className={div.centerFlex} item xs={12} md={3}>
+        <Grid className={div.centerFlex} item xs={6} md={2}>
+          <FormControl className={st.formControl}>
+            <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={10}
+              // onChange={handleChange}
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid className={div.centerFlex} item xs={6} md={2}>
+          <FormControl className={st.formControl}>
+            <InputLabel id="demo-simple-select-label">과목</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={10}
+              // onChange={handleChange}
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid className={div.centerFlex} item xs={2} md={1}>
           <Typography variant="h6">제목</Typography>
         </Grid>
-        <Grid className={div.centerFlex} item xs={12} md={8}>
+        <Grid className={div.centerFlex} item xs={10} md={6}>
           <TextField
             value={title}
             onChange={(e) => {

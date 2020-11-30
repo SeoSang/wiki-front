@@ -1,28 +1,16 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { loginAPI } from './api';
+import { login, register } from './action';
 import { UserState } from './type';
 
-const NAME = 'user';
-
-export const login = createAsyncThunk(
-  `${NAME}/login`, // 액션 이름 정의
-  async (
-    { email, password }: { email: string; password: string },
-    thunkAPI
-  ) => {
-    try {
-      return await loginAPI(email, password);
-    } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
-    }
-  }
-);
+export const NAME = 'user';
 
 const initialState: UserState = {
   me: null,
   favorites: [],
   loginLoading: false,
+  isLogined: false,
+  isRegistered: false,
 };
 
 export const userSlice = createSlice({
@@ -44,6 +32,7 @@ export const userSlice = createSlice({
     [login.fulfilled.type]: (state, action) => {
       // 성공
       state.loginLoading = false;
+      state.me = action.payload.data;
       console.log(action.payload);
     },
     [login.rejected.type]: (
@@ -54,6 +43,24 @@ export const userSlice = createSlice({
       state.loginLoading = false;
       state.me = null;
       state.favorites = [];
+    },
+    [register.pending.type]: (state, action) => {
+      // 호출 전
+      state.isRegistered = false;
+    },
+    [register.fulfilled.type]: (state, action) => {
+      // 성공
+      state.isRegistered = true;
+      alert('회원가입 성공!');
+      console.log(action.payload);
+    },
+    [register.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      // 실패
+      state.isRegistered = false;
+      alert('회원가입 실패!');
     },
   },
 });

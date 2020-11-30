@@ -5,6 +5,7 @@ import { UserState, PageInfo, boardContentInfo } from './user/type';
 import { pageSlice } from './user/pageSlice';
 import {boardSlice } from './user/boardSlice'
 
+export const BACKEND_URL = 'http://localhost:8005/project_wings_war';
 export interface RootState {
   user: UserState;
   page: PageInfo;

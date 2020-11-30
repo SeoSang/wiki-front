@@ -3,6 +3,7 @@ export interface UserInfo {
   email: string;
   password?: string;
   studentName: string;
+  univName?: string;
   studentNumber: string;
   auth: number; // 1이 관리자, 2가 학생
 }
@@ -23,6 +24,16 @@ export interface UserState {
   me: UserInfo | null;
   favorites: [] | FavoriteSubjectInfo[];
   loginLoading: boolean;
+  isLogined: boolean;
+  isRegistered: boolean;
+}
+
+export interface RegisterFormData {
+  email: string;
+  password: string;
+  studentName: string;
+  studentNumber: string;
+  univName: string;
 }
 
 export interface posts{

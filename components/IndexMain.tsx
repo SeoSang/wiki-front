@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
 let intervalId = 0 as any;
 
 const IndexMain = () => {
-  const { test } = useTypedSelector(state => state.user);
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -51,7 +50,7 @@ const IndexMain = () => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.slide}>
+      {/* <div className={classes.slide}>
         <IndexSlide subjects={subjects}></IndexSlide>
       </div>
       <Typography variant="h4">{test}</Typography>
@@ -84,7 +83,7 @@ const IndexMain = () => {
         >
           리셋
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
