@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
 import { addPost, loadPost, loadPosts } from './action';
-import { loadPostsAPI } from './api';
 import { BoardState } from './type';
 
 const NAME = 'board';

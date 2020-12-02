@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import 'react-quill/dist/quill.snow.css';
 import { useDivStyles, useTypicalStyles } from '../styles/cssStyle';
 import {
@@ -16,9 +16,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import clsx from 'clsx';
-import { postPostsAPI } from '../features/user/api'
-import { updatePostId } from '../features/user/boardSlice'
+import { postPostsAPI } from '../features/user/api';
+import { updatePostId } from '../features/user/boardSlice';
 import { useTypedSelector } from '../features';
+import { useRouter } from 'next/dist/client/router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,34 +43,31 @@ function MyComponent() {
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
   const [contents, setContents] = useState({
-    postId : 0,
-    subjectId : 0,
-    title : "",
-    text : "",
-    createDate : "",
-    hitNum : 0    
+    postId: 0,
+    subjectId: 0,
+    title: '',
+    text: '',
+    createDate: '',
+    hitNum: 0,
   });
-  const { postId, subjectId, title, text, createDate, hitNum} = contents;
+  const { postId, subjectId, title, text, createDate, hitNum } = contents;
 
-  
-  const dispatch = useDispatch();
-  
-  const { updatedPostId }  = useTypedSelector(state => state.board)
-  useEffect(()=> {
-    dispatch(updatePostId(1)); 
+  const { updatedPostId } = useTypedSelector((state) => state.board);
+  useEffect(() => {
+    dispatch(updatePostId(1));
     setContents({
-      postId : updatedPostId,
-      subjectId : 1,
-      title : "",
-      text : "",
-      createDate : "2020-10-20",
-      hitNum : 0    
-    })    
-  },[])
+      postId: updatedPostId,
+      subjectId: 1,
+      title: '',
+      text: '',
+      createDate: '2020-10-20',
+      hitNum: 0,
+    });
+  }, []);
 
   const submitPost = () => {
     postPostsAPI(contents);
-  }
+  };
 
   return (
     <div>
@@ -115,7 +113,7 @@ function MyComponent() {
           <TextField
             value={title}
             onChange={(e) => {
-              setContents({...contents, title : e.target.value});            
+              setContents({ ...contents, title: e.target.value });
             }}
             fullWidth
           />
@@ -125,12 +123,14 @@ function MyComponent() {
         style={{ textAlign: 'left' }}
         theme="snow"
         value={text}
-        onChange = {(e : string) => {
-            setContents({...contents, text : e})
+        onChange={(e: string) => {
+          setContents({ ...contents, text: e });
         }}
       />
       <div className={clsx(typ.center, typ.marginTwo)}>
-        <Button onClick = {submitPost} variant="contained">제출</Button>
+        <Button onClick={submitPost} variant="contained">
+          제출
+        </Button>
       </div>
     </div>
   );
