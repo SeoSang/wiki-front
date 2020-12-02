@@ -1,15 +1,14 @@
 import { combineReducers, configureStore, createStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { userSlice } from './user/userSclice';
-import { UserState } from './user/type';
-import { pageSlice, pageSliceState } from './user/pageSlice';
-import { BoardState } from './board/type';
-import { boardSlice } from './board/boardSlice';
+import { UserState, PageInfo, boardContentInfo } from './user/type';
+import { pageSlice } from './user/pageSlice';
+import {boardSlice } from './user/boardSlice'
 
 export interface RootState {
   user: UserState;
-  page: pageSliceState;
-  board: BoardState;
+  page: PageInfo;
+  board : boardContentInfo
 }
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;

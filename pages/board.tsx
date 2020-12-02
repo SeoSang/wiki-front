@@ -11,12 +11,15 @@ import {
 import { Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
+import {getPostsAPI} from '../features/user/api'
+import {getPosts} from '../features/user/pageSlice'
+
 import {
-  loadPosts,
   updateCurrentPage,
   updateStartEndPage,
 } from '../features/user/pageSlice';
 import { useTypedSelector } from '../features';
+
 const tableStyles = makeStyles({
   root: {
     display: 'flex',
@@ -38,43 +41,16 @@ const tableStyles = makeStyles({
 
 const columns = ['게시물 번호', '학번', '강의', '제목', '내용', '생성 날짜'];
 
-function PaginationButtons() {
-  const useStyles = tableStyles();
-  const theme = useTheme();
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const rowsperPage: number = 3;
-  return (
-    <div>
-      <div className={useStyles.pagebuttons}>
-        {currentPage !== 0 ? (
-          <Button
-            onClick={() => setCurrentPage(currentPage => currentPage - 1)}
-          >
-            뒤로
-          </Button>
-        ) : (
-          ''
-        )}
-        <Button onClick={() => setCurrentPage(currentPage => currentPage + 1)}>
-          앞으로
-        </Button>
-      </div>
-      {currentPage !== 0 ? <div>현재 페이지 : {currentPage} </div> : ''}
-    </div>
-  );
-}
-
 export default function Board() {
   const dispatch = useDispatch();
-  const { start, current, end, currentPosts } = useTypedSelector(
+  const { page, amount, start, end, currentPosts } = useTypedSelector(
     state => state.page
   );
   const useStyles = tableStyles();
   const array = [];
 
   useEffect(() => {
-    dispatch(loadPosts());
+    dispatch(getPosts({categoryId : 1, page : 1,amount : 10}));
   }, []);
 
   for (let i = 0; i < end; i++) {
@@ -92,7 +68,8 @@ export default function Board() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {currentPosts?.map(p => (
+          {currentPosts.map(p => (
+            
             <TableRow
               key={p.postId}
               className={
@@ -104,27 +81,27 @@ export default function Board() {
               <TableCell align="center">{p.subjectId}</TableCell>
               <TableCell align="center">{p.title}</TableCell>
               <TableCell align="center">
-                {p.content.length < 10
-                  ? p.content
-                  : p.content.slice(0, 10) + '...'}
+                {p.text.length < 10
+                  ? p.text
+                : p.text.slice(0, 10) + '...'}
               </TableCell>
               <TableCell align="center">{p.createdAt}</TableCell>
             </TableRow>
-          ))}
+                ))}
         </TableBody>
       </Table>
       <div>
         <Button
           onClick={() => {
-            if (current === 1) return alert('첫번째 페이지 입니다');
-            else if (current % 10 === 1) {
+            if (page === 1) return alert('첫번째 페이지 입니다');
+            else if (page % 10 === 1) {
               const s = start - 10;
               const e = end - 10;
               const [range, setRange] = useState({});
               setRange({ s, e });
               //dispatch(updateStartEndPage())
             }
-            dispatch(updateCurrentPage(current - 1));
+            dispatch(updateCurrentPage(page - 1));
           }}
         ></Button>
       </div>
@@ -132,16 +109,16 @@ export default function Board() {
         {target.map(value => (
           <li className={useStyles.pagebuttons} key={value}>
             <button
-              onClick={() => {
-                dispatch(updateCurrentPage(value));
-              }}
+              // onClick={() => {
+              //   dispatch(getPosts(1, 1, 10));
+              // }}
             >
               {value}
             </button>
           </li>
         ))}
       </div>
-      현재 페이지 : {current}
+      현재 페이지 : {page}
     </div>
   );
 }
