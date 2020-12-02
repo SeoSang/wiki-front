@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BACKEND_URL } from '..';
+import { BACKEND_URL } from '../../dummy/env';
 import { RegisterFormData } from './type';
 
 export const loginAPI = async (email: string, password: string) => {
