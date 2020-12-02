@@ -12,13 +12,8 @@ import { Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
 import {getPostsAPI} from '../features/user/api'
-import {getPosts} from '../features/user/pageSlice'
-
-import {
-  updateCurrentPage,
-  updateStartEndPage,
-} from '../features/user/pageSlice';
 import { useTypedSelector } from '../features';
+import { loadPosts } from './../features/board/action';
 
 const tableStyles = makeStyles({
   root: {
@@ -43,21 +38,21 @@ const columns = ['게시물 번호', '학번', '강의', '제목', '내용', '�
 
 export default function Board() {
   const dispatch = useDispatch();
-  const { page, amount, start, end, currentPosts } = useTypedSelector(
-    state => state.page
+  const { posts } = useTypedSelector(
+    state => state.board
   );
   const useStyles = tableStyles();
   const array = [];
 
   useEffect(() => {
-    dispatch(getPosts({categoryId : 1, page : 1,amount : 10}));
+    dispatch(loadPosts({categoryId : 1, page : 1}));
   }, []);
 
-  for (let i = 0; i < end; i++) {
+  for (let i = 0; i < 10; i++) {
     array.push(i + 1);
   }
-  const target = array.slice(start, end);
-  return (
+  const target = array.slice(1, 10);
+  return (  
     <div className={useStyles.root}>
       <Table component={Paper}>
         <TableHead>
@@ -68,7 +63,7 @@ export default function Board() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {currentPosts.map(p => (
+          {posts.map(p => (
             
             <TableRow
               key={p.postId}
@@ -91,7 +86,7 @@ export default function Board() {
         </TableBody>
       </Table>
       <div>
-        <Button
+        {/*<Button
           onClick={() => {
             if (page === 1) return alert('첫번째 페이지 입니다');
             else if (page % 10 === 1) {
@@ -103,7 +98,7 @@ export default function Board() {
             }
             dispatch(updateCurrentPage(page - 1));
           }}
-        ></Button>
+        ></Button>*/}
       </div>
       <div className={useStyles.pagebuttons}>
         {target.map(value => (
@@ -118,7 +113,7 @@ export default function Board() {
           </li>
         ))}
       </div>
-      현재 페이지 : {page}
+      {/*현재 페이지 : {page}*/}
     </div>
   );
 }

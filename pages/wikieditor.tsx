@@ -40,9 +40,10 @@ const indexlist:IndexList[] = [{
 ]
 
 export default function WikiEditor(){
-    const contentsRef = useRef({});
+    const contentsRef = useRef([]);
     const classes = editorContainerStyles();
     const [isContentOpened, setIsContentOpened] = useState([]);
+    const [isEditorOpened, setIsEditorOpened] = useState([]);
 
      const onClickIndex = (id) => {  
          let focusContent = indexlist.find(i => i.id === id);
@@ -55,13 +56,15 @@ export default function WikiEditor(){
         }
         else setIsContentOpened(isContentOpened => isContentOpened.concat(id));        
     } 
-    const openEditor = () => {
-        setIsEditorOpened(true);        
+    const openEditor = (id) => {
+        if(isEditorOpened.find(e=> e === id)){
+            setIsEditorOpened(isContentOpened => isContentOpened.filter(e=> e !== id));
+        }
+        else setIsEditorOpened(isContentOpened => isContentOpened.concat(id));  
     }
     const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
     const [value, setValue] = useState('');
-    const [isEditorOpened, setIsEditorOpened] = useState(false);
     return(
         <Paper className = {classes.root}>
             
@@ -84,19 +87,19 @@ export default function WikiEditor(){
                         <div className={classes.contentsRow}>
                             <span><Button onClick={() => openContent(i.id)}><ExpandMoreIcon/></Button>{i.id}. {i.title} </span>                                                
                             <span style={{textDecoration : 'underline'}}>
-                                <Button onClick={()=> openEditor()}>수정</Button>
+                                <Button onClick={()=> openEditor(i.id)}>수정</Button>
                             </span>
                         </div>
                         <Divider/>                     
                         {isContentOpened.find(m => m === i.id) ? i.content :""}
                         {
-                            isEditorOpened ?
-                        <ReactQuill
-                            style={{ textAlign: 'left' }}
-                            theme="snow"
-                            value={value}
-                            onChange={setValue}
-                        /> : ""
+                            isEditorOpened.find(e => e === i.id) ? 
+                            <ReactQuill
+                                style={{ textAlign: 'left' }}
+                                theme="snow"
+                                value={value}
+                                onChange={setValue}
+                            /> : ""
                         }
                     </div>)}
             </div>

@@ -17,7 +17,6 @@ import {
 } from '@material-ui/core';
 import clsx from 'clsx';
 import { postPostsAPI } from '../features/user/api';
-import { updatePostId } from '../features/user/boardSlice';
 import { useTypedSelector } from '../features';
 import { useRouter } from 'next/dist/client/router';
 
@@ -38,7 +37,7 @@ function MyComponent() {
   const typ = useTypicalStyles();
   const div = useDivStyles();
   const st = useStyles();
-  const router = useRouter();
+  //const router = useRouter();
   const dispatch = useDispatch();
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
@@ -52,11 +51,10 @@ function MyComponent() {
   });
   const { postId, subjectId, title, text, createDate, hitNum } = contents;
 
-  const { updatedPostId } = useTypedSelector((state) => state.board);
-  useEffect(() => {
-    dispatch(updatePostId(1));
+  
+  useEffect(() => {    
     setContents({
-      postId: updatedPostId,
+      postId: 1,
       subjectId: 1,
       title: '',
       text: '',

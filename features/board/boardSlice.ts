@@ -52,6 +52,7 @@ export const boardSlice = createSlice({
     [loadPosts.fulfilled.type]: (state, action) => {
       state.isLoadingPosts = false;
       console.log(action.payload);
+      state.posts = action.payload.data;
     },
     [loadPosts.rejected.type]: (
       state,

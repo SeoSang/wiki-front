@@ -10,6 +10,7 @@ export const loadPostsAPI = async (
   const result = await axios.get(`${BACKEND_URL}/board/list`, {
     params: { categoryId, page, amount },
   });
+  console.log(result);
   return result;
 };
 

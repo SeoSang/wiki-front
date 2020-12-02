@@ -18,7 +18,7 @@ export const registerAPI = async (formData: RegisterFormData) => {
 };
 
 export const getPostsAPI = async (categoryId : number, page : number, amount : number) => {
-  const result = await axios.get(`http://localhost:8080/mywiki/board/list/`, {
+  const result = await axios.get(`${BACKEND_URL}/board/list/`, {
     params : {
       categoryId : categoryId,
       page : page,
