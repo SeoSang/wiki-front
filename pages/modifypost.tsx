@@ -15,7 +15,7 @@ import { useRouter } from 'next/dist/client/router';
 import { meSelector } from '../features/user/userSclice';
 import { useDispatch, useSelector } from 'react-redux';
 import { postSelector, postsSelector } from '../features/board/boardSlice';
-import { loadPost } from '../features/board/action';
+import { loadPost, updatePost } from '../features/board/action';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,14 +38,15 @@ function MyComponent() {
   const dispatch = useDispatch();
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
-  const [value, setValue] = useState('');
+  const [text, setValue] = useState('');
 
   useEffect(() => {
+    console.log({ id });
     dispatch(loadPost({ postId: parseInt(id) }));
-    if (!me || (post && me?.userId != post?.userId)) {
-      alert('당신의 게시글이 아니에요');
-      router.push('/board');
-    }
+    // if (!me || (post && me?.userId != post?.userId)) {
+    // alert('당신의 게시글이 아니에요');
+    // router.push('/board');
+    // }
   }, []);
 
   useEffect(() => {
@@ -54,6 +55,10 @@ function MyComponent() {
       setValue(post.text);
     }
   }, [post, post?.title]);
+
+  const onSubmit = () => {
+    dispatch(updatePost({ postId: parseInt(id), title, text }));
+  };
 
   return (
     <div>
@@ -77,11 +82,13 @@ function MyComponent() {
       <ReactQuill
         style={{ textAlign: 'left' }}
         theme="snow"
-        value={value}
+        value={text}
         onChange={setValue}
       />
       <div className={clsx(typ.center, typ.marginTwo)}>
-        <Button variant="contained">수정하기</Button>
+        <Button variant="contained" onClick={onSubmit}>
+          수정하기
+        </Button>
       </div>
     </div>
   );

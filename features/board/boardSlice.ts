@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { addPost, loadPost, loadPosts } from './action';
+import { addPost, loadPost, loadPosts, updatePost } from './action';
 import { BoardState } from './type';
 
 const NAME = 'board';
@@ -12,6 +12,7 @@ const initialState: BoardState = {
   isLoadingPost: false,
   isLoadingPosts: false,
   addingPostSuccess: false,
+  updatingPostSuccess: false,
 };
 
 export const boardSlice = createSlice({
@@ -45,6 +46,20 @@ export const boardSlice = createSlice({
       state.isLoadingPost = false;
       state.post = null;
       alert('에러가 발생하였습니다!');
+    },
+    [updatePost.pending.type]: (state, action) => {
+      state.updatingPostSuccess = false;
+    },
+    [updatePost.fulfilled.type]: (state, action) => {
+      state.updatingPostSuccess = true;
+      alert('게시글 수정 성공!.');
+    },
+    [updatePost.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      state.updatingPostSuccess = false;
+      alert('서버 에러가 발생했습니다.');
     },
     [loadPosts.pending.type]: (state, action) => {
       state.isLoadingPosts = true;

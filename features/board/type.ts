@@ -23,4 +23,5 @@ export interface BoardState {
   isLoadingPost: boolean;
   isLoadingPosts: boolean;
   addingPostSuccess: boolean;
+  updatingPostSuccess: boolean;
 }

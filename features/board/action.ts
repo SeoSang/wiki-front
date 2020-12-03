@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { loadPostAPI, loadPostsAPI, addPostApi } from './api';
+import { loadPostAPI, loadPostsAPI, addPostApi, updatePostAPI } from './api';
 import { AddPostFormData } from './type';
 
 const NAME = 'board';
@@ -21,6 +21,20 @@ export const loadPost = createAsyncThunk(
   async ({ postId }: { postId: number }, thunkAPI) => {
     try {
       return await loadPostAPI(postId);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
+  }
+);
+
+export const updatePost = createAsyncThunk(
+  `${NAME}/updatePost`, // 액션 이름 정의
+  async (
+    { postId, title, text }: { postId: number; title: string; text: string },
+    thunkAPI
+  ) => {
+    try {
+      return await updatePostAPI(postId, title, text);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }
