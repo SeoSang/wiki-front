@@ -41,6 +41,9 @@ function MyComponent() {
   const dispatch = useDispatch();
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
+  const [visible, setVisible] = useState(false);
+  const [categoryValue, setCategoryValue] = useState(1);
+  const [subjectValue, setSubjectValue] = useState(1);
   const [contents, setContents] = useState({
     postId: 0,
     subjectId: 0,
@@ -51,8 +54,7 @@ function MyComponent() {
   });
   const { postId, subjectId, title, text, createDate, hitNum } = contents;
 
-  
-  useEffect(() => {    
+  useEffect(() => {
     setContents({
       postId: 1,
       subjectId: 1,
@@ -67,6 +69,20 @@ function MyComponent() {
     postPostsAPI(contents);
   };
 
+  const handleSubjectChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setSubjectValue(event.target.value as number);
+  };
+
+  const handleCategoryChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    const value: number = event.target.value as number;
+    setVisible(value != 1);
+    setCategoryValue(value);
+  };
+
   return (
     <div>
       <Typography className={typ.marginThree} align="center" variant="h4">
@@ -79,31 +95,29 @@ function MyComponent() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={10}
-              // onChange={handleChange}
+              value={categoryValue}
+              onChange={handleCategoryChange}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              <MenuItem value={1}>자유게시판</MenuItem>
+              <MenuItem value={2}>과목게시판</MenuItem>
             </Select>
           </FormControl>
         </Grid>
         <Grid className={div.centerFlex} item xs={6} md={2}>
-          <FormControl className={st.formControl}>
+          <FormControl className={st.formControl} disabled={!visible}>
             <InputLabel id="demo-simple-select-label">과목</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={10}
-              // onChange={handleChange}
+              value={subjectValue}
+              onChange={handleSubjectChange}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              <MenuItem value={1}>과목1</MenuItem>
+              <MenuItem value={2}>과목2</MenuItem>
+              <MenuItem value={3}>과목3</MenuItem>
             </Select>
           </FormControl>
         </Grid>
-
         <Grid className={div.centerFlex} item xs={2} md={1}>
           <Typography variant="h6">제목</Typography>
         </Grid>
