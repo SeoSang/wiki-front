@@ -15,6 +15,7 @@ import SearchBar from '../components/SearchBar';
 import SubjectTable from '../components/SubjectTable';
 import { subjects } from '../dummy';
 import { loadPosts } from '../features/board/action';
+import { searchSubjects } from '../features/subject/action';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,21 +36,22 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Home() {
   const classes = useStyles();
   const [submitClicked, setSubmitClicked] = useState(false);
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchName, setSearchName] = useState('');
   const dispatch = useDispatch();
+
+  const onClickSearch = () => {
+    dispatch(searchSubjects({ searchName }));
+    setSubmitClicked(true);
+  };
 
   return (
     <div className={classes.root}>
       <SearchBar
-        onChange={(keyword: string) => setSearchKeyword(keyword)}
-        keyword={searchKeyword}
-        onSubmit={() => setSubmitClicked(true)}
+        onChange={(keyword: string) => setSearchName(keyword)}
+        keyword={searchName}
+        onSubmit={onClickSearch}
       />
-      {!submitClicked ? (
-        <IndexMain></IndexMain>
-      ) : (
-        <SubjectTable subjects={subjects} />
-      )}
+      {!submitClicked ? <IndexMain></IndexMain> : <SubjectTable />}
       <Button
         onClick={() => {
           dispatch(loadPosts({ page: 1, categoryId: 1 }));

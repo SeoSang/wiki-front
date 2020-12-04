@@ -1,9 +1,10 @@
 import { combineReducers, configureStore, createStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
-import { userSlice } from './user/userSclice';
-import { UserState, PageInfo, boardContentInfo } from './user/type';
+import { UserState, PageInfo } from './user/type';
 import { BoardState } from './board/type';
-import { boardSlice } from './board/boardSlice';
+import board from './board/boardSlice';
+import user from './user/userSclice';
+import subject from './subject/subjectSlice';
 import { SubjectState } from './subject/type';
 
 export interface RootState {
@@ -16,8 +17,9 @@ export interface RootState {
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const reducer = combineReducers({
-  user: userSlice.reducer,
-  board: boardSlice.reducer,
+  user,
+  board,
+  subject,
 });
 
 export const store = configureStore({ reducer: reducer });

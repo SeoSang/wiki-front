@@ -5,6 +5,8 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import { useDispatch } from 'react-redux';
+import { searchSubjects } from '../features/subject/action';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,9 +28,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface SearchProps {
-  keyword: string,
-  onChange(keyword: string): void,
-  onSubmit(): void,
+  keyword: string;
+  onChange(keyword: string): void;
+  onSubmit(): void;
 }
 
 const SearchBar: React.FC<SearchProps> = (props) => {
@@ -45,17 +47,22 @@ const SearchBar: React.FC<SearchProps> = (props) => {
         inputProps={{ 'aria-label': 'search google maps' }}
         name="searchKeyword"
         value={props.keyword}
-        onChange={(e) => {props.onChange(e.target.value)}}
+        onChange={(e) => {
+          props.onChange(e.target.value);
+        }}
       />
       <IconButton
         className={classes.iconButton}
         aria-label="search"
-        onClick={(e) => {e.preventDefault(); props.onSubmit();}}
+        onClick={(e) => {
+          e.preventDefault();
+          props.onSubmit();
+        }}
       >
         <SearchIcon />
       </IconButton>
     </Paper>
   );
-}
+};
 
 export default SearchBar;

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { loadSubjects } from './action';
+import { loadSubjects, searchSubjects } from './action';
 import { SubjectState } from './type';
 
 export const NAME = 'subject';
@@ -9,6 +9,8 @@ const initialState: SubjectState = {
   subjects: [],
   subject: null,
   isLoadingSubjects: false,
+  isSearchingSubjects: false,
+  searchingSubjectsSuccess: false,
   loadingSubjectsSuccess: false,
 };
 
@@ -25,11 +27,9 @@ export const subjectSlice = createSlice({
   },
   extraReducers: {
     [loadSubjects.pending.type]: (state, action) => {
-      // 호출 전
       state.isLoadingSubjects = true;
     },
     [loadSubjects.fulfilled.type]: (state, action) => {
-      // 성공
       state.isLoadingSubjects = false;
       state.loadingSubjectsSuccess = true;
       state.subjects = action.payload.data;
@@ -39,9 +39,29 @@ export const subjectSlice = createSlice({
       state,
       action: PayloadAction<{ message: string; status: number }>
     ) => {
-      // 실패
       state.isLoadingSubjects = false;
       state.loadingSubjectsSuccess = false;
+    },
+    [searchSubjects.pending.type]: (state, action) => {
+      state.isSearchingSubjects = true;
+    },
+    [searchSubjects.fulfilled.type]: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
+      state.isSearchingSubjects = false;
+      state.searchingSubjectsSuccess = true;
+      if (action.payload.empty) {
+        alert('검색 결과가 없습니다!');
+        return;
+      }
+      state.subjects = action.payload.data.subjectList;
+    },
+    [searchSubjects.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      state.isSearchingSubjects = false;
+      state.searchingSubjectsSuccess = false;
+      alert('서버 오류가 발생하였습니다!');
     },
   },
 });

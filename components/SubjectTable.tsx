@@ -7,7 +7,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Subject } from '..';
+import { SubjectInfo } from '../features/subject/type';
+import { useSelector } from 'react-redux';
+import {
+  subjectSelector,
+  subjectsSelector,
+} from '../features/subject/subjectSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,25 +25,28 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const SubjectTable = ({ subjects }: { subjects: Subject[] }) => {
+const SubjectTable = () => {
   const classes = useStyles();
+  const subjects = useSelector(subjectsSelector);
 
   return (
     <TableContainer component={Paper} className={classes.root}>
       <Table aria-label="subject table">
         <TableHead>
           <TableRow>
+            <TableCell align="center">Year</TableCell>
+            <TableCell align="center">Semester</TableCell>
             <TableCell align="center">Subject</TableCell>
             <TableCell align="center">Professor</TableCell>
-            <TableCell align="center">Favorite</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {subjects.map((subject, i) => (
-            <TableRow key={subject.id}>
-              <TableCell align="center">{subject.name}</TableCell>
+          {subjects?.map((subject, i) => (
+            <TableRow key={subject.subjectId}>
+              <TableCell align="center">{subject.year}</TableCell>
+              <TableCell align="center">{subject.semester}</TableCell>
+              <TableCell align="center">{subject.subjectName}</TableCell>
               <TableCell align="center">{subject.professor}</TableCell>
-              <TableCell align="center">*</TableCell>
             </TableRow>
           ))}
         </TableBody>

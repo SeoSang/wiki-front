@@ -1,8 +1,10 @@
 export interface SubjectInfo {
-  subject_id: string;
-  subject_name: string;
+  subjectId: string;
+  subjectName: string;
   icon_name: string;
   professor: string;
+  year: number;
+  semester: number;
 }
 
 export interface FavoriteSubjectInfo extends SubjectInfo {
@@ -14,5 +16,7 @@ export interface SubjectState {
   subjects: SubjectInfo[];
   subject: SubjectInfo | null;
   isLoadingSubjects: boolean;
+  isSearchingSubjects: boolean;
   loadingSubjectsSuccess: boolean;
+  searchingSubjectsSuccess: boolean;
 }
