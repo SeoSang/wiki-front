@@ -11,9 +11,10 @@ import {
 import { Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
-import {getPostsAPI} from '../features/user/api'
+import { getPostsAPI } from '../features/user/api';
 import { useTypedSelector } from '../features';
 import { loadPosts } from './../features/board/action';
+import { useRouter } from 'next/dist/client/router';
 
 const tableStyles = makeStyles({
   root: {
@@ -38,51 +39,53 @@ const columns = ['게시물 번호', '학번', '강의', '제목', '내용', '�
 
 export default function Board() {
   const dispatch = useDispatch();
-  const { posts } = useTypedSelector(
-    state => state.board
-  );
+  const { posts } = useTypedSelector((state) => state.board);
   const useStyles = tableStyles();
   const array = [];
+  const router = useRouter();
 
+  const onClickPost = (postId: number) => () => {
+    router.push({ pathname: '/post/[id]', query: { id: postId } });
+  };
+
+  console.log({ posts });
   useEffect(() => {
-    dispatch(loadPosts({categoryId : 1, page : 1}));
+    dispatch(loadPosts({ categoryId: 1, page: 1 }));
   }, []);
 
   for (let i = 0; i < 10; i++) {
     array.push(i + 1);
   }
   const target = array.slice(1, 10);
-  return (  
+  return (
     <div className={useStyles.root}>
       <Table component={Paper}>
         <TableHead>
           <TableRow>
-            {columns.map(c => (
+            {columns.map((c) => (
               <TableCell align="center">{c}</TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {posts.map(p => (
-            
+          {posts?.map((p) => (
             <TableRow
-              key={p.postId}
+              key={`table_key_${p.postId}`}
               className={
                 p.postId % 2 == 0 ? useStyles.evenrows : useStyles.rows
               }
+              onClick={onClickPost(p.postId)}
             >
               <TableCell align="center">{p.postId}</TableCell>
               <TableCell align="center">{p.userId}</TableCell>
               <TableCell align="center">{p.subjectId}</TableCell>
               <TableCell align="center">{p.title}</TableCell>
               <TableCell align="center">
-                {p.text.length < 10
-                  ? p.text
-                : p.text.slice(0, 10) + '...'}
+                {p.text.length < 10 ? p.text : p.text.slice(0, 10) + '...'}
               </TableCell>
-              <TableCell align="center">{p.createdAt}</TableCell>
+              <TableCell align="center">{p.createDate}</TableCell>
             </TableRow>
-                ))}
+          ))}
         </TableBody>
       </Table>
       <div>
@@ -101,12 +104,12 @@ export default function Board() {
         ></Button>*/}
       </div>
       <div className={useStyles.pagebuttons}>
-        {target.map(value => (
+        {target.map((value) => (
           <li className={useStyles.pagebuttons} key={value}>
             <button
-              // onClick={() => {
-              //   dispatch(getPosts(1, 1, 10));
-              // }}
+            // onClick={() => {
+            //   dispatch(getPosts(1, 1, 10));
+            // }}
             >
               {value}
             </button>

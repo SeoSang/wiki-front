@@ -108,6 +108,9 @@ export default function SimpleTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [passwordCheck, setPasswordCheck] = React.useState('');
+  const [newPassword, setNewPassword] = React.useState('');
 
   const typ = useTypicalStyles();
   const div = useDivStyles();
@@ -158,7 +161,29 @@ export default function SimpleTabs() {
                 <Typography variant="h6">현재 비밀번호</Typography>
               </Grid>
               <Grid item xs={12} md={9}>
-                <TextField />
+                <TextField
+                  type="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </div>
+          <div className={div.startFlex}>
+            <Grid className={typ.marginTwo} container>
+              <Grid item xs={12} md={3}>
+                <Typography variant="h6">비밀번호 확인</Typography>
+              </Grid>
+              <Grid item xs={12} md={9}>
+                <TextField
+                  type="password"
+                  value={passwordCheck}
+                  onChange={(e) => {
+                    setPasswordCheck(e.target.value);
+                  }}
+                />
               </Grid>
             </Grid>
           </div>
@@ -168,7 +193,13 @@ export default function SimpleTabs() {
                 <Typography variant="h6">새로운 비밀번호</Typography>
               </Grid>
               <Grid item xs={12} md={9}>
-                <TextField />
+                <TextField
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => {
+                    setNewPassword(e.target.value);
+                  }}
+                />
               </Grid>
             </Grid>
           </div>
