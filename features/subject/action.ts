@@ -8,7 +8,7 @@ export const loadSubjects = createAsyncThunk(
   async ({}: {}, thunkAPI) => {
     try {
       const result = await loadSubjectsAPI();
-      return Object.assign(result);
+      return Object.assign({}, result);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }

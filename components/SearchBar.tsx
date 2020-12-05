@@ -37,14 +37,18 @@ const SearchBar: React.FC<SearchProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <Paper component="form" className={classes.root}>
+    <Paper className={classes.root}>
       <IconButton className={classes.iconButton} aria-label="menu">
         <MenuIcon />
       </IconButton>
       <InputBase
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            props.onSubmit();
+          }
+        }}
         className={classes.input}
         placeholder="과목을 검색해주세요"
-        inputProps={{ 'aria-label': 'search google maps' }}
         name="searchKeyword"
         value={props.keyword}
         onChange={(e) => {

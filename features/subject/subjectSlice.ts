@@ -53,7 +53,7 @@ export const subjectSlice = createSlice({
         alert('검색 결과가 없습니다!');
         return;
       }
-      state.subjects = action.payload.data.subjectList;
+      state.subjects = action.payload.subjectList;
     },
     [searchSubjects.rejected.type]: (
       state,

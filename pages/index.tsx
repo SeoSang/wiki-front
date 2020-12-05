@@ -16,6 +16,7 @@ import SubjectTable from '../components/SubjectTable';
 import { subjects } from '../dummy';
 import { loadPosts } from '../features/board/action';
 import { searchSubjects } from '../features/subject/action';
+import { useMarginStyles } from '../styles/cssStyle';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,6 +39,7 @@ export default function Home() {
   const [submitClicked, setSubmitClicked] = useState(false);
   const [searchName, setSearchName] = useState('');
   const dispatch = useDispatch();
+  const mar = useMarginStyles();
 
   const onClickSearch = () => {
     dispatch(searchSubjects({ searchName }));
@@ -52,13 +54,20 @@ export default function Home() {
         onSubmit={onClickSearch}
       />
       {!submitClicked ? <IndexMain></IndexMain> : <SubjectTable />}
-      <Button
-        onClick={() => {
-          dispatch(loadPosts({ page: 1, categoryId: 1 }));
-        }}
-      >
-        포스트 확인 테스트
-      </Button>
+      {submitClicked ? (
+        <Button
+          className={mar.marTop2}
+          color="primary"
+          variant="contained"
+          onClick={() => {
+            setSubmitClicked(false);
+          }}
+        >
+          돌아가기
+        </Button>
+      ) : (
+        ''
+      )}
     </div>
   );
 }
