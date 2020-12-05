@@ -33,6 +33,6 @@ export const updatePostAPI = async (
 };
 
 export const addPostApi = async (post: AddPostFormData) => {
-  const result = await axios.post(`${BACKEND_URL}/board/viewDetail`, post); // 추후에 쿠키 설정 넣어줘야함
+  const result = await axios.post(`${BACKEND_URL}/board/insert`, post); // 추후에 쿠키 설정 넣어줘야함
   return result;
 };

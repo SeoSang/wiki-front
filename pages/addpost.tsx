@@ -19,6 +19,7 @@ import clsx from 'clsx';
 import { postPostsAPI } from '../features/user/api';
 import { useTypedSelector } from '../features';
 import { useRouter } from 'next/dist/client/router';
+import { addPost } from '../features/board/action';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,33 +43,26 @@ function MyComponent() {
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
   const [visible, setVisible] = useState(false);
+  const [title, setTitle] = useState('');
+  const [text, setText] = useState('');
   const [categoryValue, setCategoryValue] = useState(1);
   const [subjectValue, setSubjectValue] = useState(1);
-  const [contents, setContents] = useState({
-    postId: 0,
-    subjectId: 0,
-    title: '',
-    text: '',
-    createDate: '',
-    hitNum: 0,
-  });
-  const { postId, subjectId, title, text, createDate, hitNum } = contents;
 
-  useEffect(() => {
-    setContents({
-      postId: 1,
-      subjectId: 1,
-      title: '',
-      text: '',
-      createDate: '2020-10-20',
-      hitNum: 0,
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   const submitPost = () => {
-    postPostsAPI(contents);
+    dispatch(
+      addPost({
+        post: {
+          userId: 1,
+          subjectId: subjectValue,
+          categoryId: categoryValue,
+          title,
+          text,
+        },
+      })
+    );
   };
-
   const handleSubjectChange = (
     event: React.ChangeEvent<{ value: unknown }>
   ) => {
@@ -78,9 +72,10 @@ function MyComponent() {
   const handleCategoryChange = (
     event: React.ChangeEvent<{ value: unknown }>
   ) => {
-    const value: number = event.target.value as number;
-    setVisible(value != 1);
+    const value: number = parseInt(event.target.value as string);
+    if (value == 2) setSubjectValue(0);
     setCategoryValue(value);
+    setVisible(value != 2);
   };
 
   return (
@@ -98,8 +93,8 @@ function MyComponent() {
               value={categoryValue}
               onChange={handleCategoryChange}
             >
-              <MenuItem value={1}>자유게시판</MenuItem>
-              <MenuItem value={2}>과목게시판</MenuItem>
+              <MenuItem value={1}>과목게시판</MenuItem>
+              <MenuItem value={2}>자유게시판</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -112,6 +107,7 @@ function MyComponent() {
               value={subjectValue}
               onChange={handleSubjectChange}
             >
+              <MenuItem value={0}>과목없음</MenuItem>
               <MenuItem value={1}>과목1</MenuItem>
               <MenuItem value={2}>과목2</MenuItem>
               <MenuItem value={3}>과목3</MenuItem>
@@ -125,7 +121,7 @@ function MyComponent() {
           <TextField
             value={title}
             onChange={(e) => {
-              setContents({ ...contents, title: e.target.value });
+              setTitle(e.target.value);
             }}
             fullWidth
           />
@@ -136,7 +132,7 @@ function MyComponent() {
         theme="snow"
         value={text}
         onChange={(e: string) => {
-          setContents({ ...contents, text: e });
+          setText(e);
         }}
       />
       <div className={clsx(typ.center, typ.marginTwo)}>
