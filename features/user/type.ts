@@ -16,6 +16,7 @@ export interface UserState {
   loginLoading: boolean;
   isLogined: boolean;
   isRegistered: boolean;
+  isDoubleCheckOK: boolean;
 }
 
 export interface RegisterFormData {

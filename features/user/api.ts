@@ -17,19 +17,31 @@ export const registerAPI = async (formData: RegisterFormData) => {
   return result;
 };
 
-export const getPostsAPI = async (categoryId : number, page : number, amount : number) => {
+export const getPostsAPI = async (
+  categoryId: number,
+  page: number,
+  amount: number
+) => {
   const result = await axios.get(`${BACKEND_URL}/board/list/`, {
-    params : {
-      categoryId : categoryId,
-      page : page,
-      amount : amount,
+    params: {
+      categoryId: categoryId,
+      page: page,
+      amount: amount,
     },
-  },
-  )    
+  });
   return result.data;
-}
+};
 
-export const postPostsAPI = async (contents : object) => {  
-  const result = await axios.post(`http://localhost:8080/mywiki/board/insert`, {contents})  
+export const postPostsAPI = async (contents: object) => {
+  const result = await axios.post(`http://localhost:8080/mywiki/board/insert`, {
+    contents,
+  });
   return result;
-}
+};
+
+export const doubleCheckAPI = async (email: string) => {
+  const result = await axios.post(`${BACKEND_URL}/api/user/emailcheck`, {
+    email,
+  });
+  return result;
+};

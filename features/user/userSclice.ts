@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { login, register } from './action';
+import { doubleCheck, login, register } from './action';
 import { UserState } from './type';
 
 export const NAME = 'user';
@@ -11,6 +11,7 @@ const initialState: UserState = {
   loginLoading: false,
   isLogined: false,
   isRegistered: false,
+  isDoubleCheckOK: false,
 };
 
 export const userSlice = createSlice({
@@ -49,7 +50,6 @@ export const userSlice = createSlice({
       state.isRegistered = false;
     },
     [register.fulfilled.type]: (state, action) => {
-      // 성공
       state.isRegistered = true;
       alert('회원가입 성공!');
       console.log(action.payload);
@@ -58,9 +58,23 @@ export const userSlice = createSlice({
       state,
       action: PayloadAction<{ message: string; status: number }>
     ) => {
-      // 실패
       state.isRegistered = false;
       alert('회원가입 실패!');
+    },
+    [doubleCheck.pending.type]: (state, action) => {
+      state.isDoubleCheckOK = false;
+    },
+    [doubleCheck.fulfilled.type]: (state, action) => {
+      state.isDoubleCheckOK = true;
+      alert('중복확인중 ');
+      console.log(action.payload);
+    },
+    [doubleCheck.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      state.isDoubleCheckOK = false;
+      alert('서버 오류!!');
     },
   },
 });

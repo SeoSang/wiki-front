@@ -10,6 +10,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useForm } from 'react-hook-form';
 import { PageLink } from '../components/PageLink';
+import { useDispatch } from 'react-redux';
+import { doubleCheck } from '../features/user/action';
+import { useTypedSelector } from '../features';
 
 type FormValues = {
   name: string;
@@ -18,7 +21,7 @@ type FormValues = {
   password: string;
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -35,6 +38,10 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  doubleCheckButton: {
+    height: '100%',
+    color: 'white',
   },
 }));
 
@@ -56,18 +63,37 @@ const FormValidator = (errors: any) => {
 
 export default function register() {
   const classes = useStyles();
-  const { register, handleSubmit, watch, errors } = useForm<FormValues>();
-  const [validateText, setValidateText] = useState<string>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    getValues,
+    errors,
+  } = useForm<FormValues>();
+  const [validateText, setValidateText] = useState<string>('');
+  const dispatch = useDispatch();
+  const { isDoubleCheckOK } = useTypedSelector((state) => state.user);
 
   const onSubmit = async (data: FormValues) => {
+    if (!isDoubleCheckOK) alert('이메일 중복확인을 해주세요!');
+    console.log({ data });
     for (const [key, value] of Object.entries(data)) {
-      console.log(value);
       if (value == '') {
         setValidateText(`${key}를 입력해주세요!`);
+        alert(validateText);
         return;
       }
     }
     return;
+  };
+
+  const onSubmitDoubleCheck = () => {
+    const email = getValues('email');
+    if (!email) {
+      alert('이메일을 제데로 입력하세요!');
+      return;
+    }
+    dispatch(doubleCheck(email));
   };
 
   return (
@@ -84,12 +110,12 @@ export default function register() {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                autoComplete="school"
-                name="school"
+                autoComplete="univName"
+                name="univName"
                 variant="outlined"
                 required
                 fullWidth
-                id="school"
+                id="univName"
                 label="학교"
                 autoFocus
                 inputRef={register({
@@ -102,9 +128,9 @@ export default function register() {
                 variant="outlined"
                 required
                 fullWidth
-                id="schoolNumber"
+                id="studentNumber"
                 label="학번"
-                name="schoolNumber"
+                name="studentNumber"
                 autoComplete="schoolNumber"
                 inputRef={register({
                   maxLength: 20,
@@ -113,12 +139,12 @@ export default function register() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                autoComplete="name"
-                name="name"
+                autoComplete="studentName"
+                name="studentName"
                 variant="outlined"
                 required
                 fullWidth
-                id="name"
+                id="studentName"
                 label="이름"
                 autoFocus
                 inputRef={register({
@@ -140,7 +166,7 @@ export default function register() {
                 })}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={9}>
               <TextField
                 variant="outlined"
                 required
@@ -153,6 +179,17 @@ export default function register() {
                   pattern: /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
                 })}
               />
+            </Grid>
+            <Grid item xs={3}>
+              <Button
+                className={classes.doubleCheckButton}
+                fullWidth
+                color="primary"
+                variant="contained"
+                onClick={onSubmitDoubleCheck}
+              >
+                중복확인
+              </Button>
             </Grid>
             <Grid item xs={12}>
               <TextField
