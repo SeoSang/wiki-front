@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { doubleCheckAPI, loginAPI, registerAPI } from './api';
+import { FavoriteSubjectInfo } from '../subject/type';
+import { addFavoriteAPI, doubleCheckAPI, loginAPI, registerAPI } from './api';
 import { RegisterFormData } from './type';
 
 const NAME = 'user';
@@ -35,6 +36,18 @@ export const doubleCheck = createAsyncThunk(
     try {
       const result = await doubleCheckAPI(email);
       return Object.assign(result);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
+  }
+);
+
+export const addFavorite = createAsyncThunk(
+  `${NAME}/addFavorite`, // 액션 이름 정의
+  async ({ favorite }: { favorite: FavoriteSubjectInfo }, thunkAPI) => {
+    try {
+      const result = await addFavoriteAPI(favorite);
+      return Object.assign({}, result);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }

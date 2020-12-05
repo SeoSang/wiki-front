@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BACKEND_URL } from '../../dummy/env';
+import { FavoriteSubjectInfo } from '../subject/type';
 import { RegisterFormData } from './type';
 
 export const loginAPI = async (email: string, password: string) => {
@@ -43,5 +44,14 @@ export const doubleCheckAPI = async (email: string) => {
   const result = await axios.post(`${BACKEND_URL}/api/user/emailcheck`, {
     email,
   });
+  return result;
+};
+
+export const addFavoriteAPI = async (favorite: FavoriteSubjectInfo) => {
+  const result = await axios.post(
+    `${BACKEND_URL}/api/fav/insert`,
+    { favorite },
+    {}
+  );
   return result;
 };

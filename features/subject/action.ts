@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { loadSubjectsAPI, searchSubjectsAPI } from './api';
+import { FavoriteSubjectInfo } from './type';
 
 const NAME = 'subject';
 

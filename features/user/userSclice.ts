@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { doubleCheck, login, register } from './action';
+import { addFavorite, doubleCheck, login, register } from './action';
 import { UserState } from './type';
 
 export const NAME = 'user';
@@ -75,6 +75,16 @@ export const userSlice = createSlice({
     ) => {
       state.isDoubleCheckOK = false;
       alert('서버 오류!!');
+    },
+    [addFavorite.fulfilled.type]: (state, action) => {
+      alert('즐겨찾기 추가 완료!');
+      console.log(action.payload);
+    },
+    [addFavorite.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      alert('즐겨 찾기 추가 실패ㅠ');
     },
   },
 });
