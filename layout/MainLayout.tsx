@@ -47,6 +47,8 @@ import Avatar from '@material-ui/core/Avatar';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import { OverridableComponent } from '@material-ui/core/OverridableComponent';
+import { useDispatch } from 'react-redux';
+import { logout } from '../features/user/action';
 // cookie
 
 const drawerWidth = 240;
@@ -181,6 +183,12 @@ const useStyles = makeStyles((theme: Theme) =>
         color: '#FF913B',
       },
     },
+    cardButton: {
+      fontSize: '0.7em',
+      color: 'white',
+      fontWeight: 'lighter',
+      backgroundColor: theme.palette.primary.light,
+    },
   })
 );
 
@@ -210,6 +218,7 @@ const MainLayout: React.FC<{
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -227,6 +236,10 @@ const MainLayout: React.FC<{
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const onClickLogout = () => {
+    dispatch(logout());
   };
 
   const opened = Boolean(anchorEl);
@@ -322,8 +335,17 @@ const MainLayout: React.FC<{
                 </CardContent>
                 <CardActions>
                   <PageLink href="mypage">
-                    <Button>마이 페이지 이동</Button>
+                    <Button className={classes.cardButton} variant="contained">
+                      마이 페이지
+                    </Button>
                   </PageLink>
+                  <Button
+                    onClick={onClickLogout}
+                    className={classes.cardButton}
+                    variant="contained"
+                  >
+                    로그아웃
+                  </Button>
                 </CardActions>
               </Card>
             </Popover>

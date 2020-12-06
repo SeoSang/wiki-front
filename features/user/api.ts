@@ -11,6 +11,17 @@ export const loginAPI = async (email: string, password: string) => {
   return result;
 };
 
+export const logoutAPI = async () => {
+  const result = await axios.post(
+    `${BACKEND_URL}/api/logout`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return result;
+};
+
 export const registerAPI = async (formData: RegisterFormData) => {
   const result = await axios.post(`${BACKEND_URL}/api/user/register`, {
     user: formData,

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { addFavorite, doubleCheck, login, register } from './action';
+import { addFavorite, doubleCheck, login, logout, register } from './action';
 import { UserState } from './type';
 
 export const NAME = 'user';
@@ -26,27 +26,36 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: {
+    [logout.pending.type]: (state, action) => {
+      state = initialState;
+    },
+    [logout.fulfilled.type]: (state, action) => {
+      alert('로그아웃 성공!');
+    },
+    [logout.rejected.type]: (state, action) => {
+      alert('로그아웃 비정상적 성공..');
+      console.log(action.payload);
+    },
     [login.pending.type]: (state, action) => {
-      // 호출 전
       state.loginLoading = true;
+      state.isLogined = false;
     },
     [login.fulfilled.type]: (state, action) => {
-      // 성공
-      state.loginLoading = false;
-      state.me = action.payload.data;
       console.log(action.payload);
+      alert('로그인 성공!');
+      state.me = action.payload.data.user;
+      state.loginLoading = false;
+      state.isLogined = true;
     },
     [login.rejected.type]: (
       state,
       action: PayloadAction<{ message: string; status: number }>
     ) => {
-      // 실패
       state.loginLoading = false;
       state.me = null;
       state.favorites = [];
     },
     [register.pending.type]: (state, action) => {
-      // 호출 전
       state.isRegistered = false;
     },
     [register.fulfilled.type]: (state, action) => {

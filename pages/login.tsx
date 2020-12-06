@@ -17,6 +17,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { LoginFormValues } from '..';
+import { useDispatch } from 'react-redux';
+import { login } from '../features/user/action';
+import { useTypedSelector } from '../features';
 
 const LoginFormValidator = (errors: any) => {
   if (errors.email) {
@@ -53,6 +56,15 @@ const Login = () => {
   const router = useRouter();
   const { register, handleSubmit, errors } = useForm<LoginFormValues>();
   const [validateText, setValidateText] = useState<string>();
+  const dispatch = useDispatch();
+  const { me, isLogined } = useTypedSelector((state) => state.user);
+
+  useEffect(() => {
+    if (isLogined) {
+      alert('로그인이 됐으므로 홈으로 이동합니다!');
+      router.push('/');
+    }
+  }, [isLogined]);
 
   const onSubmit = async (data: LoginFormValues) => {
     for (const [key, value] of Object.entries(data)) {
@@ -60,6 +72,7 @@ const Login = () => {
         setValidateText(`${key}를 입력해주세요!`);
         return;
       }
+      dispatch(login(data));
     }
     return;
   };

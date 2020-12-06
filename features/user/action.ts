@@ -1,6 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FavoriteSubjectInfo } from '../subject/type';
-import { addFavoriteAPI, doubleCheckAPI, loginAPI, registerAPI } from './api';
+import {
+  addFavoriteAPI,
+  doubleCheckAPI,
+  loginAPI,
+  logoutAPI,
+  registerAPI,
+} from './api';
 import { RegisterFormData } from './type';
 
 const NAME = 'user';
@@ -13,6 +19,17 @@ export const login = createAsyncThunk(
   ) => {
     try {
       return await loginAPI(email, password);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
+  }
+);
+
+export const logout = createAsyncThunk(
+  `${NAME}/logout`, // 액션 이름 정의
+  async ({}, thunkAPI) => {
+    try {
+      return await logoutAPI();
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }
