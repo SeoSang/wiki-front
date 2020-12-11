@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { addPost, loadPost, loadPosts, updatePost } from './action';
+import { addComment, addPost, loadPost, loadPosts, updatePost } from './action';
 import { BoardState } from './type';
 
 const NAME = 'board';
@@ -9,6 +9,7 @@ const AMOUNT = 8;
 const initialState: BoardState = {
   post: null,
   posts: [],
+  comments: [],
   isLoadingPost: false,
   isLoadingPosts: false,
   addingPostSuccess: false,
@@ -36,7 +37,8 @@ export const boardSlice = createSlice({
       // 성공
       state.isLoadingPost = false;
       console.log(action.payload);
-      state.post = action.payload.data;
+      state.post = action.payload.BoardVO;
+      state.comments = action.payload.CommentMap;
     },
     [loadPost.rejected.type]: (
       state,
@@ -90,6 +92,18 @@ export const boardSlice = createSlice({
       console.log(action);
       alert('오류가 발생하였습니다..');
       state.addingPostSuccess = false;
+    },
+    [addComment.fulfilled.type]: (state, action) => {
+      alert('댓글 추가에 성공하셨습니다!');
+      state.comments.push(action.payload.data);
+      console.log(action.payload.data);
+    },
+    [addComment.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      console.log(action);
+      alert('오류가 발생하였습니다..');
     },
   },
 });

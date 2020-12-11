@@ -17,6 +17,7 @@ import 'moment/locale/ko';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CommentCard from '../components/CommentCard';
 import CommentForm from '../form/CommentForm';
+import { useTypedSelector } from '../features';
 
 const DUMMY_POST = `
   <ul>
@@ -65,9 +66,11 @@ const post = () => {
   const div = useDivStyles();
   const mar = useMarginStyles();
   const xs = useMediaQuery('(min-width:600px)');
+  const { comments } = useTypedSelector((state) => state.board);
   // const ReactQuill =
   //   typeof window === 'object' ? require('react-quill') : () => false;
 
+  console.log(comments);
   useEffect(() => {
     moment.locale('ko');
   }, []);
@@ -116,15 +119,24 @@ const post = () => {
           <div dangerouslySetInnerHTML={{ __html: DUMMY_POST }}></div>
         </div>
       </div>
-      <CommentCard
-        author={'홍꺽정'}
-        createdAt={moment().format('MMMM Do / a h:mm')}
-        content={
-          'Animi rerum nihil deserunt odit vel exercitationem officia alias quo. Qui aspernatur et debitis. Labore aut dolores nisi aperiam illum corrupti quaerat recusandae vel.'
-        }
-      />
-      {/* <Divider style={{ alignSelf: 'stretch' }} variant="middle" /> */}
-      {/* <Divider variant="middle" /> */}
+      {comments.length != 0 ? (
+        comments.map((comment) => (
+          <CommentCard
+            key={`userID_${comment.userId}`}
+            author={comment.userId.toString()}
+            createdAt={moment(comment.noticeDate).format('MMMM Do / a h:mm')}
+            content={comment.commentText}
+          />
+        ))
+      ) : (
+        <CommentCard
+          author={'홍꺽정'}
+          createdAt={moment().format('MMMM Do / a h:mm')}
+          content={
+            'Animi rerum nihil deserunt odit vel exercitationem officia alias quo. Qui aspernatur et debitis. Labore aut dolores nisi aperiam illum corrupti quaerat recusandae vel.'
+          }
+        />
+      )}
       <CommentForm></CommentForm>
     </div>
   );

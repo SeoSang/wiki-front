@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { loadSubjectsAPI, searchSubjectsAPI } from './api';
 import { FavoriteSubjectInfo } from './type';
+import _ from 'lodash';
 
 const NAME = 'subject';
 
@@ -9,7 +10,7 @@ export const loadSubjects = createAsyncThunk(
   async ({}: {}, thunkAPI) => {
     try {
       const result = await loadSubjectsAPI();
-      return Object.assign({}, result);
+      return _.pick(result, ['status', 'data', 'statusText']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }

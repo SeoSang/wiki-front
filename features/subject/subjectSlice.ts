@@ -41,6 +41,7 @@ export const subjectSlice = createSlice({
     ) => {
       state.isLoadingSubjects = false;
       state.loadingSubjectsSuccess = false;
+      console.log('과목정보 받아오기 실패');
     },
     [searchSubjects.pending.type]: (state, action) => {
       state.isSearchingSubjects = true;

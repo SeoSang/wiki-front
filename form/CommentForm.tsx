@@ -9,7 +9,10 @@ import {
   ThemeProvider,
   Typography,
 } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../features';
+import { addComment } from '../features/board/action';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,6 +52,31 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 const CommentForm = () => {
   const st = useStyles();
+  const { me } = useTypedSelector((state) => state.user);
+  const { post, addingCommentSuccess } = useTypedSelector(
+    (state) => state.board
+  );
+  const [commentText, setCommentText] = useState('');
+  const dispatch = useDispatch();
+  const onClickAddComment = () => {
+    if (!me) {
+      alert('로그인이 필요합니다!');
+      return;
+    }
+    dispatch(
+      addComment({
+        userId: me?.userId,
+        boardId: post!.postId,
+        commentText,
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (addingCommentSuccess) {
+      setCommentText('');
+    }
+  }, [addingCommentSuccess]);
 
   return (
     <Grid className={st.cardContainer} container>
@@ -61,10 +89,21 @@ const CommentForm = () => {
         alignItems="center"
         justify="center"
       >
-        <TextField className={st.input} variant="outlined"></TextField>
+        <TextField
+          value={commentText}
+          onChange={(e) => {
+            setCommentText(e.target.value);
+          }}
+          className={st.input}
+          variant="outlined"
+        ></TextField>
       </Grid>
       <div className={st.bottomContainer}>
-        <Button className={st.lightButton} variant="contained">
+        <Button
+          className={st.lightButton}
+          variant="contained"
+          onClick={onClickAddComment}
+        >
           댓글 달기
         </Button>
       </div>

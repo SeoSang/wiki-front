@@ -52,9 +52,13 @@ export const postPostsAPI = async (contents: object) => {
 };
 
 export const doubleCheckAPI = async (email: string) => {
-  const result = await axios.post(`${BACKEND_URL}/api/user/emailcheck`, {
-    email,
-  });
+  const result = await axios.post(
+    `${BACKEND_URL}/api/user/emailcheck`,
+    {
+      email,
+    },
+    { withCredentials: true }
+  );
   return result;
 };
 

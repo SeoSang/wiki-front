@@ -20,6 +20,7 @@ import { postPostsAPI } from '../features/user/api';
 import { useTypedSelector } from '../features';
 import { useRouter } from 'next/dist/client/router';
 import { addPost } from '../features/board/action';
+import { loadSubjects } from '../features/subject/action';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,18 +39,20 @@ function MyComponent() {
   const typ = useTypicalStyles();
   const div = useDivStyles();
   const st = useStyles();
-  //const router = useRouter();
   const dispatch = useDispatch();
+  const { subjects } = useTypedSelector((state) => state.subject);
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [categoryValue, setCategoryValue] = useState(1);
   const [subjectValue, setSubjectValue] = useState(1);
 
-  useEffect(() => {}, []);
-
+  useEffect(() => {
+    dispatch(loadSubjects({}));
+  }, []);
+  console.log(subjects);
   const submitPost = () => {
     dispatch(
       addPost({
@@ -107,6 +110,14 @@ function MyComponent() {
               value={subjectValue}
               onChange={handleSubjectChange}
             >
+              {subjects?.map((subject) => (
+                <MenuItem
+                  key={`subjectid_${subject.subjectId}`}
+                  value={subject.subjectId}
+                >
+                  {subject.subjectName}
+                </MenuItem>
+              ))}
               <MenuItem value={0}>과목없음</MenuItem>
               <MenuItem value={1}>과목1</MenuItem>
               <MenuItem value={2}>과목2</MenuItem>
