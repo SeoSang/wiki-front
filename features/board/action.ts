@@ -4,7 +4,6 @@ import {
   loadPostsAPI,
   addPostApi,
   updatePostAPI,
-  addCommentApi,
   addCommentAPI,
 } from './api';
 import { AddPostFormData } from './type';
