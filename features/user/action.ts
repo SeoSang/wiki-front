@@ -2,12 +2,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FavoriteSubjectInfo } from '../subject/type';
 import {
   addFavoriteAPI,
+  deleteFavoriteAPI,
   doubleCheckAPI,
   loginAPI,
   logoutAPI,
   registerAPI,
 } from './api';
 import { RegisterFormData } from './type';
+import _ from 'lodash';
 
 const NAME = 'user';
 
@@ -64,7 +66,19 @@ export const addFavorite = createAsyncThunk(
   async ({ favorite }: { favorite: FavoriteSubjectInfo }, thunkAPI) => {
     try {
       const result = await addFavoriteAPI(favorite);
-      return Object.assign({}, result);
+      return _.pick(result, ['data', 'status']);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
+  }
+);
+
+export const deleteFavorite = createAsyncThunk(
+  `${NAME}/addFavorite`, // 액션 이름 정의
+  async ({ favoriteId }: { favoriteId: number }, thunkAPI) => {
+    try {
+      const result = await deleteFavoriteAPI(favoriteId);
+      return _.pick(result, ['data', 'status']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }

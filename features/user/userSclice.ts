@@ -1,6 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { addFavorite, doubleCheck, login, logout, register } from './action';
+import {
+  addFavorite,
+  deleteFavorite,
+  doubleCheck,
+  login,
+  logout,
+  register,
+} from './action';
 import { UserState } from './type';
 
 export const NAME = 'user';
@@ -94,6 +101,17 @@ export const userSlice = createSlice({
       action: PayloadAction<{ message: string; status: number }>
     ) => {
       alert('즐겨 찾기 추가 실패ㅠ');
+    },
+    [deleteFavorite.fulfilled.type]: (state, action) => {
+      alert('즐겨찾기 삭제 완료!');
+      console.log(action.payload);
+      state.favorites = action.payload.data;
+    },
+    [deleteFavorite.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      alert('즐겨 찾기 삭제 실패ㅠ');
     },
   },
 });

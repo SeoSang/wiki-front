@@ -66,7 +66,15 @@ export const addFavoriteAPI = async (favorite: FavoriteSubjectInfo) => {
   const result = await axios.post(
     `${BACKEND_URL}/api/fav/insert`,
     { favorite },
-    {}
+    { withCredentials: true }
   );
+  return result;
+};
+
+export const deleteFavoriteAPI = async (favoriteId: number) => {
+  const result = await axios.delete(`${BACKEND_URL}/api/fav/delete`, {
+    data: { favoriteId },
+    withCredentials: true,
+  });
   return result;
 };
