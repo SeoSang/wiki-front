@@ -11,15 +11,9 @@ import Container from '@material-ui/core/Container';
 import { useForm } from 'react-hook-form';
 import { PageLink } from '../components/PageLink';
 import { useDispatch } from 'react-redux';
-import { doubleCheck } from '../features/user/action';
+import { doubleCheck, register } from '../features/user/action';
 import { useTypedSelector } from '../features';
-
-type FormValues = {
-  name: string;
-  nickname: string;
-  email: string;
-  password: string;
-};
+import { RegisterFormData } from '../features/user/type';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -61,22 +55,25 @@ const FormValidator = (errors: any) => {
   return '';
 };
 
-export default function register() {
+export default function Register() {
   const classes = useStyles();
   const {
-    register,
+    register: formRegister,
     handleSubmit,
     watch,
     getValues,
     errors,
-  } = useForm<FormValues>();
+  } = useForm<RegisterFormData>();
   const [validateText, setValidateText] = useState<string>('');
   const dispatch = useDispatch();
   const { isDoubleCheckOK } = useTypedSelector((state) => state.user);
 
-  const onSubmit = async (data: FormValues) => {
-    if (!isDoubleCheckOK) alert('이메일 중복확인을 해주세요!');
-    console.log({ data });
+  const onSubmit = async (data: RegisterFormData) => {
+    console.log(data);
+    if (!isDoubleCheckOK) {
+      alert('이메일 중복확인을 해주세요!');
+      return;
+    }
     for (const [key, value] of Object.entries(data)) {
       if (value == '') {
         setValidateText(`${key}를 입력해주세요!`);
@@ -84,7 +81,7 @@ export default function register() {
         return;
       }
     }
-    return;
+    dispatch(register(data));
   };
 
   const onSubmitDoubleCheck = () => {
@@ -118,7 +115,7 @@ export default function register() {
                 id="univName"
                 label="학교"
                 autoFocus
-                inputRef={register({
+                inputRef={formRegister({
                   maxLength: 10,
                 })}
               />
@@ -132,7 +129,7 @@ export default function register() {
                 label="학번"
                 name="studentNumber"
                 autoComplete="schoolNumber"
-                inputRef={register({
+                inputRef={formRegister({
                   maxLength: 20,
                 })}
               />
@@ -147,7 +144,7 @@ export default function register() {
                 id="studentName"
                 label="이름"
                 autoFocus
-                inputRef={register({
+                inputRef={formRegister({
                   maxLength: 10,
                 })}
               />
@@ -161,7 +158,7 @@ export default function register() {
                 label="별명"
                 name="nickname"
                 autoComplete="nickname"
-                inputRef={register({
+                inputRef={formRegister({
                   maxLength: 20,
                 })}
               />
@@ -175,7 +172,7 @@ export default function register() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                inputRef={register({
+                inputRef={formRegister({
                   pattern: /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
                 })}
               />
@@ -201,7 +198,7 @@ export default function register() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                inputRef={register}
+                inputRef={formRegister}
               />
             </Grid>
           </Grid>

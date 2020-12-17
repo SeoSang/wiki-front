@@ -9,13 +9,13 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-import { Subject } from '..';
 import { FC } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDivStyles, useTypicalStyles } from '../styles/cssStyle';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import { useDispatch } from 'react-redux';
 import { deleteFavorite } from '../features/user/action';
+import { SubjectInfo } from '../features/subject/type';
 
 const COUNT = 3;
 
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface ItemProps {
-  item: Subject[];
+  item: SubjectInfo[];
   deleteable?: boolean;
 }
 

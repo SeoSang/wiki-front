@@ -54,7 +54,7 @@ export const doubleCheck = createAsyncThunk(
   async (email: string, thunkAPI) => {
     try {
       const result = await doubleCheckAPI(email);
-      return Object.assign(result);
+      return _.pick(result, ['data', 'status']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }

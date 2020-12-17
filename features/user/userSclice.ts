@@ -81,9 +81,9 @@ export const userSlice = createSlice({
       state.isDoubleCheckOK = false;
     },
     [doubleCheck.fulfilled.type]: (state, action) => {
-      state.isDoubleCheckOK = true;
-      alert('중복확인중 ');
-      console.log(action.payload);
+      alert(action.payload.data.msg);
+      if (action.payload.data.msg) state.isDoubleCheckOK = true;
+      else state.isDoubleCheckOK = false;
     },
     [doubleCheck.rejected.type]: (
       state,
