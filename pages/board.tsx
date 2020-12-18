@@ -7,6 +7,7 @@ import {
   TableRow,
   TableBody,
   Button,
+  List
 } from '@material-ui/core/';
 import { Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -23,60 +24,73 @@ const tableStyles = makeStyles({
     alignItems: 'center',
   },
   rows: {
+    cursor : 'pointer',
     backgroundColor: 'white',
+    '&:hover':{
+      opacity : 0.6
+    }
   },
   evenrows: {
+    cursor : 'pointer',
     backgroundColor: '#F0F3FF',
+    '&:hover':{
+      opacity : 0.6
+    }
   },
   pagebuttons: {
     display: 'flex',
     flexDirection: 'row',
-    marginTop: '20px',
+    marginTop: '10px',
   },
 });
 
 const columns = ['게시물 번호', '학번', '강의', '제목', '내용', '생성 날짜'];
+const PAGE_PER_BOARDS = 3;
 
 export default function Board() {
   const dispatch = useDispatch();
-  const { posts } = useTypedSelector((state) => state.board);
+  const { posts, page, total, isLoadingPosts } = useTypedSelector((state) => state.board);
   const useStyles = tableStyles();
-  const array = [];
   const router = useRouter();
+  const pages = total / PAGE_PER_BOARDS; 
+  const [pagearray , setPagearray] = useState<number[]>([]);
 
-  const onClickPost = (postId: number) => () => {
-    router.push({ pathname: '/post/[id]', query: { id: postId } });
-  };
-
-  console.log({ posts });
   useEffect(() => {
-    dispatch(loadPosts({ categoryId: 1, page: 1 }));
+    dispatch(loadPosts({ subjectId : 1,categoryId: 1, page: 1 }));  
+    console.log(pages);  
   }, []);
 
-  for (let i = 0; i < 10; i++) {
-    array.push(i + 1);
+  useEffect(()=>{    
+     for(let i : number=1; i < pages+1; i++){
+        setPagearray(pagearray => pagearray.concat(i));
+    }   
+  },[total])
+  const onClickPost = (boardId: number) => () => {
+    router.push({ pathname: '/post/', query: { id: boardId} });
+  };
+  const changePage = (value : number) => {
+    dispatch(loadPosts({ subjectId : 1,categoryId: 1, page: value }));
   }
-  const target = array.slice(1, 10);
   return (
     <div className={useStyles.root}>
       <Table component={Paper}>
         <TableHead>
           <TableRow>
-            {columns.map((c) => (
-              <TableCell align="center">{c}</TableCell>
+            {columns.map((col) => (
+              <TableCell align="center">{col}</TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {posts?.map((p) => (
             <TableRow
-              key={`table_key_${p.postId}`}
+              key={`table_key_${p.boardId}`}
               className={
-                p.postId % 2 == 0 ? useStyles.evenrows : useStyles.rows
+                p.boardId % 2 == 0 ? useStyles.evenrows : useStyles.rows
               }
-              onClick={onClickPost(p.postId)}
+              onClick={onClickPost(p.boardId)}
             >
-              <TableCell align="center">{p.postId}</TableCell>
+              <TableCell align="center">{p.boardId}</TableCell>
               <TableCell align="center">{p.userId}</TableCell>
               <TableCell align="center">{p.subjectId}</TableCell>
               <TableCell align="center">{p.title}</TableCell>
@@ -85,7 +99,7 @@ export default function Board() {
               </TableCell>
               <TableCell align="center">{p.createDate}</TableCell>
             </TableRow>
-          ))}
+            ))}
         </TableBody>
       </Table>
       <div>
@@ -104,19 +118,12 @@ export default function Board() {
         ></Button>*/}
       </div>
       <div className={useStyles.pagebuttons}>
-        {target.map((value) => (
-          <li className={useStyles.pagebuttons} key={value}>
-            <button
-            // onClick={() => {
-            //   dispatch(getPosts(1, 1, 10));
-            // }}
-            >
-              {value}
-            </button>
-          </li>
+        {pagearray.map((value) => (
+          <List className={useStyles.pagebuttons} key={value}>
+              <Button onClick={()=> changePage(value)}>{value}</Button>
+          </List>          
         ))}
-      </div>
-      {/*현재 페이지 : {page}*/}
+      </div>      
     </div>
   );
 }

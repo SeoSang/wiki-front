@@ -32,8 +32,8 @@ export const subjectSlice = createSlice({
     [loadSubjects.fulfilled.type]: (state, action) => {
       state.isLoadingSubjects = false;
       state.loadingSubjectsSuccess = true;
-      state.subjects = action.payload.data;
-      console.log(action.payload);
+      state.subjects = action.payload.data.subjects;
+      
     },
     [loadSubjects.rejected.type]: (
       state,

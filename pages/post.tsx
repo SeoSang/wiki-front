@@ -17,29 +17,9 @@ import 'moment/locale/ko';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CommentCard from '../components/CommentCard';
 import CommentForm from '../form/CommentForm';
+import { useDispatch } from 'react-redux';
+import { loadPost } from '../features/board/action';
 import { useTypedSelector } from '../features';
-
-const DUMMY_POST = `
-  <ul>
-    <li>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-      ligula eget dolor. Aenean massa.
-    </li>
-    <li>
-      Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
-      ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-      quis, sem.
-    </li>
-    <li>
-      Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet
-      nec, vulputate eget, arcu.
-    </li>
-    <li>
-      In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam
-      dictum felis eu pede mollis pretium. Integer tincidunt.
-    </li>
-  </ul>
-  `;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,8 +39,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const post = () => {
+  const dispatch = useDispatch();
+  const { post }  = useTypedSelector((state)=> state.board);
   const router = useRouter();
-  const { id } = router.query as { id: string };
+  //const { id } = router.query as { id: string};
+  const id = router.asPath.slice(9,12);
   const [error, setError] = useState(false);
   const st = useStyles();
   const div = useDivStyles();
@@ -69,10 +52,10 @@ const post = () => {
   const { comments } = useTypedSelector((state) => state.board);
   // const ReactQuill =
   //   typeof window === 'object' ? require('react-quill') : () => false;
-
-  console.log(comments);
+  
   useEffect(() => {
     moment.locale('ko');
+    dispatch(loadPost({boardId : parseInt(id)}));
   }, []);
 
   if (error) return <div>에러가 발생하였습니다 ㅠ</div>;
@@ -84,7 +67,7 @@ const post = () => {
       </div>
       <div className={st.postContainer}>
         <Typography className={mar.mar2} variant="h6">
-          더미 제목입니다
+          {post?.title}
         </Typography>
         <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
         <Grid container className={st.authorContainer}>
@@ -99,7 +82,7 @@ const post = () => {
             <PhoneIphoneIcon></PhoneIphoneIcon>
           </Grid>
           <Grid container xs={9} md={6}>
-            <Typography variant="subtitle1">작성자 임길동</Typography>
+            <Typography variant="subtitle1">유저 번호 :  {post?.userId}</Typography>
           </Grid>
           {xs ? (
             <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
@@ -107,23 +90,23 @@ const post = () => {
             ''
           )}
           <Grid container xs={8} md={3} justify="center" alignItems="center">
-            {moment().format('MMMM Do / a h:mm')}
+            {post?.createDate}
           </Grid>
           <Grid container xs={4} md={1}>
             <VisibilityIcon></VisibilityIcon>
-            {'12'}
+            {post?.hitNum}
           </Grid>
         </Grid>
         <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
         <div className={clsx(st.postContainer, div.centerFlex)}>
-          <div dangerouslySetInnerHTML={{ __html: DUMMY_POST }}></div>
+          <div dangerouslySetInnerHTML={{ __html: post?.text }}></div>
         </div>
       </div>
-      {comments.length != 0 ? (
-        comments.map((comment) => (
+      {comments?.length != 0 ? (
+        comments?.map((comment) => (
           <CommentCard
             key={`userID_${comment.userId}`}
-            author={comment.userId.toString()}
+            //author={comment.userId.toString()}
             createdAt={moment(comment.noticeDate).format('MMMM Do / a h:mm')}
             content={comment.commentText}
           />

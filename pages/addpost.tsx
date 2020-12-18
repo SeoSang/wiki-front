@@ -52,7 +52,6 @@ function MyComponent() {
   useEffect(() => {
     dispatch(loadSubjects({}));
   }, []);
-  console.log(subjects);
   const submitPost = () => {
     dispatch(
       addPost({
@@ -60,8 +59,9 @@ function MyComponent() {
           userId: 1,
           subjectId: subjectValue,
           categoryId: categoryValue,
-          title,
-          text,
+          createDate : 2020, 
+          title : title,
+          text : text,
         },
       })
     );
@@ -107,7 +107,7 @@ function MyComponent() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={subjectValue}
+              value={subjectValue}              
               onChange={handleSubjectChange}
             >
               {subjects?.map((subject) => (
@@ -118,10 +118,6 @@ function MyComponent() {
                   {subject.subjectName}
                 </MenuItem>
               ))}
-              <MenuItem value={0}>과목없음</MenuItem>
-              <MenuItem value={1}>과목1</MenuItem>
-              <MenuItem value={2}>과목2</MenuItem>
-              <MenuItem value={3}>과목3</MenuItem>
             </Select>
           </FormControl>
         </Grid>
