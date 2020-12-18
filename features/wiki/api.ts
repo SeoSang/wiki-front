@@ -12,9 +12,9 @@ export const loadWikiApi = async (subjectId:number)=>{
     return result;
 }
 
-export const updateWikiApi = async (wiki : UpdateWikiFormData) => {
-    const result = await axios.put(`${BACKEND_URL}/wiki/editWiki`, wiki,{
-        withCredentials : true
-    });
-    return result;
-}
+export const updateWikiApi = async (wiki: UpdateWikiFormData) => {
+  const result = await axios.put(`${BACKEND_URL}/wiki/editWiki`, wiki, {
+    withCredentials: true,
+  });
+  return result;
+};

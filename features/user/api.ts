@@ -2,7 +2,7 @@ import axios from 'axios';
 import { BACKEND_URL } from '../../dummy/env';
 import { FavoriteSubjectInfo } from '../subject/type';
 import { RegisterFormData } from './type';
- 
+
 export const loginAPI = async (email: string, password: string) => {
   const result = await axios.post(
     `${BACKEND_URL}/api/user/login`,
@@ -10,7 +10,12 @@ export const loginAPI = async (email: string, password: string) => {
       email,
       password,
     },
-    { withCredentials: true }
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
   );
   return result;
 };
