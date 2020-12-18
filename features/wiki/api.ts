@@ -3,7 +3,11 @@ import { BACKEND_URL } from '../../dummy/env';
 import { UpdateWikiFormData } from './type';
 
 export const loadWikiApi = async (subjectId:number)=>{
-    const result = await axios.get(`${BACKEND_URL}/wiki/showWiki/${subjectId}`)
+    const result = await axios.get(`${BACKEND_URL}/wiki/showWiki/`,{
+        params : {
+            subjectId : 2
+        }
+    })
     console.log(result);
     return result;
 }

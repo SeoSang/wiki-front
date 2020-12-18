@@ -45,7 +45,7 @@ const indexlist:IndexList[] = [{
 export default function WikiEditor(){
     const dispatch = useDispatch();
     useEffect(()=>{
-        dispatch(loadWiki({subjectId : 1}));
+        dispatch(loadWiki({subjectId : 2}));
     },[])
     const contentsRef = useRef([]);
     const classes = editorContainerStyles();

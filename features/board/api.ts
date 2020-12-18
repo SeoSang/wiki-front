@@ -9,7 +9,7 @@ export const loadPostsAPI = async (
   amount: number
 ) => {
   const result = await axios.get(`${BACKEND_URL}/board/list`, {
-    params: { subjectId, categoryId, page, amount },
+    params: { subjectId, categoryId, page, amount },    
   });
   console.log(result);
   return result;
