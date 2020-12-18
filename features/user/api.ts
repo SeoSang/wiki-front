@@ -2,12 +2,16 @@ import axios from 'axios';
 import { BACKEND_URL } from '../../dummy/env';
 import { FavoriteSubjectInfo } from '../subject/type';
 import { RegisterFormData } from './type';
-
+ 
 export const loginAPI = async (email: string, password: string) => {
-  const result = await axios.post(`${BACKEND_URL}/api/login`, {
-    email,
-    password,
-  }, );
+  const result = await axios.post(
+    `${BACKEND_URL}/api/login`,
+    {
+      email,
+      password,
+    },
+    { withCredentials: true }
+  );
   return result;
 };
 
@@ -23,9 +27,7 @@ export const logoutAPI = async () => {
 };
 
 export const registerAPI = async (formData: RegisterFormData) => {
-  const result = await axios.post(`${BACKEND_URL}/api/user/register`, {
-    user: formData,
-  });
+  const result = await axios.post(`${BACKEND_URL}/api/user/register`, formData);
   return result;
 };
 
@@ -66,7 +68,15 @@ export const addFavoriteAPI = async (favorite: FavoriteSubjectInfo) => {
   const result = await axios.post(
     `${BACKEND_URL}/api/fav/insert`,
     { favorite },
-    {}
+    { withCredentials: true }
   );
+  return result;
+};
+
+export const deleteFavoriteAPI = async (favoriteId: number) => {
+  const result = await axios.delete(`${BACKEND_URL}/api/fav/delete`, {
+    data: { favoriteId },
+    withCredentials: true,
+  });
   return result;
 };

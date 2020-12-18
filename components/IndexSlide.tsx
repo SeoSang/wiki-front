@@ -9,11 +9,13 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-import { Subject } from '..';
 import { FC } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDivStyles, useTypicalStyles } from '../styles/cssStyle';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
+import { useDispatch } from 'react-redux';
+import { deleteFavorite } from '../features/user/action';
+import { SubjectInfo } from '../features/subject/type';
 
 const COUNT = 3;
 
@@ -73,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface ItemProps {
-  item: Subject[];
+  item: SubjectInfo[];
   deleteable?: boolean;
 }
 
@@ -81,6 +83,11 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
   const classes = useStyles();
   const div = useDivStyles();
   const typ = useTypicalStyles();
+  const dispatch = useDispatch();
+
+  const onClickDelete = (favoriteId: number) => () => {
+    dispatch(deleteFavorite({ favoriteId }));
+  };
 
   return (
     <Paper className={classes.slide}>
@@ -114,6 +121,7 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
                   <IconButton
                     color="secondary"
                     className={classes.deleteButton}
+                    onClick={onClickDelete(subject.favoriteId)}
                   >
                     <CloseIcon></CloseIcon>
                   </IconButton>
