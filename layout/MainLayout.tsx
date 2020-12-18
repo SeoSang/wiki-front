@@ -49,11 +49,15 @@ import Link from 'next/link';
 import { OverridableComponent } from '@material-ui/core/OverridableComponent';
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/user/action';
+import MainProfileCard from '../components/MainProfileCard';
+import LoginNeededCard from '../components/LoginNeededCard';
+import { useTypedSelector } from '../features';
+import { meSelector } from '../features/user/userSclice';
 // cookie
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme: Theme) =>
+export const mainUseStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -214,11 +218,12 @@ const MenuItem = ({
 const MainLayout: React.FC<{
   children: ReactComponentElement<any, any>;
 }> = ({ children }) => {
-  const classes = useStyles();
+  const classes = mainUseStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
+  const me = useTypedSelector(meSelector);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -236,10 +241,6 @@ const MainLayout: React.FC<{
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const onClickLogout = () => {
-    dispatch(logout());
   };
 
   const opened = Boolean(anchorEl);
@@ -294,60 +295,7 @@ const MainLayout: React.FC<{
                 horizontal: 'left',
               }}
             >
-              <Card className={classes.popoverContainer}>
-                {/*<div className={classes.popoverHeader}>
-            <Avatar className={classes.popoverAvatar} 
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTya3yidR9oENvi28M4HZMhUOOObxJFxvQExA&usqp=CAU"/>
-            <div className={classes.popoverHeaderText}>
-            <Typography>오현재</Typography>   
-            <Typography>가톨릭대학교</Typography>
-            <Typography>4학년</Typography>             
-            </div>
-                              </div>*/}
-                <CardHeader
-                  classes={{
-                    title: classes.title,
-                  }}
-                  avatar={
-                    <Avatar
-                      aria-label="recipe"
-                      className={classes.popoverAvatar}
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTya3yidR9oENvi28M4HZMhUOOObxJFxvQExA&usqp=CAU"
-                    ></Avatar>
-                  }
-                  title="오현재"
-                  subheader="가톨릭대학교"
-                ></CardHeader>
-                {/*<Divider classes ={{root : classes.divider}}/>*/}
-
-                <Typography className={classes.popoverTodayState}>
-                  오늘은 학교가는 날
-                </Typography>
-                <CardContent>
-                  <Typography className={classes.popoverText}>
-                    강의표
-                  </Typography>
-                  <Divider classes={{ root: classes.listdivider }} />
-                  <Typography className={classes.popoverText}>
-                    즐겨찾기
-                  </Typography>
-                  <Divider classes={{ root: classes.listdivider }} />
-                </CardContent>
-                <CardActions>
-                  <PageLink href="mypage">
-                    <Button className={classes.cardButton} variant="contained">
-                      마이 페이지
-                    </Button>
-                  </PageLink>
-                  <Button
-                    onClick={onClickLogout}
-                    className={classes.cardButton}
-                    variant="contained"
-                  >
-                    로그아웃
-                  </Button>
-                </CardActions>
-              </Card>
+              {me ? <MainProfileCard /> : <LoginNeededCard />}
             </Popover>
           </div>
         </Toolbar>
