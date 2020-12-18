@@ -1,11 +1,14 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {makeStyles} from '@material-ui/styles';
+import { useDispatch } from 'react-redux';
 import {Paper, Button,Divider} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import WikiContents from './wikicontents';
 import { editorContainerStyles } from '../styles/cssStyle'
 import 'react-quill/dist/quill.snow.css';
 import '../features/user/api'
+import { loadWiki } from './../features/wiki/action';
+
 
 interface IndexList {
     id : string,
@@ -40,23 +43,27 @@ const indexlist:IndexList[] = [{
 ]
 
 export default function WikiEditor(){
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(loadWiki({subjectId : 1}));
+    },[])
     const contentsRef = useRef([]);
     const classes = editorContainerStyles();
     const [isContentOpened, setIsContentOpened] = useState([]);
     const [isEditorOpened, setIsEditorOpened] = useState([]);
 
-     const onClickIndex = (id) => {  
+     const onClickIndex = (id : number) => {  
          let focusContent = indexlist.find(i => i.id === id);
          //contentsRef.current = focusContent;
          //contentsRef.current.focus();
      }
-    const openContent = (id) => {        
+    const openContent = (id :number) => {        
         if(isContentOpened.find(c=> c === id)){
             setIsContentOpened(isContentOpened => isContentOpened.filter(c=> c !== id));
         }
         else setIsContentOpened(isContentOpened => isContentOpened.concat(id));        
     } 
-    const openEditor = (id) => {
+    const openEditor = (id : number) => {
         if(isEditorOpened.find(e=> e === id)){
             setIsEditorOpened(isContentOpened => isContentOpened.filter(e=> e !== id));
         }

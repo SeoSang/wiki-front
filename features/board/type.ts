@@ -7,9 +7,11 @@ export interface BoardState {
   addingCommentSuccess: boolean;
   updatingPostSuccess: boolean;
   comments: Comment[];
+  page : number;
+  total : number;
 }
 export interface Post {
-  postId: number;
+  boardId: number;
   userId: number;
   subjectId: number;
   categoryId: number;
@@ -17,12 +19,13 @@ export interface Post {
   text: string;
   createDate: Date;
   updateDate: Date;
-  hitnum: number;
+  hitNum: number;
 }
 export interface AddPostFormData {
   userId: number;
   subjectId: number;
   categoryId: number;
+  createDate  : number;
   title: string;
   text: string;
 }

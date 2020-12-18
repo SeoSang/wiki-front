@@ -2,6 +2,7 @@ import { combineReducers, configureStore, createStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { UserState, PageInfo } from './user/type';
 import { BoardState } from './board/type';
+import { WikiState } from './wiki/type';
 import board from './board/boardSlice';
 import user from './user/userSclice';
 import subject from './subject/subjectSlice';

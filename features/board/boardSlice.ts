@@ -4,7 +4,7 @@ import { addComment, addPost, loadPost, loadPosts, updatePost } from './action';
 import { BoardState } from './type';
 
 const NAME = 'board';
-const AMOUNT = 8;
+const AMOUNT = 3;
 
 const initialState: BoardState = {
   post: null,
@@ -13,6 +13,9 @@ const initialState: BoardState = {
   isLoadingPost: false,
   isLoadingPosts: false,
   addingPostSuccess: false,
+  addingCommentSuccess: false,
+  page : 0,
+  total : 0,
   updatingPostSuccess: false,
 };
 
@@ -37,8 +40,8 @@ export const boardSlice = createSlice({
       // 성공
       state.isLoadingPost = false;
       console.log(action.payload);
-      state.post = action.payload.BoardVO;
-      state.comments = action.payload.CommentMap;
+      state.post = action.payload.data.BoardVO;
+      state.comments = action.payload.data.CommentMap;
     },
     [loadPost.rejected.type]: (
       state,
@@ -69,7 +72,8 @@ export const boardSlice = createSlice({
     [loadPosts.fulfilled.type]: (state, action) => {
       state.isLoadingPosts = false;
       console.log(action.payload);
-      state.posts = action.payload.data;
+      state.posts = action.payload.data.BoardMap;
+      state.total = action.payload.data.TotalCount;
     },
     [loadPosts.rejected.type]: (
       state,

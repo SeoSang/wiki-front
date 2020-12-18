@@ -10,7 +10,7 @@ import { AddPostFormData } from './type';
 import _ from 'lodash';
 
 const NAME = 'board';
-const AMOUNT = 8;
+const AMOUNT = 3;
 
 export const addPost = createAsyncThunk(
   `${NAME}/addPost`, // 액션 이름 정의
@@ -27,12 +27,11 @@ export const addPost = createAsyncThunk(
 
 export const loadPost = createAsyncThunk(
   `${NAME}/loadPost`, // 액션 이름 정의
-  async ({ postId }: { postId: number }, thunkAPI) => {
+  async ({ boardId }: { boardId: number }, thunkAPI) => {
     try {
-      const result = await loadPostAPI(postId);
-      // return _.pick(result, ['BoardVO', 'CommentMap']);
-      return result.data;
+      return await loadPostAPI(boardId);
     } catch (e) {
+      console.log(e)
       return thunkAPI.rejectWithValue(await e.response.data);
     }
   }
@@ -55,11 +54,11 @@ export const updatePost = createAsyncThunk(
 export const loadPosts = createAsyncThunk(
   `${NAME}/loadPosts`, // 액션 이름 정의
   async (
-    { categoryId, page }: { categoryId: number; page: number },
+    { subjectId, categoryId, page }: { subjectId:number; categoryId: number; page: number },
     thunkAPI
   ) => {
     try {
-      return await loadPostsAPI(categoryId, page, AMOUNT);
+      return await loadPostsAPI(subjectId, categoryId, page, AMOUNT);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }

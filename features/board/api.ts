@@ -3,20 +3,21 @@ import { BACKEND_URL } from '../../dummy/env';
 import { AddPostFormData } from './type';
 
 export const loadPostsAPI = async (
+  subjectId : number,
   categoryId: number,
   page: number,
   amount: number
 ) => {
   const result = await axios.get(`${BACKEND_URL}/board/list`, {
-    params: { categoryId, page, amount },
+    params: { subjectId, categoryId, page, amount },
   });
   console.log(result);
   return result;
 };
 
-export const loadPostAPI = async (postId: number) => {
+export const loadPostAPI = async (boardId : number) => {
   const result = await axios.get(`${BACKEND_URL}/board/viewDetail`, {
-    params: { postId },
+    params: { boardId : boardId },
   });
   return result;
 };
@@ -33,8 +34,8 @@ export const updatePostAPI = async (
 };
 
 export const addPostApi = async (post: AddPostFormData) => {
-  const result = await axios.post(`${BACKEND_URL}/board/insert`, post, {
-    withCredentials: true,
+  const result = await axios.post(`${BACKEND_URL}/board/insert`, { post },{
+    withCredentials : true
   });
   return result;
 };
