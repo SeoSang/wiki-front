@@ -28,7 +28,7 @@ export const userSlice = createSlice({
   initialState: initialState,
 
   reducers: {
-    resetUserState: (state) => {
+    resetUserState: state => {
       state = initialState;
     },
   },
