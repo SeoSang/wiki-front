@@ -1,12 +1,5 @@
 import clsx from 'clsx';
-import React, {
-  FC,
-  ReactComponentElement,
-  ReactElement,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import React, { FC, ReactComponentElement, ReactElement } from 'react';
 import st from './MainLayout.module.css';
 import {
   makeStyles,
@@ -42,6 +35,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import Avatar from '@material-ui/core/Avatar';
 // mobx
 import { useRouter } from 'next/dist/client/router';
@@ -279,7 +273,11 @@ const MainLayout: React.FC<{
               color="primary"
               onClick={handleClick}
             >
-              <AccountCircleIcon htmlColor="white" fontSize="large" />
+              {me ? (
+                <AccountCircleIcon htmlColor="white" fontSize="large" />
+              ) : (
+                <HelpOutlineIcon htmlColor="white" fontSize="large" />
+              )}
             </Button>
             <Popover
               id={id}
