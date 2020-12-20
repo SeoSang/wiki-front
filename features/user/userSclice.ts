@@ -19,6 +19,7 @@ const initialState: UserState = {
   isLogined: false,
   isRegistered: false,
   isDoubleCheckOK: false,
+  pwCheckModalOpen: false,
 };
 
 export const userSlice = createSlice({
@@ -28,8 +29,14 @@ export const userSlice = createSlice({
   initialState: initialState,
 
   reducers: {
-    resetUserState: state => {
+    resetUserState: (state) => {
       state = initialState;
+    },
+    openPwCheckModal: (state) => {
+      state.pwCheckModalOpen = true;
+    },
+    closePwCheckModal: (state) => {
+      state.pwCheckModalOpen = false;
     },
   },
   extraReducers: {
@@ -116,7 +123,11 @@ export const userSlice = createSlice({
   },
 });
 
-export const { resetUserState } = userSlice.actions;
+export const {
+  resetUserState,
+  openPwCheckModal,
+  closePwCheckModal,
+} = userSlice.actions;
 
 export const favoritesSelector = (state: RootState) => state.user.favorites;
 export const meSelector = (state: RootState) => state.user.me;

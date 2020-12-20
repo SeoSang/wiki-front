@@ -46,12 +46,14 @@ import { logout } from '../features/user/action';
 import MainProfileCard from '../components/MainProfileCard';
 import LoginNeededCard from '../components/LoginNeededCard';
 import { useTypedSelector } from '../features';
-import { meSelector } from '../features/user/userSclice';
+import { closePwCheckModal, meSelector } from '../features/user/userSclice';
+import { Backdrop, Fade, Modal, TextField } from '@material-ui/core';
+import PasswordCheckForm from '../form/PasswordCheckForm';
 // cookie
 
 const drawerWidth = 240;
 
-export const mainUseStyles = makeStyles((theme: Theme) =>
+export const mainUseStyles: any = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -71,6 +73,7 @@ export const mainUseStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
+
     menuButton: {
       marginRight: theme.spacing(2),
     },
@@ -187,6 +190,13 @@ export const mainUseStyles = makeStyles((theme: Theme) =>
       fontWeight: 'lighter',
       backgroundColor: theme.palette.primary.light,
     },
+    modal: {
+      position: 'absolute',
+      display: 'flex',
+      top: '50px',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
   })
 );
 
@@ -218,6 +228,7 @@ const MainLayout: React.FC<{
   const router = useRouter();
   const dispatch = useDispatch();
   const me = useTypedSelector(meSelector);
+  const { pwCheckModalOpen } = useTypedSelector((state) => state.user);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -293,7 +304,8 @@ const MainLayout: React.FC<{
                 horizontal: 'left',
               }}
             >
-              {me ? <MainProfileCard /> : <LoginNeededCard />}
+              {/* {me ? <MainProfileCard /> : <LoginNeededCard />} */}
+              {me ? <MainProfileCard /> : <MainProfileCard />}
             </Popover>
           </div>
         </Toolbar>
@@ -363,6 +375,24 @@ const MainLayout: React.FC<{
       >
         <div className={classes.drawerHeader} />
         {children}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={pwCheckModalOpen}
+          onClose={() => {
+            dispatch(closePwCheckModal());
+          }}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={pwCheckModalOpen}>
+            <PasswordCheckForm />
+          </Fade>
+        </Modal>
       </main>
     </div>
   );
