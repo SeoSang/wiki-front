@@ -39,6 +39,7 @@ function MyComponent() {
   const typ = useTypicalStyles();
   const div = useDivStyles();
   const st = useStyles();
+  const router = useRouter();
   const dispatch = useDispatch();
   const { subjects } = useTypedSelector((state) => state.subject);
   const ReactQuill =
@@ -53,6 +54,7 @@ function MyComponent() {
     dispatch(loadSubjects({}));
   }, []);
   const submitPost = () => {
+    router.replace({pathname :'board'})
     dispatch(
       addPost({
         post: {

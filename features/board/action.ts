@@ -5,9 +5,12 @@ import {
   addPostApi,
   updatePostAPI,
   addCommentAPI,
+  loadCommentsAPI,
+  deletePostApi
 } from './api';
-import { AddPostFormData } from './type';
+import { AddPostFormData, AddCommentFormData, UpdatePostFormData } from './type';
 import _ from 'lodash';
+import { UpdateWikiFormData } from './../wiki/type';
 
 const NAME = 'board';
 const AMOUNT = 3;
@@ -37,14 +40,30 @@ export const loadPost = createAsyncThunk(
   }
 );
 
+export const deletePost = createAsyncThunk(
+  `${NAME}/deletePost`,
+  async(
+    {boardId} : {boardId : number}, thunkAPI 
+  ) => {
+    try {
+      const result = await deletePostApi(boardId);
+      return result;
+    }
+    catch (e) {
+      console.log(e);
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
+  }
+)
+
 export const updatePost = createAsyncThunk(
   `${NAME}/updatePost`, // 액션 이름 정의
   async (
-    { postId, title, text }: { postId: number; title: string; text: string },
+    { post }: { post : UpdatePostFormData },
     thunkAPI
   ) => {
     try {
-      return await updatePostAPI(postId, title, text);
+      return await updatePostAPI(post);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }
@@ -65,18 +84,30 @@ export const loadPosts = createAsyncThunk(
   }
 );
 
+export const loadComments = createAsyncThunk(
+  `${NAME}/loadComments`,
+  async(
+    {boardId} : {boardId : number}, thunkAPI 
+  ) => {
+    try {
+      const result = await loadCommentsAPI(boardId);
+      return result;
+    }
+    catch (e){
+      console.log(e)
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+)
+
 export const addComment = createAsyncThunk(
   `${NAME}/addComment`, // 액션 이름 정의
   async (
-    {
-      userId,
-      boardId,
-      commentText,
-    }: { userId: number; boardId: number; commentText: string },
+    {comment}: {comment: AddCommentFormData},
     thunkAPI
   ) => {
     try {
-      const result = await addCommentAPI(userId, boardId, commentText);
+      const result = await addCommentAPI(comment);
       return _.pick(result, ['data, status']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);

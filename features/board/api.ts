@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BACKEND_URL } from '../../dummy/env';
-import { AddPostFormData } from './type';
+import { AddPostFormData, AddCommentFormData, UpdatePostFormData } from './type';
 
 export const loadPostsAPI = async (
   subjectId: number,
@@ -23,12 +23,10 @@ export const loadPostAPI = async (boardId: number) => {
 };
 
 export const updatePostAPI = async (
-  postId: number,
-  title: string,
-  text: string
+  post : UpdatePostFormData
 ) => {
-  const result = await axios.get(`${BACKEND_URL}/board/viewDetail`, {
-    params: { postId, title, text },
+  const result = await axios.put(`${BACKEND_URL}/board/update`, post,{
+    withCredentials : true
   });
   return result;
 };
@@ -40,14 +38,32 @@ export const addPostApi = async (post: AddPostFormData) => {
   return result;
 };
 
+export const deletePostApi = async(boardId : number) =>{
+  const result = await axios.delete(`${BACKEND_URL}/board/delete`, {
+    params : {
+      boardId : boardId
+    }
+  })
+  console.log(result);
+  return result;
+}
+
+export const loadCommentsAPI = async (
+  boardId : number
+) => {
+  const result = await axios.get(`${BACKEND_URL}/board/showComments/`,
+  {
+    params : boardId
+  })
+  return result;
+}
+
 export const addCommentAPI = async (
-  userId: number,
-  boardId: number,
-  commentText: string
+  comment : AddCommentFormData
 ) => {
   const result = await axios.post(
     `${BACKEND_URL}/board/inputComment`,
-    { userId, boardId, commentText },
+    comment,
     { withCredentials: true }
   );
   return result;

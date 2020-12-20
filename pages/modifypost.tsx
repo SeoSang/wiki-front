@@ -16,6 +16,7 @@ import { meSelector } from '../features/user/userSclice';
 import { useDispatch, useSelector } from 'react-redux';
 import { postSelector, postsSelector } from '../features/board/boardSlice';
 import { loadPost, updatePost } from '../features/board/action';
+import { useTypedSelector } from '../features';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,27 +30,29 @@ const useStyles = makeStyles((theme: Theme) =>
 function MyComponent() {
   const [title, setTitle] = useState('');
   const router = useRouter();
-  const { id } = router.query as { id: string };
+  const boardId = router.asPath.slice(15,17);
+  
   const typ = useTypicalStyles();
   const div = useDivStyles();
   const st = useStyles();
   const me = useSelector(meSelector);
   const post = useSelector(postSelector);
+  const userId = post?.usersVO?.userId; 
   const dispatch = useDispatch();
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
   const [text, setValue] = useState('');
-
+  
   useEffect(() => {
-    console.log({ id });
-    dispatch(loadPost({ postId: parseInt(id) }));
+    dispatch(loadPost({ boardId: parseInt(boardId) }));
     // if (!me || (post && me?.userId != post?.userId)) {
     // alert('당신의 게시글이 아니에요');
     // router.push('/board');
     // }
+
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {    
     if (post) {
       setTitle(post.title);
       setValue(post.text);
@@ -57,7 +60,8 @@ function MyComponent() {
   }, [post, post?.title]);
 
   const onSubmit = () => {
-    dispatch(updatePost({ postId: parseInt(id), title, text }));
+    dispatch(updatePost( {post : {boardId : parseInt(boardId), userId: parseInt(userId), title : title, text : text }}));
+    router.back();
   };
 
   return (
