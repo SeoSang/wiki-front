@@ -14,6 +14,11 @@ export const useDivStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       alignContent: 'center',
     },
+    centerStartFlex : {
+      display : 'flex',
+      justifyContent : 'flex-start',
+      alignItems : 'flex-start',
+    },
     centerColFlex: {
       display: 'flex',
       flexDirection: 'column',
@@ -26,7 +31,7 @@ export const useDivStyles = makeStyles((theme: Theme) =>
       justifyContent: 'space-around',
       alignItems: 'center',
     },
-    coloumCenterFlex: {
+    columnCenterFlex: {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -323,5 +328,11 @@ export const editorContainerStyles = makeStyles((props) => ({
       display : 'flex',
       justifyContent : 'space-between',
 
+  }
+}))
+
+export const boxStyles = makeStyles(()=>({
+  boxShadow : {    
+    boxShadow : '2px 2px 3.5px 2px rgba(1,1,1,0.2)'
   }
 }))

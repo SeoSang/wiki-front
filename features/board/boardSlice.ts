@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { addComment, addPost, loadPost, loadPosts, updatePost } from './action';
+import { addComment, addPost, loadPost, loadPosts, updatePost, loadComments, deletePost } from './action';
 import { BoardState } from './type';
 
 const NAME = 'board';
@@ -41,7 +41,7 @@ export const boardSlice = createSlice({
       state.isLoadingPost = false;
       console.log(action.payload);
       state.post = action.payload.data.BoardVO;
-      state.comments = action.payload.data.CommentMap;
+      state.comments = action.payload.data.commentMap;
     },
     [loadPost.rejected.type]: (
       state,
@@ -66,12 +66,25 @@ export const boardSlice = createSlice({
       state.updatingPostSuccess = false;
       alert('서버 에러가 발생했습니다.');
     },
+    [deletePost.pending.type] : (state, action) =>{
+
+    },
+    [deletePost.fulfilled.type] : (state, action) =>{
+      console.log('성공');
+    },
+    [deletePost.rejected.type] : (state, action) =>{
+      console.log(action);
+      console.log('ㅇㅎ류');
+    },
+
     [loadPosts.pending.type]: (state, action) => {
       state.isLoadingPosts = true;
     },
     [loadPosts.fulfilled.type]: (state, action) => {
       state.isLoadingPosts = false;
       console.log(action.payload);
+      state.posts = [];
+      state.total = 0;
       state.posts = action.payload.data.BoardMap;
       state.total = action.payload.data.TotalCount;
     },
@@ -97,6 +110,12 @@ export const boardSlice = createSlice({
       alert('오류가 발생하였습니다..');
       state.addingPostSuccess = false;
     },
+    [loadComments.pending.type] : (state, action) => {
+      
+    },
+    // [loadComments.fulfilled.type] : (state, action)=> {
+    //   state.comments = action.payload.data.
+    // },
     [addComment.fulfilled.type]: (state, action) => {
       alert('댓글 추가에 성공하셨습니다!');
       state.comments.push(action.payload.data);

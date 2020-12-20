@@ -44,7 +44,7 @@ const tableStyles = makeStyles({
   },
 });
 
-const columns = ['게시물 번호', '학번', '강의', '제목', '내용', '생성 날짜'];
+const columns = ['게시물 번호', '학번', '강의', '제목', '생성 날짜'];
 const PAGE_PER_BOARDS = 3;
 
 export default function Board() {
@@ -56,11 +56,11 @@ export default function Board() {
   const [pagearray , setPagearray] = useState<number[]>([]);
 
   useEffect(() => {
-    dispatch(loadPosts({ subjectId : 1,categoryId: 1, page: 1 }));  
-    console.log(pages);  
+    dispatch(loadPosts({ subjectId : 1,categoryId: 1, page: 1 }));      
   }, []);
 
-  useEffect(()=>{    
+  useEffect(()=>{
+     setPagearray([]);
      for(let i : number=1; i < pages+1; i++){
         setPagearray(pagearray => pagearray.concat(i));
     }   
@@ -69,6 +69,7 @@ export default function Board() {
     router.push({ pathname: '/post/', query: { id: boardId} });
   };
   const changePage = (value : number) => {
+    router.push({pathname:'/board/', query:{page : value}});
     dispatch(loadPosts({ subjectId : 1,categoryId: 1, page: value }));
   }
   return (
@@ -94,9 +95,10 @@ export default function Board() {
               <TableCell align="center">{p.userId}</TableCell>
               <TableCell align="center">{p.subjectId}</TableCell>
               <TableCell align="center">{p.title}</TableCell>
-              <TableCell align="center">
+              {/* <TableCell align="center">
                 {p.text.length < 10 ? p.text : p.text.slice(0, 10) + '...'}
-              </TableCell>
+                <div dangerouslySetInnerHTML={{ __html: p?.text }}></div>
+              </TableCell> */}
               <TableCell align="center">{p.createDate}</TableCell>
             </TableRow>
             ))}

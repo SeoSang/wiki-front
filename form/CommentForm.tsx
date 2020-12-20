@@ -59,15 +59,17 @@ const CommentForm = () => {
   const [commentText, setCommentText] = useState('');
   const dispatch = useDispatch();
   const onClickAddComment = () => {
-    if (!me) {
-      alert('로그인이 필요합니다!');
-      return;
-    }
+    // if (!me) {
+    //   alert('로그인이 필요합니다!');
+    //   return;
+    // }
     dispatch(
       addComment({
-        userId: me?.userId,
-        boardId: post!.boardId,
-        commentText,
+        comment: {
+          userId: 1,
+          boardId: 6,
+          commentText: commentText,
+        },
       })
     );
   };
