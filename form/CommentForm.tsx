@@ -66,7 +66,7 @@ const CommentForm = () => {
     dispatch(
       addComment({
         userId: me?.userId,
-        boardId: post!.postId,
+        boardId: post!.boardId,
         commentText,
       })
     );
