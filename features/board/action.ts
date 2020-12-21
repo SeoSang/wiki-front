@@ -23,6 +23,7 @@ export const addPost = createAsyncThunk(
       console.log(_.pick(result, ['status', 'data', 'statusText']));
       return _.pick(result, ['status', 'data', 'statusText']);
     } catch (e) {
+      console.log(e.response.data);
       return thunkAPI.rejectWithValue(await e.response.data);
     }
   }
@@ -79,6 +80,7 @@ export const loadPosts = createAsyncThunk(
     try {
       return await loadPostsAPI(subjectId, categoryId, page, AMOUNT);
     } catch (e) {
+      
       return thunkAPI.rejectWithValue(await e.response.data);
     }
   }

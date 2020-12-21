@@ -42,6 +42,7 @@ function MyComponent() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { subjects } = useTypedSelector((state) => state.subject);
+  const {isLoadingPosts} = useTypedSelector((state) => state.board)
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
   const [visible, setVisible] = useState(true);
@@ -61,7 +62,6 @@ function MyComponent() {
           userId: 1,
           subjectId: subjectValue,
           categoryId: categoryValue,
-          createDate: 2020,
           title: title,
           text: text,
         },

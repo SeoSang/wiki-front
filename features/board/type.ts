@@ -37,7 +37,6 @@ export interface AddPostFormData {
   userId: number;
   subjectId: number;
   categoryId: number;
-  createDate: number;
   title: string;
   text: string;
 }
