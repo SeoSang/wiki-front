@@ -54,16 +54,16 @@ function MyComponent() {
     dispatch(loadSubjects({}));
   }, []);
   const submitPost = () => {
-    router.replace({pathname :'board'})
+    // router.replace({pathname :'board'})
     dispatch(
       addPost({
         post: {
           userId: 1,
           subjectId: subjectValue,
           categoryId: categoryValue,
-          createDate : 2020, 
-          title : title,
-          text : text,
+          createDate: 2020,
+          title: title,
+          text: text,
         },
       })
     );
@@ -109,7 +109,7 @@ function MyComponent() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={subjectValue}              
+              value={subjectValue}
               onChange={handleSubjectChange}
             >
               {subjects?.map((subject) => (

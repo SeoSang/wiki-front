@@ -72,8 +72,8 @@ const Login = () => {
         setValidateText(`${key}를 입력해주세요!`);
         return;
       }
-      dispatch(login(data));
     }
+    dispatch(login(data));
     return;
   };
 

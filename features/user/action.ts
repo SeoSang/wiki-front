@@ -20,7 +20,8 @@ export const login = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      return await loginAPI(email, password);
+      const result = await loginAPI(email, password);
+      return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }
