@@ -3,6 +3,13 @@ import { BACKEND_URL } from '../../dummy/env';
 import { FavoriteSubjectInfo } from '../subject/type';
 import { RegisterFormData } from './type';
 
+export const loadMeAPI = async () => {
+  const result = await axios.get(`${BACKEND_URL}/api/main`, {
+    withCredentials: true,
+  });
+  return result;
+};
+
 export const loginAPI = async (email: string, password: string) => {
   const result = await axios.post(
     `${BACKEND_URL}/api/user/login`,
@@ -12,22 +19,15 @@ export const loginAPI = async (email: string, password: string) => {
     },
     {
       withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
     }
   );
   return result;
 };
 
 export const logoutAPI = async () => {
-  const result = await axios.post(
-    `${BACKEND_URL}/api/logout`,
-    {},
-    {
-      withCredentials: true,
-    }
-  );
+  const result = await axios.get(`${BACKEND_URL}/api/logout`, {
+    withCredentials: true,
+  });
   return result;
 };
 

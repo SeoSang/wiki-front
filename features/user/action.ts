@@ -7,11 +7,24 @@ import {
   loginAPI,
   logoutAPI,
   registerAPI,
+  loadMeAPI,
 } from './api';
 import { RegisterFormData } from './type';
 import _ from 'lodash';
 
 const NAME = 'user';
+
+export const loadMe = createAsyncThunk(
+  `${NAME}/loadMe`, // 액션 이름 정의
+  async ({}: {}, thunkAPI) => {
+    try {
+      const result = await loadMeAPI();
+      return _.pick(result, ['data', 'status', 'statusText']);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
+  }
+);
 
 export const login = createAsyncThunk(
   `${NAME}/login`, // 액션 이름 정의
@@ -21,6 +34,7 @@ export const login = createAsyncThunk(
   ) => {
     try {
       const result = await loginAPI(email, password);
+      console.log(result);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
@@ -30,7 +44,7 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   `${NAME}/logout`, // 액션 이름 정의
-  async ({}, thunkAPI) => {
+  async ({}: {}, thunkAPI) => {
     try {
       return await logoutAPI();
     } catch (e) {

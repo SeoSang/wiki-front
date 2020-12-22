@@ -9,6 +9,7 @@ export const loadSubjectsAPI = async () => {
 export const searchSubjectsAPI = async (searchName: string) => {
   const result = await axios.get(`${BACKEND_URL}/searchSubject`, {
     params: { searchName },
+    withCredentials: true,
   });
   return result;
 };

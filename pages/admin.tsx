@@ -10,6 +10,8 @@ import { useMarginStyles } from '../styles/cssStyle';
 import { VolumeUp } from '@material-ui/icons';
 import AccessibilityIcon from '@material-ui/icons/Accessibility';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import Board from '../components/Board';
+import ReportBoard from '../components/ReportBoard';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -61,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function FullWidthTabs() {
+export default function admin() {
   const classes = useStyles();
   const mar = useMarginStyles();
   const theme = useTheme();
@@ -106,13 +108,13 @@ export default function FullWidthTabs() {
           onChangeIndex={handleChangeIndex}
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
-            Item One
+            <Board categoryId={3} />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
             Item Two
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            Item Three
+            <ReportBoard />
           </TabPanel>
         </SwipeableViews>
       </div>

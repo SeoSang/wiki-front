@@ -4,6 +4,7 @@ import {
   addFavorite,
   deleteFavorite,
   doubleCheck,
+  loadMe,
   login,
   logout,
   register,
@@ -40,15 +41,22 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: {
-    [logout.pending.type]: (state, action) => {
+    [loadMe.pending.type]: (state, action) => {
       state = initialState;
     },
-    [logout.fulfilled.type]: (state, action) => {
-      alert('로그아웃 성공!');
-    },
-    [logout.rejected.type]: (state, action) => {
-      alert('로그아웃 비정상적 성공..');
+    [loadMe.fulfilled.type]: (state, action) => {
       console.log(action.payload);
+      state.me = action.payload.data.user;
+      state.isLogined = true;
+      state.favorites = action.payload.data.favorites;
+    },
+    [loadMe.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      state.me = null;
+      state.isLogined = false;
+      state.favorites = [];
     },
     [login.pending.type]: (state, action) => {
       state.loginLoading = true;
@@ -68,6 +76,16 @@ export const userSlice = createSlice({
       state.loginLoading = false;
       state.me = null;
       state.favorites = [];
+    },
+    [logout.pending.type]: (state, action) => {
+      state = initialState;
+    },
+    [logout.fulfilled.type]: (state, action) => {
+      alert('로그아웃 성공!');
+    },
+    [logout.rejected.type]: (state, action) => {
+      alert('로그아웃 비정상적 성공..');
+      console.log(action.payload);
     },
     [register.pending.type]: (state, action) => {
       state.isRegistered = false;

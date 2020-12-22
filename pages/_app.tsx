@@ -3,10 +3,19 @@ import MainLayout from '../layout/MainLayout';
 import '../styles/globals.scss';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from '../styles/theme';
-import { store } from '../features';
-import { Provider } from 'react-redux';
+import { store, useTypedSelector } from '../features';
+import { Provider, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { meSelector } from '../features/user/userSclice';
+import { loadMe } from '../features/user/action';
 
 function MyApp({ Component, pageProps }: AppPropsType) {
+  // const state = store.getState();
+  // useEffect(() => {
+  //   if (!state.user.me) {
+  //     store.dispatch(loadMe({}));
+  //   }
+  // }, []);
   return (
     <>
       <Provider store={store}>

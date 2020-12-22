@@ -59,7 +59,7 @@ const MainProfileCard = () => {
   };
 
   const onClickLogout = () => {
-    dispatch(logout());
+    dispatch(logout({}));
   };
 
   return (
