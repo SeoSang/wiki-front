@@ -21,6 +21,7 @@ export const loginAPI = async (email: string, password: string) => {
       withCredentials: true,
     }
   );
+  console.log(result);
   return result;
 };
 
