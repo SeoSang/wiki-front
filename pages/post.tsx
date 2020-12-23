@@ -5,7 +5,7 @@ import {
   makeStyles,
   Theme,
   Typography,
-  Button
+  Button,
 } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
@@ -26,21 +26,22 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     postContainer: {
       minHeight: '20vh',
-      backgroundColor: 'white',      
-      padding : theme.spacing(2),
-      marginTop : theme.spacing(4),
+      backgroundColor: 'white',
+      padding: theme.spacing(2),
+      marginTop: theme.spacing(4),
       width: '90%',
     },
-    postHeaderContainer :{
-      display : 'flex',
+    postHeaderContainer: {
+      display: 'flex',
+      width: '100%',
     },
-    headerTitle : {
-      flexWrap : 'wrap'
+    headerTitle: {
+      flexWrap: 'wrap',
     },
-    headerButtons : {
-      width : '90%',
-      display:'flex',
-      justifyContent : 'flex-end',
+    headerButtons: {
+      width: '90%',
+      display: 'flex',
+      justifyContent: 'flex-end',
     },
     textContainer: {
       height: '100%',
@@ -54,9 +55,9 @@ const useStyles = makeStyles((theme: Theme) =>
 const post = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { post }  = useTypedSelector((state)=> state.board);
-  
-  const id = router.asPath.slice(9,12);
+  const { post } = useTypedSelector((state) => state.board);
+
+  const id = router.asPath.slice(9, 12);
   const [error, setError] = useState(false);
   const st = useStyles();
   const div = useDivStyles();
@@ -66,15 +67,15 @@ const post = () => {
   const { comments } = useTypedSelector((state) => state.board);
   // const ReactQuill =
   //   typeof window === 'object' ? require('react-quill') : () => false;
-  
-  const onDeletePost = (id : number) =>{
-    alert('삭제되었습니다!')
+
+  const onDeletePost = (id: number) => {
+    alert('삭제되었습니다!');
     router.back();
-    dispatch(deletePost({ boardId : id}));
-  }
+    dispatch(deletePost({ boardId: id }));
+  };
 
   useEffect(() => {
-    dispatch(loadPost({boardId : parseInt(id)}));
+    dispatch(loadPost({ boardId: parseInt(id) }));
   }, []);
 
   if (error) return <div>에러가 발생하였습니다 ㅠ</div>;
@@ -82,16 +83,22 @@ const post = () => {
   return (
     <div className={div.columnCenterFlex}>
       <div className={div.startFlex}>
-        <Typography variant="h4">자유게시판</Typography>        
+        <Typography variant="h4">자유게시판</Typography>
       </div>
       <div className={st.postContainer}>
         <div className={st.postHeaderContainer}>
           <Typography className={clsx(mar.mar2, st.headerTitle)} variant="h5">
             {post?.title}
           </Typography>
-          <div className = {st.headerButtons}>
-            <Button onClick = {()=> router.push({pathname : '/modifypost/', query : {id : id}})}>수정</Button>
-            <Button onClick={()=> onDeletePost(parseInt(id))}>삭제</Button>
+          <div className={st.headerButtons}>
+            <Button
+              onClick={() =>
+                router.push({ pathname: '/modifypost/', query: { id: id } })
+              }
+            >
+              수정
+            </Button>
+            <Button onClick={() => onDeletePost(parseInt(id))}>삭제</Button>
           </div>
         </div>
         <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
@@ -107,7 +114,9 @@ const post = () => {
             <PhoneIphoneIcon></PhoneIphoneIcon>
           </Grid>
           <Grid container xs={9} md={6}>
-            <Typography variant="subtitle1">작성자 : {post?.usersVO?.studentName} </Typography>
+            <Typography variant="subtitle1">
+              작성자 : {post?.usersVO?.studentName}{' '}
+            </Typography>
           </Grid>
           {xs ? (
             <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
@@ -125,10 +134,10 @@ const post = () => {
         <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
         <div className={clsx(st.postContainer, div.centerStartFlex)}>
           <div dangerouslySetInnerHTML={{ __html: post?.text }}></div>
-        </div>      
+        </div>
       </div>
       {comments?.length != 0 ? (
-        comments?.map((comment) => (          
+        comments?.map((comment) => (
           <CommentCard
             key={`userID_${comment.student_name}`}
             author={comment.student_name}
@@ -137,9 +146,7 @@ const post = () => {
           />
         ))
       ) : (
-        <div>
-          아직 댓글이 작성되지 않았습니다
-        </div>          
+        <div>아직 댓글이 작성되지 않았습니다</div>
       )}
       <CommentForm></CommentForm>
     </div>

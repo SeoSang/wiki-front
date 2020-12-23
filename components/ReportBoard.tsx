@@ -24,6 +24,7 @@ import { CheckCircleOutline } from '@material-ui/icons';
 import { usePaddingStyles } from '../styles/cssStyle';
 import _ from 'lodash';
 import clsx from 'clsx';
+import moment from 'moment';
 
 const tableStyles = makeStyles({
   root: {
@@ -103,6 +104,7 @@ export default function ReportBoard() {
   const [anchorEls, setAnchorEls] = React.useState<(HTMLElement | null)[]>(
     _.fill(Array(dummy_reports.length), null)
   );
+  console.log(moment(1607266800000).format('LLL'));
 
   const handlePopoverOpen = (index: number) => (
     event: React.MouseEvent<HTMLElement, MouseEvent>
