@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { getAllReports } from './action';
+import { approveReport, getAllReports } from './action';
+import { approveReportAPI } from './api';
 import { AdminState, ReportInfo } from './type';
 
 export const NAME = 'admin';
@@ -27,6 +28,9 @@ export const adminSlice = createSlice({
       action: PayloadAction<{ message: string; status: number }>
     ) => {
       state.reports = [];
+    },
+    [approveReport.fulfilled.type]: (state, action) => {
+      state.reports = action.payload.reportList;
     },
   },
 });

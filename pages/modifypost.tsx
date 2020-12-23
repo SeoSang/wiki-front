@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import clsx from 'clsx';
 import { useRouter } from 'next/dist/client/router';
-import { meSelector } from '../features/user/userSclice';
+import { meSelector } from '../features/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { postSelector, postsSelector } from '../features/board/boardSlice';
 import { loadPost, updatePost } from '../features/board/action';
@@ -30,29 +30,28 @@ const useStyles = makeStyles((theme: Theme) =>
 function MyComponent() {
   const [title, setTitle] = useState('');
   const router = useRouter();
-  const boardId = router.asPath.slice(15,17);
-  
+  const boardId = router.asPath.slice(15, 17);
+
   const typ = useTypicalStyles();
   const div = useDivStyles();
   const st = useStyles();
   const me = useSelector(meSelector);
   const post = useSelector(postSelector);
-  const userId = post?.usersVO?.userId; 
+  const userId = post?.usersVO?.userId;
   const dispatch = useDispatch();
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
   const [text, setValue] = useState('');
-  
+
   useEffect(() => {
     dispatch(loadPost({ boardId: parseInt(boardId) }));
     // if (!me || (post && me?.userId != post?.userId)) {
     // alert('당신의 게시글이 아니에요');
     // router.push('/board');
     // }
-
   }, []);
 
-  useEffect(() => {    
+  useEffect(() => {
     if (post) {
       setTitle(post.title);
       setValue(post.text);
@@ -60,7 +59,16 @@ function MyComponent() {
   }, [post, post?.title]);
 
   const onSubmit = () => {
-    dispatch(updatePost( {post : {boardId : parseInt(boardId), userId: parseInt(userId), title : title, text : text }}));
+    dispatch(
+      updatePost({
+        post: {
+          boardId: parseInt(boardId),
+          userId: parseInt(userId),
+          title: title,
+          text: text,
+        },
+      })
+    );
     router.back();
   };
 
@@ -76,7 +84,7 @@ function MyComponent() {
         <Grid className={div.centerFlex} item xs={12} md={8}>
           <TextField
             value={title}
-            onChange={(e) => {
+            onChange={e => {
               setTitle(e.target.value);
             }}
             fullWidth

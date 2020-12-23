@@ -8,8 +8,9 @@ import {
   logoutAPI,
   registerAPI,
   loadMeAPI,
+  reportPostAPI,
 } from './api';
-import { RegisterFormData } from './type';
+import { RegisterFormData, ReportPostFormInfo } from './type';
 import _ from 'lodash';
 
 const NAME = 'user';
@@ -93,6 +94,18 @@ export const deleteFavorite = createAsyncThunk(
   async ({ favoriteId }: { favoriteId: number }, thunkAPI) => {
     try {
       const result = await deleteFavoriteAPI(favoriteId);
+      return _.pick(result, ['data', 'status']);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
+  }
+);
+
+export const reportPost = createAsyncThunk(
+  `${NAME}/reportPost`, // 액션 이름 정의
+  async (reportForm: ReportPostFormInfo, thunkAPI) => {
+    try {
+      const result = await reportPostAPI(reportForm);
       return _.pick(result, ['data', 'status']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);

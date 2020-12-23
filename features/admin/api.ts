@@ -7,3 +7,14 @@ export const getAllReportsAPI = async () => {
   });
   return result;
 };
+
+export const approveReportAPI = async (reportId: number, approve: number) => {
+  const result = await axios.post(
+    `${BACKEND_URL}/admin/approveReport`,
+    { reportId, approve },
+    {
+      withCredentials: true,
+    }
+  );
+  return result;
+};

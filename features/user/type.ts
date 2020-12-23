@@ -17,7 +17,6 @@ export interface UserState {
   isLogined: boolean;
   isRegistered: boolean;
   isDoubleCheckOK: boolean;
-  pwCheckModalOpen: boolean;
 }
 
 export interface RegisterFormData {
@@ -47,4 +46,10 @@ export interface PageInfo {
 
 export interface boardContentInfo {
   updatedPostId: number;
+}
+
+export interface ReportPostFormInfo {
+  userId: number;
+  boardId: number;
+  reportContent: string;
 }
