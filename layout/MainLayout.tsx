@@ -1,12 +1,6 @@
 import clsx from 'clsx';
 import React, { FC, ReactComponentElement, ReactElement } from 'react';
-import st from './MainLayout.module.css';
-import {
-  makeStyles,
-  useTheme,
-  Theme,
-  createStyles,
-} from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -31,174 +25,19 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardActions from '@material-ui/core/CardActions';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import Avatar from '@material-ui/core/Avatar';
-// mobx
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
-import { OverridableComponent } from '@material-ui/core/OverridableComponent';
 import { useDispatch } from 'react-redux';
-import { logout } from '../features/user/action';
 import MainProfileCard from '../components/MainProfileCard';
-import LoginNeededCard from '../components/LoginNeededCard';
 import { useTypedSelector } from '../features';
-import { closePwCheckModal, meSelector } from '../features/user/userSclice';
+import ReportPostModal from './modal/ReportPostModal';
+import { meSelector } from '../features/user/userSlice';
 import { Backdrop, Fade, Modal, TextField } from '@material-ui/core';
 import PasswordCheckForm from '../form/PasswordCheckForm';
-// cookie
-
-const drawerWidth = 240;
-
-export const mainUseStyles: any = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      // flexDirection: "column",
-    },
-    appBar: {
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    appBarShift: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    hide: {
-      display: 'none',
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    drawerHeader: {
-      display: 'flex',
-      alignItems: 'center',
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-      justifyContent: 'flex-end',
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: -drawerWidth,
-    },
-    contentShift: {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    },
-    menuRightContent: {
-      padding: theme.spacing(0, 1),
-    },
-    menuCenterDiv: {
-      flex: 1,
-      textAlign: 'center',
-    },
-    menuRightDiv: {
-      display: 'flex',
-      marginLeft: 'auto',
-    },
-    popoverContainer: {
-      width: '200px',
-      height: '290px',
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
-      justifyContent: 'center',
-    },
-    popoverHeader: {
-      display: 'flex',
-      margin: '15px 0px',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      border: '2px solid black',
-    },
-    popoverHeaderText: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    popoverAvatar: {
-      width: 60,
-      height: 60,
-      '&:hover': {
-        opacity: 0.5,
-      },
-    },
-    popoverTodayState: {
-      fontSize: '20px',
-      color: 'black',
-    },
-    popoverText: {
-      fontSize: '20px',
-      color: 'black',
-      transition: 'all .3s ease-in-out',
-      '&:hover': {
-        color: '#FF913B',
-      },
-    },
-    title: {
-      fontSize: 20,
-      backgroundColor: '#000000',
-      color: 'white',
-      width: '75%',
-      marginBottom: '5px',
-    },
-    divider: {
-      width: '160px',
-      height: '.5px',
-      backgroundColor: '#000000',
-    },
-    listdivider: {
-      width: '160px',
-      height: '.5px',
-      backgroundColor: '#000000',
-      margin: '5px 0px',
-    },
-    listAnimation: {
-      color: '#FF913B',
-      '&:hover': {
-        color: '#FF913B',
-      },
-    },
-    cardButton: {
-      fontSize: '0.7em',
-      color: 'white',
-      fontWeight: 'lighter',
-      backgroundColor: theme.palette.primary.light,
-    },
-    modal: {
-      position: 'absolute',
-      display: 'flex',
-      top: '50px',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  })
-);
+import PasswordCheckModal from './modal/PasswordCheckModal';
+import { mainUseStyles } from './MainLayoutStyle';
 
 const MenuItem = ({
   href,
@@ -228,7 +67,6 @@ const MainLayout: React.FC<{
   const router = useRouter();
   const dispatch = useDispatch();
   const me = useTypedSelector(meSelector);
-  const { pwCheckModalOpen } = useTypedSelector((state) => state.user);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -375,24 +213,8 @@ const MainLayout: React.FC<{
       >
         <div className={classes.drawerHeader} />
         {children}
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          className={classes.modal}
-          open={pwCheckModalOpen}
-          onClose={() => {
-            dispatch(closePwCheckModal());
-          }}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        >
-          <Fade in={pwCheckModalOpen}>
-            <PasswordCheckForm />
-          </Fade>
-        </Modal>
+        <PasswordCheckModal />
+        <ReportPostModal />
       </main>
     </div>
   );

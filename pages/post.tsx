@@ -6,8 +6,13 @@ import {
   Theme,
   Typography,
   Button,
+<<<<<<< HEAD
+=======
+  IconButton,
+>>>>>>> 0c8b45b55f2b8eb872b887de509e203c191444a5
 } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import { useRouter } from 'next/dist/client/router';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -21,6 +26,7 @@ import CommentForm from '../form/CommentForm';
 import { useDispatch } from 'react-redux';
 import { loadPost, deletePost } from '../features/board/action';
 import { useTypedSelector } from '../features';
+import { openReportPostModal } from '../features/etc/etcSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +39,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     postHeaderContainer: {
       display: 'flex',
+<<<<<<< HEAD
       width: '100%',
+=======
+>>>>>>> 0c8b45b55f2b8eb872b887de509e203c191444a5
     },
     headerTitle: {
       flexWrap: 'wrap',
@@ -48,6 +57,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     authorContainer: {
       padding: theme.spacing(1),
+    },
+    hitnumReportContainer: {
+      display: 'flex',
+      width: '100%',
+      alignItems: 'center',
+      justifyContent: 'end',
     },
   })
 );
@@ -64,7 +79,7 @@ const post = () => {
   const mar = useMarginStyles();
   const box = boxStyles();
   const xs = useMediaQuery('(min-width:600px)');
-  const { comments } = useTypedSelector((state) => state.board);
+  const { comments } = useTypedSelector(state => state.board);
   // const ReactQuill =
   //   typeof window === 'object' ? require('react-quill') : () => false;
 
@@ -127,8 +142,17 @@ const post = () => {
             {post?.createDate}
           </Grid>
           <Grid container xs={4} md={1}>
-            <VisibilityIcon></VisibilityIcon>
-            {post?.hitNum}
+            <div className={st.hitnumReportContainer}>
+              <VisibilityIcon></VisibilityIcon>
+              {post?.hitNum}
+              <IconButton
+                onClick={() => {
+                  dispatch(openReportPostModal());
+                }}
+              >
+                <NotificationImportantIcon />
+              </IconButton>
+            </div>
           </Grid>
         </Grid>
         <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
@@ -137,7 +161,11 @@ const post = () => {
         </div>
       </div>
       {comments?.length != 0 ? (
+<<<<<<< HEAD
         comments?.map((comment) => (
+=======
+        comments?.map(comment => (
+>>>>>>> 0c8b45b55f2b8eb872b887de509e203c191444a5
           <CommentCard
             key={`userID_${comment.student_name}`}
             author={comment.student_name}
