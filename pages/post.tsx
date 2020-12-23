@@ -6,10 +6,7 @@ import {
   Theme,
   Typography,
   Button,
-<<<<<<< HEAD
-=======
   IconButton,
->>>>>>> 0c8b45b55f2b8eb872b887de509e203c191444a5
 } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
@@ -39,10 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     postHeaderContainer: {
       display: 'flex',
-<<<<<<< HEAD
       width: '100%',
-=======
->>>>>>> 0c8b45b55f2b8eb872b887de509e203c191444a5
     },
     headerTitle: {
       flexWrap: 'wrap',
@@ -79,7 +73,7 @@ const post = () => {
   const mar = useMarginStyles();
   const box = boxStyles();
   const xs = useMediaQuery('(min-width:600px)');
-  const { comments } = useTypedSelector(state => state.board);
+  const { comments } = useTypedSelector((state) => state.board);
   // const ReactQuill =
   //   typeof window === 'object' ? require('react-quill') : () => false;
 
@@ -161,11 +155,7 @@ const post = () => {
         </div>
       </div>
       {comments?.length != 0 ? (
-<<<<<<< HEAD
         comments?.map((comment) => (
-=======
-        comments?.map(comment => (
->>>>>>> 0c8b45b55f2b8eb872b887de509e203c191444a5
           <CommentCard
             key={`userID_${comment.student_name}`}
             author={comment.student_name}

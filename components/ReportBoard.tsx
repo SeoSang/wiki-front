@@ -33,10 +33,10 @@ const tableStyles = makeStyles({
     alignItems: 'center',
   },
   rows: {
-    backgroundColor: 'white',
+    backgroundColor: '#c9cbff',
   },
   evenrows: {
-    backgroundColor: '#F0F3FF',
+    backgroundColor: '#eff8ff',
   },
   pagebuttons: {
     display: 'flex',
@@ -104,7 +104,7 @@ export default function ReportBoard() {
   const [anchorEls, setAnchorEls] = React.useState<(HTMLElement | null)[]>(
     _.fill(Array(dummy_reports.length), null)
   );
-  console.log(moment(1607266800000).format('LLL'));
+  // console.log(moment(1607266800000).format('LLL'));
 
   const handlePopoverOpen = (index: number) => (
     event: React.MouseEvent<HTMLElement, MouseEvent>

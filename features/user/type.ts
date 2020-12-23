@@ -8,6 +8,7 @@ export interface UserInfo {
   univName?: string;
   studentNumber: string;
   auth: number; // 1이 관리자, 2가 학생
+  reportedNum: number;
 }
 
 export interface UserState {

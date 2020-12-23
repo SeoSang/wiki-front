@@ -11,6 +11,7 @@ import { VolumeUp } from '@material-ui/icons';
 import AccessibilityIcon from '@material-ui/icons/Accessibility';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Board from '../components/Board';
+import UserBoard from '../components/UserBoard';
 import ReportBoard from '../components/ReportBoard';
 
 interface TabPanelProps {
@@ -111,7 +112,7 @@ export default function admin() {
             <Board categoryId={3} />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            Item Two
+            <UserBoard />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
             <ReportBoard />
