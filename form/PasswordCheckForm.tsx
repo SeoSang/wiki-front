@@ -3,6 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react';
 import { useDivStyles, useMarginStyles } from '../styles/cssStyle';
 import clsx from 'clsx';
+import { useDispatch } from 'react-redux';
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,6 +21,9 @@ const PasswordCheckForm = () => {
   const [password, setPassword] = useState('');
   const div = useDivStyles();
   const mar = useMarginStyles();
+  const dispatch = useDispatch();
+
+  const onClickPasswordCheck = () => {};
 
   return (
     <div className={classes.paper}>

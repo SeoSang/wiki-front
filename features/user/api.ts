@@ -93,3 +93,14 @@ export const reportPostAPI = async (reportForm: ReportPostFormInfo) => {
   });
   return result;
 };
+
+export const passwordCheckAPI = async (password: string) => {
+  const result = await axios.put(
+    `${BACKEND_URL}/api/user/passcheck`,
+    { password },
+    {
+      withCredentials: true,
+    }
+  );
+  return result;
+};

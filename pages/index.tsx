@@ -22,6 +22,9 @@ import clsx from 'clsx';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import { useTypedSelector } from '../features';
+import { loadMainNotices } from '../features/etc/action';
+import { useRouter } from 'next/dist/client/router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       border: '1px dashed gray',
       padding: theme.spacing(0.5),
+      cursor: 'pointer',
     },
     iconContainer: {
       height: '100%',
@@ -56,26 +60,40 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const dummyNotice = [
-  '공지1 입니다~~~~~',
-  '공지2 입니다~~~~~~~',
-  '공지3!',
-  '공지4',
-  '공지5',
-];
+// const dummyNotice = [
+//   '공지1 입니다~~~~~',
+//   '공지2 입니다~~~~~~~',
+//   '공지3!',
+//   '공지4',
+//   '공지5',
+// ];
 
 export default function Home() {
   const classes = useStyles();
   const [submitClicked, setSubmitClicked] = useState(false);
   const [searchName, setSearchName] = useState('');
   const dispatch = useDispatch();
+  const { notices } = useTypedSelector((state) => state.etc);
   const mar = useMarginStyles();
   const div = useDivStyles();
   const [noticeIndex, setNoticeIndex] = useState(0);
+  const router = useRouter();
+
+  useEffect(() => {
+    dispatch(loadMainNotices({}));
+  }, []);
 
   const onClickSearch = () => {
     dispatch(searchSubjects({ searchName }));
     setSubmitClicked(true);
+  };
+
+  const onClickNotice = () => {
+    if (notices)
+      router.push({
+        pathname: '/post/',
+        query: { id: notices[noticeIndex].boardId },
+      });
   };
 
   return (
@@ -98,7 +116,7 @@ export default function Home() {
         </Grid>
         <Grid item xs={8} md={10}>
           <div className={clsx(classes.noticeContainer, div.centerColFlex)}>
-            <div className={classes.notice}>
+            <div className={classes.notice} onClick={onClickNotice}>
               <Grid container>
                 <Grid item xs={2} md={1}>
                   <div
@@ -109,7 +127,7 @@ export default function Home() {
                 </Grid>
                 <Grid item xs={10} md={11}>
                   <Typography variant="h6" align="center">
-                    {dummyNotice[noticeIndex]}
+                    {notices ? notices[noticeIndex]?.text : '공지가 없습니다.'}
                   </Typography>
                 </Grid>
               </Grid>
@@ -119,7 +137,7 @@ export default function Home() {
         <Grid item xs={2} md={1}>
           <IconButton
             onClick={() => {
-              setNoticeIndex((noticeIndex + 1) % dummyNotice.length);
+              if (notices) setNoticeIndex((noticeIndex + 1) % notices.length);
             }}
           >
             <ArrowDropDownCircleIcon

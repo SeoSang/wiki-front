@@ -60,11 +60,11 @@ const Login = () => {
   const { me, isLogined } = useTypedSelector((state) => state.user);
 
   useEffect(() => {
-    if (isLogined) {
+    if (me) {
       alert('로그인이 됐으므로 홈으로 이동합니다!');
       router.push('/');
     }
-  }, [isLogined]);
+  }, [me]);
 
   const onSubmit = async (data: LoginFormValues) => {
     for (const [key, value] of Object.entries(data)) {

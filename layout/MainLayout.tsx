@@ -38,6 +38,7 @@ import { Backdrop, Fade, Modal, TextField } from '@material-ui/core';
 import PasswordCheckForm from '../form/PasswordCheckForm';
 import PasswordCheckModal from './modal/PasswordCheckModal';
 import { mainUseStyles } from './MainLayoutStyle';
+import LoginNeededCard from '../components/LoginNeededCard';
 
 const MenuItem = ({
   href,
@@ -143,7 +144,7 @@ const MainLayout: React.FC<{
               }}
             >
               {/* {me ? <MainProfileCard /> : <LoginNeededCard />} */}
-              {me ? <MainProfileCard /> : <MainProfileCard />}
+              {me ? <MainProfileCard /> : <LoginNeededCard />}
             </Popover>
           </div>
         </Toolbar>

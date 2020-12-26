@@ -9,6 +9,7 @@ import {
   registerAPI,
   loadMeAPI,
   reportPostAPI,
+  passwordCheckAPI,
 } from './api';
 import { RegisterFormData, ReportPostFormInfo } from './type';
 import _ from 'lodash';
@@ -106,6 +107,18 @@ export const reportPost = createAsyncThunk(
   async (reportForm: ReportPostFormInfo, thunkAPI) => {
     try {
       const result = await reportPostAPI(reportForm);
+      return _.pick(result, ['data', 'status']);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
+  }
+);
+
+export const passwordCheck = createAsyncThunk(
+  `${NAME}/passwordCheck`, // 액션 이름 정의
+  async (password: string, thunkAPI) => {
+    try {
+      const result = await passwordCheckAPI(password);
       return _.pick(result, ['data', 'status']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
