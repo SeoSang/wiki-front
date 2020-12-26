@@ -6,8 +6,8 @@ import { WikiState } from './wiki/type';
 import board from './board/boardSlice';
 import user from './user/userSlice';
 import subject from './subject/subjectSlice';
-import admin from './admin/adminSclie';
-import wiki from './wiki/wikiSlice'
+import admin from './admin/adminSlice';
+import wiki from './wiki/wikiSlice';
 import etc from './etc/etcSlice';
 import { SubjectState } from './subject/type';
 import { AdminState } from './admin/type';
@@ -19,7 +19,7 @@ export interface RootState {
   board: BoardState;
   subject: SubjectState;
   admin: AdminState;
-  wiki : WikiState;
+  wiki: WikiState;
   etc: EtcState;
 }
 
@@ -30,7 +30,7 @@ export const reducer = combineReducers({
   board,
   subject,
   admin,
-  wiki
+  wiki,
   etc,
 });
 
