@@ -5,7 +5,7 @@ import { UpdateWikiFormData } from './type';
 export const loadWikiApi = async (subjectId:number)=>{
     const result = await axios.get(`${BACKEND_URL}/wiki/showWiki/`,{
         params : {
-            subjectId : 2
+            subjectId : subjectId
         }
     })
     console.log(result);
@@ -13,6 +13,7 @@ export const loadWikiApi = async (subjectId:number)=>{
 }
 
 export const updateWikiApi = async (wiki: UpdateWikiFormData) => {
+  console.log('wiki  >>>>>> ', wiki);
   const result = await axios.put(`${BACKEND_URL}/wiki/editWiki`, wiki, {
     withCredentials: true,
   });

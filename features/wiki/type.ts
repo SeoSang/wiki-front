@@ -1,4 +1,4 @@
-export interface Classfication{
+export interface Classification{
     classificationId: number,
     userId: number,
     wikiId: number,
@@ -13,15 +13,25 @@ export interface Wiki{
     updateDate: Date,
 }
 
+export interface WikiSubject {
+    subjectId : number,
+    subjectName : number,
+    professor : number,
+    year : number,
+    semester : number,
+}
+
 export interface UpdateWikiFormData{
     classificationId : number,
-	subjectId: number,
+    subjectId: number,
+    wikiId : number,
     text : string
 }
 
 export interface WikiState{
-    classfication : Classfication[] | null,
+    classification : Classification[] | null,
     wiki : Wiki | null,
     isLoadingWiki: boolean;
     updatingWikiSuccess : boolean;    
+    wikiSubject : WikiSubject | null;
 }

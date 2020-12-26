@@ -67,7 +67,7 @@ export default function Board({
     dispatch(
       loadPosts({
         subjectId: subjectId ? subjectId : null,
-        categoryId,
+        categoryId : categoryId,
         page: 1,
       })
     );

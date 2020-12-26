@@ -7,6 +7,7 @@ import board from './board/boardSlice';
 import user from './user/userSclice';
 import subject from './subject/subjectSlice';
 import admin from './admin/adminSclie';
+import wiki from './wiki/wikiSlice'
 import { SubjectState } from './subject/type';
 import { AdminState } from './admin/type';
 
@@ -16,6 +17,7 @@ export interface RootState {
   board: BoardState;
   subject: SubjectState;
   admin: AdminState;
+  wiki : WikiState;
 }
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -25,6 +27,7 @@ export const reducer = combineReducers({
   board,
   subject,
   admin,
+  wiki
 });
 
 export const store = configureStore({ reducer: reducer });

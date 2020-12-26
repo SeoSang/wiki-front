@@ -5,10 +5,11 @@ import { WikiState } from './type';
 const NAME ='wiki';
 
 const initialState: WikiState = {
-    classfication : [],
+    classification : [],
     wiki : null,
     isLoadingWiki: false,
     updatingWikiSuccess : false,
+    wikiSubject : null,
 }
 
 export const wikiSlice = createSlice({
@@ -20,12 +21,13 @@ export const wikiSlice = createSlice({
     extraReducers :{
         [loadWiki.pending.type] : (state, action)=> {
             state.isLoadingWiki = true;
-            state.classfication = null;
+            state.classification = null;
         },
-        [loadWiki.fulfilled.type] : (state, action)=>{
+        [loadWiki.fulfilled.type] : (state, action)=>{            
             state.isLoadingWiki = false;
-            state.wiki = action.payload.data.wikiVo;
-            state.classfication = action.payload.data.classficationMap;
+            state.wiki = action.payload.data.wikiVO;
+            state.classification = action.payload.data.classificationList;
+            state.wikiSubject = action.payload.data.subjectVO;
         },
         [loadWiki.rejected.type] : (state,acion)=> {
             state.isLoadingWiki = false;
@@ -35,9 +37,10 @@ export const wikiSlice = createSlice({
             state.updatingWikiSuccess = false;
         },
         [updateWiki.fulfilled.type] : (state, action) =>{
+            console.log(action.payload.data);
             state.updatingWikiSuccess = true;
-            state.wiki = action.payload.data.WikiVo;
-            state.classfication?.concat(action.payload.data.classficationMap);
+            state.wiki = action.payload.data.wikiVO;
+            state.classification?.concat(action.payload.data.classificationList);
         },
         [updateWiki.rejected.type] : (state, action) => {
             state.updatingWikiSuccess = false;

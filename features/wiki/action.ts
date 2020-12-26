@@ -14,7 +14,7 @@ export const loadWiki = createAsyncThunk(
             return await loadWikiApi(subjectId)
         }
         catch(e){
-            console.log(e)
+            console.log(e.response.data);
             return thunkAPI.rejectWithValue(await e.response.data);
         }
     }
