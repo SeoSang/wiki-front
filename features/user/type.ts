@@ -8,6 +8,7 @@ export interface UserInfo {
   univName?: string;
   studentNumber: string;
   auth: number; // 1이 관리자, 2가 학생
+  reportedNum: number;
 }
 
 export interface UserState {
@@ -17,7 +18,6 @@ export interface UserState {
   isLogined: boolean;
   isRegistered: boolean;
   isDoubleCheckOK: boolean;
-  pwCheckModalOpen: boolean;
 }
 
 export interface RegisterFormData {
@@ -47,4 +47,10 @@ export interface PageInfo {
 
 export interface boardContentInfo {
   updatedPostId: number;
+}
+
+export interface ReportPostFormInfo {
+  userId: number;
+  boardId: number;
+  reportContent: string;
 }

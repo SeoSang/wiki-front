@@ -19,12 +19,9 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../features';
 import { logout } from '../features/user/action';
-import {
-  meSelector,
-  openPwCheckModal,
-  closePwCheckModal,
-} from '../features/user/userSclice';
-import { mainUseStyles } from '../layout/MainLayout';
+import { openPwCheckModal, closePwCheckModal } from '../features/etc/etcSlice';
+import { meSelector } from '../features/user/userSlice';
+import { mainUseStyles } from '../layout/MainLayoutStyle';
 import { PageLink } from './PageLink';
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -8,6 +8,7 @@ import {
   login,
   logout,
   register,
+  reportPost,
 } from './action';
 import { UserState } from './type';
 
@@ -20,7 +21,6 @@ const initialState: UserState = {
   isLogined: false,
   isRegistered: false,
   isDoubleCheckOK: false,
-  pwCheckModalOpen: false,
 };
 
 export const userSlice = createSlice({
@@ -30,14 +30,8 @@ export const userSlice = createSlice({
   initialState: initialState,
 
   reducers: {
-    resetUserState: (state) => {
+    resetUserState: state => {
       state = initialState;
-    },
-    openPwCheckModal: (state) => {
-      state.pwCheckModalOpen = true;
-    },
-    closePwCheckModal: (state) => {
-      state.pwCheckModalOpen = false;
     },
   },
   extraReducers: {
@@ -138,14 +132,19 @@ export const userSlice = createSlice({
     ) => {
       alert('즐겨 찾기 삭제 실패ㅠ');
     },
+    [reportPost.fulfilled.type]: (state, action) => {
+      alert('신고가 정상적으로 처리되었습니다!');
+    },
+    [reportPost.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number }>
+    ) => {
+      alert('신고에 문제가 발생했습니다');
+    },
   },
 });
 
-export const {
-  resetUserState,
-  openPwCheckModal,
-  closePwCheckModal,
-} = userSlice.actions;
+export const { resetUserState } = userSlice.actions;
 
 export const favoritesSelector = (state: RootState) => state.user.favorites;
 export const meSelector = (state: RootState) => state.user.me;

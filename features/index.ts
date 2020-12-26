@@ -4,12 +4,14 @@ import { UserState, PageInfo } from './user/type';
 import { BoardState } from './board/type';
 import { WikiState } from './wiki/type';
 import board from './board/boardSlice';
-import user from './user/userSclice';
+import user from './user/userSlice';
 import subject from './subject/subjectSlice';
 import admin from './admin/adminSclie';
 import wiki from './wiki/wikiSlice'
+import etc from './etc/etcSlice';
 import { SubjectState } from './subject/type';
 import { AdminState } from './admin/type';
+import { EtcState } from './etc/type';
 
 export interface RootState {
   user: UserState;
@@ -18,6 +20,7 @@ export interface RootState {
   subject: SubjectState;
   admin: AdminState;
   wiki : WikiState;
+  etc: EtcState;
 }
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -28,6 +31,7 @@ export const reducer = combineReducers({
   subject,
   admin,
   wiki
+  etc,
 });
 
 export const store = configureStore({ reducer: reducer });

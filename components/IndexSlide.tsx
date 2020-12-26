@@ -24,7 +24,7 @@ const LOGIN_NEEDED_CARD = [
 ];
 
 // count개씩 묶어주는 함수
-const bind3Subject = (subjects: Subject[], count: number) => {
+const bind3Subject = (subjects: SubjectInfo[], count: number) => {
   if (subjects.length <= count) return [subjects];
   const newSubjects = [];
   for (let i = 0; i < Math.floor(subjects.length / count); i++) {
@@ -94,7 +94,7 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
       <Grid container spacing={0}>
         {item.map((subject, i) => (
           <Grid
-            key={`${subject.name}_${i}`}
+            key={`${subject.subjectName}_${i}`}
             item
             xs={Math.floor(12 / item.length) as any}
           >
@@ -116,7 +116,7 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
                 ) : (
                   ''
                 )}
-                <Typography variant="h6">{subject.name}</Typography>
+                <Typography variant="h6">{subject.subjectName}</Typography>
                 {deleteable ? (
                   <IconButton
                     color="secondary"

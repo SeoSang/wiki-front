@@ -80,7 +80,8 @@ export const loadPosts = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      return await loadPostsAPI(subjectId, categoryId, page, AMOUNT);
+      const result = await loadPostsAPI(subjectId, categoryId, page, AMOUNT);
+      return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }

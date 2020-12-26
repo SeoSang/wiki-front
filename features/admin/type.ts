@@ -1,5 +1,10 @@
+import { UserInfo } from '../user/type';
+
 export interface AdminState {
   reports: ReportInfo[] | [];
+  reportsTotal: number;
+  users: UserInfo[] | [];
+  usersTotal: number;
 }
 
 export interface ReportInfo {

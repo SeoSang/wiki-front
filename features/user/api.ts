@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BACKEND_URL } from '../../dummy/env';
 import { FavoriteSubjectInfo } from '../subject/type';
-import { RegisterFormData } from './type';
+import { RegisterFormData, ReportPostFormInfo } from './type';
 
 export const loadMeAPI = async () => {
   const result = await axios.get(`${BACKEND_URL}/api/main`, {
@@ -21,6 +21,7 @@ export const loginAPI = async (email: string, password: string) => {
       withCredentials: true,
     }
   );
+  console.log(result);
   return result;
 };
 
@@ -81,6 +82,13 @@ export const addFavoriteAPI = async (favorite: FavoriteSubjectInfo) => {
 export const deleteFavoriteAPI = async (favoriteId: number) => {
   const result = await axios.delete(`${BACKEND_URL}/api/fav/delete`, {
     data: { favoriteId },
+    withCredentials: true,
+  });
+  return result;
+};
+
+export const reportPostAPI = async (reportForm: ReportPostFormInfo) => {
+  const result = await axios.put(`${BACKEND_URL}/report`, reportForm, {
     withCredentials: true,
   });
   return result;
