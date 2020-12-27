@@ -17,7 +17,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
 import { useTypedSelector } from '../features';
 import { useRouter } from 'next/dist/client/router';
-import { getAllReports } from '../features/admin/action';
+import { approveReport, getAllReports } from '../features/admin/action';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { CheckCircleOutline } from '@material-ui/icons';
@@ -126,6 +126,14 @@ export default function ReportBoard() {
     setPopupOpen(false);
   };
 
+  const onClickOk = (reportId: number) => () => {
+    dispatch(approveReport({ approve: 1, reportId }));
+  };
+
+  const onClickNo = (reportId: number) => () => {
+    dispatch(approveReport({ approve: 0, reportId }));
+  };
+
   // useEffect(() => {
   //   dispatch(getAllReports({}));
   // }, []);
@@ -205,10 +213,16 @@ export default function ReportBoard() {
               </TableCell>
               <TableCell align="center">{rp.reportedDate}</TableCell>
               <TableCell align="center">
-                <IconButton aria-label="accept">
+                <IconButton
+                  aria-label="accept"
+                  onClick={onClickOk(rp.reportId)}
+                >
                   <CheckCircleOutline color="primary" />
                 </IconButton>
-                <IconButton aria-label="reject">
+                <IconButton
+                  aria-label="reject"
+                  onClick={onClickNo(rp.reportId)}
+                >
                   <HighlightOffIcon color="error" />
                 </IconButton>
               </TableCell>

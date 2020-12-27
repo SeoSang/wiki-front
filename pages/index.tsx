@@ -44,6 +44,11 @@ const useStyles = makeStyles((theme: Theme) =>
       border: '1px dashed gray',
       padding: theme.spacing(0.5),
       cursor: 'pointer',
+      transition: 'background-color 0.5s ease',
+      '&:hover': {
+        background: '#ffce89',
+        opacity: 0.9,
+      },
     },
     iconContainer: {
       height: '100%',

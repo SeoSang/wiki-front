@@ -30,7 +30,7 @@ export const userSlice = createSlice({
   initialState: initialState,
 
   reducers: {
-    resetUserState: state => {
+    resetUserState: (state) => {
       state = initialState;
     },
   },
@@ -67,6 +67,9 @@ export const userSlice = createSlice({
       state,
       action: PayloadAction<{ message: string; status: number }>
     ) => {
+      console.log(action.payload);
+      console.log(action.type);
+      alert('로그인 실패!');
       state.loginLoading = false;
       state.me = null;
       state.favorites = [];
