@@ -169,7 +169,7 @@ const MainLayout: React.FC<{
         </div>
         <Divider />
         <List>
-          <MenuItem href="posts" tag="과목 보기">
+          <MenuItem href="subjects" tag="과목 보기">
             <AssignmentIcon />
           </MenuItem>
           <MenuItem href="rooms" tag="채팅">
