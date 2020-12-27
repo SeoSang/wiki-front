@@ -91,20 +91,33 @@ const dummy_reports = [
   },
 ];
 
+const AMOUNT_PER_BOARDS = 10;
+
 export default function ReportBoard() {
   const pad = usePaddingStyles();
 
   const dispatch = useDispatch();
-  const { reports } = useTypedSelector((state) => state.admin);
+  const { reports, reportsTotal } = useTypedSelector((state) => state.admin);
   const tab = tableStyles();
   const router = useRouter();
-  const pages = 15 / PAGE_PER_BOARDS;
   const [pagearray, setPagearray] = useState<number[]>([]);
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const [anchorEls, setAnchorEls] = React.useState<(HTMLElement | null)[]>(
     _.fill(Array(dummy_reports.length), null)
   );
   // console.log(moment(1607266800000).format('LLL'));
+
+  useEffect(() => {
+    dispatch(getAllReports({ page: 1, amount: AMOUNT_PER_BOARDS }));
+  }, []);
+
+  useEffect(() => {
+    const pages = Math.ceil(reportsTotal / PAGE_PER_BOARDS);
+    setPagearray([]);
+    for (let i: number = 1; i < pages + 1; i++) {
+      setPagearray((pagearray) => pagearray.concat(i));
+    }
+  }, [reportsTotal]);
 
   const handlePopoverOpen = (index: number) => (
     event: React.MouseEvent<HTMLElement, MouseEvent>
@@ -134,27 +147,19 @@ export default function ReportBoard() {
     dispatch(approveReport({ approve: 0, reportId }));
   };
 
-  // useEffect(() => {
-  //   dispatch(getAllReports({}));
-  // }, []);
+  const onClickPost = (reportId: number) => () => {
+    router.push({ pathname: '/post/', query: { id: reportId } });
+  };
+  const changePage = (page: number) => {
+    // router.push({ pathname: '/board/', query: { page: value } });
+    dispatch(
+      getAllReports({
+        page,
+        amount: AMOUNT_PER_BOARDS,
+      })
+    );
+  };
 
-  // useEffect(() => {
-  //   setPagearray([]);
-  //   for (let i: number = 1; i < pages + 1; i++) {
-  //     setPagearray((pagearray) => pagearray.concat(i));
-  //   }
-  // }, [total]);
-  // const onClickPost = (reportId: number) => () => {
-  //   router.push({ pathname: '/post/', query: { id: reportId } });
-  // };
-  // const changePage = (value: number) => {
-  //   // router.push({ pathname: '/board/', query: { page: value } });
-  //   dispatch(
-  //     loadPosts({
-  //       page: value,
-  //     })
-  //   );
-  // };
   return (
     <div className={tab.root}>
       <Table size="small" component={Paper}>
@@ -168,14 +173,14 @@ export default function ReportBoard() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {dummy_reports?.map((rp, index) => (
+          {reports?.map((rp, index) => (
             <TableRow
               key={`table_key_${rp.reportId}`}
               className={rp.reportId % 2 == 0 ? tab.evenrows : tab.rows}
             >
               <TableCell align="center">{rp.reportId}</TableCell>
-              <TableCell align="center">{rp.reportUserId}</TableCell>
-              <TableCell align="center">{rp.reportedUserId}</TableCell>
+              <TableCell align="center">{rp.reportUserEmail}</TableCell>
+              <TableCell align="center">{rp.reportedUserEmail}</TableCell>
               <TableCell
                 onMouseEnter={handlePopoverOpen(index)}
                 onMouseLeave={handlePopoverClose(index)}

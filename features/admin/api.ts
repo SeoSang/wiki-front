@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { BACKEND_URL } from '../../dummy/env';
 
-export const getAllReportsAPI = async () => {
+export const getAllReportsAPI = async (page: number, amount: number) => {
   const result = await axios.get(`${BACKEND_URL}/admin/getAllReports`, {
+    params: {
+      page,
+      amount,
+    },
     withCredentials: true,
   });
   return result;

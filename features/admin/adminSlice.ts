@@ -7,7 +7,7 @@ import { AdminState, ReportInfo } from './type';
 export const NAME = 'admin';
 
 const initialState: AdminState = {
-  reports: [],
+  reports: null,
   reportsTotal: 1,
   users: [],
   usersTotal: 1,
@@ -30,7 +30,7 @@ export const adminSlice = createSlice({
       state,
       action: PayloadAction<{ message: string; status: number }>
     ) => {
-      state.reports = [];
+      state.reports = null;
     },
     [getAllUsers.fulfilled.type]: (state, action) => {
       console.log(action.payload);

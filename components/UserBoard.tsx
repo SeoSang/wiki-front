@@ -17,7 +17,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
 import { useTypedSelector } from '../features';
 import { useRouter } from 'next/dist/client/router';
-import { getAllReports, getAllUsers } from '../features/admin/action';
+import { getAllUsers } from '../features/admin/action';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { CheckCircleOutline } from '@material-ui/icons';

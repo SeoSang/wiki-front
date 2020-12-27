@@ -21,6 +21,7 @@ import { useTypedSelector } from '../features';
 import { useRouter } from 'next/dist/client/router';
 import { addPost } from '../features/board/action';
 import { loadSubjects } from '../features/subject/action';
+import { meSelector } from '../features/user/userSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,7 +43,8 @@ function MyComponent() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { subjects } = useTypedSelector((state) => state.subject);
-  const {isLoadingPosts} = useTypedSelector((state) => state.board)
+  const { isLoadingPosts } = useTypedSelector((state) => state.board);
+  const me = useTypedSelector(meSelector);
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
   const [visible, setVisible] = useState(true);
@@ -59,7 +61,7 @@ function MyComponent() {
     dispatch(
       addPost({
         post: {
-          userId: 5,
+          userId: me ? me.userId : 2,
           subjectId: subjectValue,
           categoryId: categoryValue,
           title: title,

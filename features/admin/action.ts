@@ -7,9 +7,9 @@ const NAME = 'admin';
 
 export const getAllReports = createAsyncThunk(
   `${NAME}/getAllReports`, // 액션 이름 정의
-  async ({}: {}, thunkAPI) => {
+  async ({ page, amount }: { page: number; amount: number }, thunkAPI) => {
     try {
-      const result = await getAllReportsAPI();
+      const result = await getAllReportsAPI(page, amount);
       console.log(result);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
