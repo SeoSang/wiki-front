@@ -70,10 +70,10 @@ export const doubleCheckAPI = async (email: string) => {
   return result;
 };
 
-export const addFavoriteAPI = async (favorite: FavoriteSubjectInfo) => {
+export const addFavoriteAPI = async (userId: number, subjectId: number) => {
   const result = await axios.post(
     `${BACKEND_URL}/api/fav/insert`,
-    { favorite },
+    { userId, subjectId },
     { withCredentials: true }
   );
   return result;

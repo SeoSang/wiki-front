@@ -72,8 +72,8 @@ const MainProfileCard = () => {
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTya3yidR9oENvi28M4HZMhUOOObxJFxvQExA&usqp=CAU"
           ></Avatar>
         }
-        title="오현재"
-        subheader="가톨릭대학교"
+        title={me?.studentName}
+        subheader={me?.univName}
       ></CardHeader>
       {/*<Divider classes ={{root : classes.divider}}/>*/}
 

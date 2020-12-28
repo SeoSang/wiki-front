@@ -31,7 +31,7 @@ const theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: `"Noto Sans KR", "Roboto", "Helvetica", "Arial", sans-serif`,
+    fontFamily: `"NanumBarunGothic","Noto sans KR", "Roboto", "Helvetica", "Arial", sans-serif`,
   },
 });
 

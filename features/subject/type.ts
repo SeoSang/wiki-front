@@ -1,5 +1,5 @@
 export interface SubjectInfo {
-  subjectId: string;
+  subjectId: number;
   subjectName: string;
   iconName?: string;
   professor: string;
@@ -8,7 +8,7 @@ export interface SubjectInfo {
 }
 
 export interface FavoriteSubjectInfo extends SubjectInfo {
-  favSubjectId?: number; //PK
+  favSubjectId: number; //PK
   userId: number; //FK
 }
 

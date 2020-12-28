@@ -15,7 +15,7 @@ import { useDivStyles, useTypicalStyles } from '../styles/cssStyle';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import { useDispatch } from 'react-redux';
 import { deleteFavorite } from '../features/user/action';
-import { SubjectInfo } from '../features/subject/type';
+import { FavoriteSubjectInfo, SubjectInfo } from '../features/subject/type';
 
 const COUNT = 3;
 
@@ -24,7 +24,7 @@ const LOGIN_NEEDED_CARD = [
 ];
 
 // count개씩 묶어주는 함수
-const bind3Subject = (subjects: SubjectInfo[], count: number) => {
+const bind3Subject = (subjects: FavoriteSubjectInfo[], count: number) => {
   if (subjects.length <= count) return [subjects];
   const newSubjects = [];
   for (let i = 0; i < Math.floor(subjects.length / count); i++) {
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface ItemProps {
-  item: SubjectInfo[];
+  item: FavoriteSubjectInfo[];
   deleteable?: boolean;
 }
 
@@ -121,7 +121,7 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
                   <IconButton
                     color="secondary"
                     className={classes.deleteButton}
-                    onClick={onClickDelete(subject.favoriteId)}
+                    onClick={onClickDelete(subject.favSubjectId)}
                   >
                     <CloseIcon></CloseIcon>
                   </IconButton>
@@ -149,7 +149,7 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
 };
 
 interface SlideProps {
-  subjects: Subject[];
+  subjects: FavoriteSubjectInfo[];
   deleteable?: boolean;
 }
 
@@ -162,17 +162,15 @@ const IndexSlide: FC<SlideProps> = ({ subjects, deleteable }) => {
       animation="slide"
       className={classes.carousel}
     >
-      {bind3Subject(subjects ? subjects : LOGIN_NEEDED_CARD, COUNT).map(
-        (subject, i) => (
-          <>
-            <Item
-              key={`${subject[0].name}_${i}`}
-              item={subject}
-              deleteable={deleteable}
-            />
-          </>
-        )
-      )}
+      {bind3Subject(subjects, COUNT).map((subject, i) => (
+        <>
+          <Item
+            key={`${subject[0].subjectName}_${i}`}
+            item={subject}
+            deleteable={deleteable}
+          />
+        </>
+      ))}
     </Carousel>
   );
 };

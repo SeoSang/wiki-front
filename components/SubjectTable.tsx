@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -16,6 +16,9 @@ import {
   subjectsSelector,
 } from '../features/subject/subjectSlice';
 import { addFavorite } from '../features/user/action';
+import { useTypedSelector } from '../features';
+import { meSelector } from '../features/user/userSlice';
+import { useRouter } from 'next/dist/client/router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,9 +35,19 @@ const SubjectTable = () => {
   const classes = useStyles();
   const subjects = useSelector(subjectsSelector);
   const dispatch = useDispatch();
+  const me = useTypedSelector(meSelector);
+  useEffect(() => {
+    if (!me) {
+      alert('로그인하고 이용해주세요');
+      useRouter().push('/');
+    }
+  }, [me]);
 
-  const onClickAddFavorite = (favorite: FavoriteSubjectInfo) => () => {
-    dispatch(addFavorite({ favorite }));
+  const onClickAddFavorite = (favorite: {
+    userId: number;
+    subjectId: number;
+  }) => () => {
+    dispatch(addFavorite(favorite));
   };
 
   return (
@@ -68,11 +81,8 @@ const SubjectTable = () => {
                 <IconButton
                   color="secondary"
                   onClick={onClickAddFavorite({
-                    userId: 1,
+                    userId: me!.userId,
                     subjectId: subject.subjectId,
-                    subjectName: subject.subjectName,
-                    professor: subject.professor,
-                    iconName: '',
                   })}
                 >
                   <StarsIcon />

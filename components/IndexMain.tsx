@@ -1,5 +1,6 @@
 import {
   Button,
+  Card,
   createStyles,
   makeStyles,
   Theme,
@@ -26,6 +27,9 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
       width: '80%',
     },
+    card: {
+      padding: theme.spacing(4),
+    },
   })
 );
 
@@ -34,6 +38,7 @@ let intervalId = 0 as any;
 const IndexMain = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const { favorites } = useTypedSelector((state) => state.user);
 
   useEffect(() => {
     return () => {
@@ -50,40 +55,13 @@ const IndexMain = () => {
 
   return (
     <div className={classes.root}>
-      {/* <div className={classes.slide}>
-        <IndexSlide subjects={subjects}></IndexSlide>
-      </div>
-      <Typography variant="h4">{test}</Typography>
-      <div>
-        <Button variant="contained" onClick={intervalStart}>
-          카운팅 시작
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => {
-            clearInterval(intervalId);
-            intervalId = 0;
-          }}
-        >
-          카운팅 멈추기
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => {
-            //dispatch(addTest());
-          }}
-        >
-          그냥 올리기
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => {
-            //dispatch(resetTest());
-          }}
-        >
-          리셋
-        </Button>
-      </div> */}
+      {favorites.length == 0 ? (
+        <Card className={classes.card}>
+          <Typography variant="h3">즐겨찾기 등록된 과목이 없습니다.</Typography>
+        </Card>
+      ) : (
+        <IndexSlide subjects={favorites} />
+      )}
     </div>
   );
 };
