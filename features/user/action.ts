@@ -48,7 +48,8 @@ export const logout = createAsyncThunk(
   `${NAME}/logout`, // 액션 이름 정의
   async ({}: {}, thunkAPI) => {
     try {
-      return await logoutAPI();
+      const result = await logoutAPI();
+      return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }

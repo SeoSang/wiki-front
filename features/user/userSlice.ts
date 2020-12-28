@@ -27,16 +27,16 @@ export const userSlice = createSlice({
   name: NAME,
 
   // 초기값
-  initialState: initialState,
+  initialState: Object.assign(initialState, {}),
 
   reducers: {
     resetUserState: (state) => {
-      state = initialState;
+      state = Object.assign(initialState, {});
     },
   },
   extraReducers: {
     [loadMe.pending.type]: (state, action) => {
-      state = initialState;
+      state = Object.assign(initialState, {});
     },
     [loadMe.fulfilled.type]: (state, action) => {
       console.log(action.payload);
@@ -74,15 +74,14 @@ export const userSlice = createSlice({
       state.me = null;
       state.favorites = [];
     },
-    [logout.pending.type]: (state, action) => {
-      state = initialState;
-    },
     [logout.fulfilled.type]: (state, action) => {
       alert('로그아웃 성공!');
+      state.me = null;
+      state.favorites = [];
+      state.isLogined = false;
     },
     [logout.rejected.type]: (state, action) => {
       alert('로그아웃 비정상적 성공..');
-      console.log(action.payload);
     },
     [register.pending.type]: (state, action) => {
       state.isRegistered = false;
