@@ -26,6 +26,8 @@ export interface RegisterFormData {
   studentName: string;
   studentNumber: string;
   univName: string;
+  nickname?: string;
+  reportedNum?: number;
 }
 
 export interface posts {

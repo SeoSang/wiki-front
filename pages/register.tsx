@@ -81,6 +81,9 @@ export default function Register() {
         return;
       }
     }
+    delete data.nickname;
+    data.reportedNum = 0;
+    console.log(data);
     dispatch(register(data));
   };
 
