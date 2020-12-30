@@ -25,9 +25,9 @@ export const wikiSlice = createSlice({
         },
         [loadWiki.fulfilled.type] : (state, action)=>{            
             state.isLoadingWiki = false;
-            state.wiki = action.payload.data.wikiVO;
-            state.classification = action.payload.data.classificationList;
-            state.wikiSubject = action.payload.data.subjectVO;
+            state.wiki = action.payload.wikiVO;
+            state.classification = action.payload.classificationList;
+            state.wikiSubject = action.payload.subjectVO;
         },
         [loadWiki.rejected.type] : (state,acion)=> {
             state.isLoadingWiki = false;
@@ -39,8 +39,8 @@ export const wikiSlice = createSlice({
         [updateWiki.fulfilled.type] : (state, action) =>{
             console.log(action.payload.data);
             state.updatingWikiSuccess = true;
-            state.wiki = action.payload.data.wikiVO;
-            state.classification?.concat(action.payload.data.classificationList);
+            state.wiki = action.payload.data.wikiVO;    
+            state.classification = action.payload.data.classificationList;
         },
         [updateWiki.rejected.type] : (state, action) => {
             state.updatingWikiSuccess = false;

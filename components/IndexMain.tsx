@@ -55,7 +55,7 @@ const IndexMain = () => {
 
   return (
     <div className={classes.root}>
-      {favorites.length == 0 ? (
+      {favorites?.length == 0 ? (
         <Card className={classes.card}>
           <Typography variant="h3">즐겨찾기 등록된 과목이 없습니다.</Typography>
         </Card>

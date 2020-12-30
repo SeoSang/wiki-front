@@ -5,13 +5,17 @@ import {
   addPostApi,
   updatePostAPI,
   addCommentAPI,
+  updateCommentAPI,
   loadCommentsAPI,
+  deleteCommentAPI,
   deletePostApi,
 } from './api';
 import {
   AddPostFormData,
   AddCommentFormData,
   UpdatePostFormData,
+  UpdateCommentFormData,
+  DeleteCommentFormData
 } from './type';
 import _ from 'lodash';
 import { UpdateWikiFormData } from './../wiki/type';
@@ -39,7 +43,7 @@ export const loadPost = createAsyncThunk(
     try {
       return await loadPostAPI(boardId);
     } catch (e) {
-      console.log(e);
+      console.log(e.response.data);
       return thunkAPI.rejectWithValue(await e.response.data);
     }
   }
@@ -52,7 +56,7 @@ export const deletePost = createAsyncThunk(
       const result = await deletePostApi(boardId);
       return result;
     } catch (e) {
-      console.log(e);
+      console.log(e.response.data);
       return thunkAPI.rejectWithValue(await e.response.data);
     }
   }
@@ -112,3 +116,29 @@ export const addComment = createAsyncThunk(
     }
   }
 );
+
+export const updateComment = createAsyncThunk(
+  `${NAME}/updateComment`,
+  async ({comment} : {comment : UpdateCommentFormData}, thunkAPI) => {
+    try {
+      const result  = await updateCommentAPI(comment);
+      return result;
+    }
+    catch (e){
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
+  }
+)
+
+export const deleteComment = createAsyncThunk(
+  `${NAME}/deleteComment`,
+  async ({comment } : {comment : DeleteCommentFormData}, thunkAPI) => {
+      try{
+        const result = await deleteCommentAPI(comment);
+        return result;
+      }
+      catch (e){
+        return thunkAPI.rejectWithValue(await e.response.data);
+      }
+  }
+)

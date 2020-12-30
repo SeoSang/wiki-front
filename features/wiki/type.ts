@@ -21,6 +21,14 @@ export interface WikiSubject {
     semester : number,
 }
 
+export interface AddWikiFormData {
+    wikiId : number,  
+	userId : number,
+	groupId : string, //사용자가 입력 한 그룹
+	title : string,
+    text : string | null
+}
+
 export interface UpdateWikiFormData{
     classificationId : number,
     subjectId: number,

@@ -13,7 +13,7 @@ export interface BoardState {
 export interface Post {
   boardId: number;
   userId: number;
-  subjectId: number;
+  subjectId: number | null;
   categoryId: number;
   title: string;
   text: string;
@@ -35,7 +35,7 @@ export interface Author {
 
 export interface AddPostFormData {
   userId: number;
-  subjectId: number;
+  subjectId: number | null;
   categoryId: number;
   title: string;
   text: string;
@@ -58,7 +58,19 @@ export interface Comment {
 }
 
 export interface AddCommentFormData {
-  userId: number;
+  userId: number | undefined;
   boardId: number;
   commentText : string;
+}
+
+export interface UpdateCommentFormData {
+  userId: number | undefined;
+  boardId: number;
+  commentId : number;
+  commentText : string;
+}
+
+export interface DeleteCommentFormData {
+  commentId : number;
+  boardId : number;
 }

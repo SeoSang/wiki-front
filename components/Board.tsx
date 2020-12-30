@@ -8,6 +8,7 @@ import {
   TableBody,
   Button,
   List,
+  Typography
 } from '@material-ui/core/';
 import { Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -16,6 +17,8 @@ import { getPostsAPI } from '../features/user/api';
 import { useTypedSelector } from '../features';
 import { loadPosts } from './../features/board/action';
 import { useRouter } from 'next/dist/client/router';
+import { useDivStyles, useTypicalStyles } from './../styles/cssStyle';
+import clsx from 'clsx';
 
 const tableStyles = makeStyles({
   root: {
@@ -52,7 +55,7 @@ export default function Board({
   subjectId,
 }: {
   categoryId: number;
-  subjectId?: number;
+  subjectId?: number | null;
 }) {
   const dispatch = useDispatch();
   const { posts, page, total, isLoadingPosts } = useTypedSelector(
@@ -62,11 +65,13 @@ export default function Board({
   const router = useRouter();
   const pages = total / PAGE_PER_BOARDS;
   const [pagearray, setPagearray] = useState<number[]>([]);
+  const div = useDivStyles();
+  const typ = useTypicalStyles();
 
   useEffect(() => {
     dispatch(
       loadPosts({
-        subjectId: subjectId ? subjectId : null,
+        subjectId : 0,
         categoryId : categoryId,
         page: 1,
       })
@@ -94,6 +99,13 @@ export default function Board({
   };
   return (
     <div className={useStyles.root}>
+      <div className={clsx(div.centerStartFlex, typ.botMarginFour)}>
+        { categoryId == 1 ?
+          <Typography variant = "h4">과목게시판</Typography>
+        :
+          <Typography variant = "h4">자유게시판</Typography>
+        }
+      </div>
       <Table component={Paper}>
         <TableHead>
           <TableRow>
@@ -115,7 +127,7 @@ export default function Board({
             >
               <TableCell align="center">{p.boardId}</TableCell>
               <TableCell align="center">{p.userId}</TableCell>
-              <TableCell align="center">{p.subjectId}</TableCell>
+              <TableCell align="center">{p.subjectId === null ? "과목" : p.subjectId}</TableCell>
               <TableCell align="center">{p.title}</TableCell>
               {/* <TableCell align="center">
                 {p.text.length < 10 ? p.text : p.text.slice(0, 10) + '...'}

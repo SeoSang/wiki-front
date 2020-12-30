@@ -22,6 +22,7 @@ import { useRouter } from 'next/dist/client/router';
 import { addPost } from '../features/board/action';
 import { loadSubjects } from '../features/subject/action';
 import { meSelector } from '../features/user/userSlice';
+import { loadMe } from './../features/user/action';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,17 +52,19 @@ function MyComponent() {
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [categoryValue, setCategoryValue] = useState(1);
-  const [subjectValue, setSubjectValue] = useState(1);
+  const [subjectValue, setSubjectValue] = useState<number | null>(1);
 
   useEffect(() => {
     dispatch(loadSubjects({}));
+    dispatch(loadMe({}));
+    console.log(me);
   }, []);
   const submitPost = () => {
     // router.replace({pathname :'board'})
     dispatch(
       addPost({
         post: {
-          userId: me ? me.userId : 2,
+          userId: 2,
           subjectId: subjectValue,
           categoryId: categoryValue,
           title: title,
@@ -80,7 +83,7 @@ function MyComponent() {
     event: React.ChangeEvent<{ value: unknown }>
   ) => {
     const value: number = parseInt(event.target.value as string);
-    if (value == 2) setSubjectValue(0);
+    if (value == 2) setSubjectValue(null);
     setCategoryValue(value);
     setVisible(value != 2);
   };

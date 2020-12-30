@@ -1,15 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
 import {
-  addComment,
   addPost,
   loadPost,
   loadPosts,
   updatePost,
-  loadComments,
   deletePost,
+  loadComments,
+  addComment,
+  deleteComment,
+  updateComment,
 } from './action';
-import { BoardState } from './type';
+import { BoardState, Post } from './type';
 
 const NAME = 'board';
 const AMOUNT = 3;
@@ -48,6 +50,7 @@ export const boardSlice = createSlice({
       // 성공
       state.isLoadingPost = false;
       console.log(action.payload);
+      action.payload.data.BoardVO.subjectId = null;
       state.post = action.payload.data.BoardVO;
       state.comments = action.payload.data.commentMap;
     },
@@ -91,6 +94,9 @@ export const boardSlice = createSlice({
     [loadPosts.fulfilled.type]: (state, action) => {
       state.isLoadingPosts = false;
       console.log(action.payload);
+      action.payload.data.BoardMap.forEach((item : Post)=> {
+        if(item.subjectId == 0) item.subjectId = null;
+      })
       state.posts = action.payload.data.BoardMap;
       state.total = action.payload.data.TotalCount;
     },
@@ -132,6 +138,19 @@ export const boardSlice = createSlice({
       console.log(action);
       alert('오류가 발생하였습니다..');
     },
+    [updateComment.fulfilled.type] : (state, action) =>{
+      state.comments = action.payload.commentList;
+    },
+    [updateComment.rejected.type] : (state, action) => {
+      console.log(action);
+    },
+    [deleteComment.fulfilled.type] : (state, action)=> {
+      state.comments = action.payload.commentList;
+    },
+    [deleteComment.rejected.type] : (state, action) => {
+      console.log(action);
+    }
+
   },
 });
 

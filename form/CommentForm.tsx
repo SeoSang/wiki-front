@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-const CommentForm = () => {
+const CommentForm = ({boardId} : {boardId : number}) => {
   const st = useStyles();
   const { me } = useTypedSelector((state) => state.user);
   const { post, addingCommentSuccess } = useTypedSelector(
@@ -63,11 +63,12 @@ const CommentForm = () => {
     //   alert('로그인이 필요합니다!');
     //   return;
     // }
+    console.log(me?.userId, boardId, commentText);
     dispatch(
       addComment({
         comment: {
-          userId: 1,
-          boardId: 6,
+          userId: me?.userId,  
+          boardId: boardId,
           commentText: commentText,
         },
       })

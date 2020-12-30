@@ -24,7 +24,7 @@ import { useDispatch } from 'react-redux';
 import { loadPost, deletePost } from '../features/board/action';
 import { useTypedSelector } from '../features';
 import { openReportPostModal } from '../features/etc/etcSlice';
-
+import { loadMe } from './../features/user/action';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     postContainer: {
@@ -65,7 +65,7 @@ const post = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { post } = useTypedSelector((state) => state.board);
-
+  const { me } = useTypedSelector((state)=> state.user);
   const id = router.asPath.slice(9, 12);
   const [error, setError] = useState(false);
   const st = useStyles();
@@ -85,6 +85,7 @@ const post = () => {
 
   useEffect(() => {
     dispatch(loadPost({ boardId: parseInt(id) }));
+    dispatch(loadMe({}));
   }, []);
 
   if (error) return <div>에러가 발생하였습니다 ㅠ</div>;
@@ -93,6 +94,7 @@ const post = () => {
     <div className={div.columnCenterFlex}>
       <div className={div.startFlex}>
         <Typography variant="h4">자유게시판</Typography>
+        {me?.userId}
       </div>
       <div className={st.postContainer}>
         <div className={st.postHeaderContainer}>
@@ -157,16 +159,19 @@ const post = () => {
       {comments?.length != 0 ? (
         comments?.map((comment) => (
           <CommentCard
-            key={`userID_${comment.student_name}`}
-            author={comment.student_name}
-            createdAt={moment(comment.notice_date).format('MMMM Do / a h:mm')}
-            content={comment.comment_text}
+            key={`userID_${comment.studentName}`}
+            author={comment.studentName}
+            createdAt={moment(comment.noticeDate).format('MMMM Do / a h:mm')}
+            commentText={comment.commentText} 
+            userId ={comment.userId}
+            boardId = {parseInt(id)}
+            commentId = {comment.commentId}            
           />
         ))
       ) : (
         <div>아직 댓글이 작성되지 않았습니다</div>
       )}
-      <CommentForm></CommentForm>
+      <CommentForm boardId = {parseInt(id)}></CommentForm>
     </div>
   );
 };

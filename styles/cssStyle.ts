@@ -276,60 +276,6 @@ export const usePaddingStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const editorContainerStyles = makeStyles((props) => ({
-  root : {
-      minWidth : '100vh',
-      minHeight : '100vh',
-      display :'flex',
-      flexDirection : 'column',  
-      paddingLeft : '2%',
-  },
-  titleContainer : {
-      display : 'flex',
-      justifyContent : 'space-between'
-  },    
-  title : {
-      fontSize : '50px',
-  },
-  titleButton : {
-      marginRight : '100px',
-      height : '100%',
-      margin : '50px 0px',
-  },    
-  indexContainer : {
-      width : '33vh',
-      height : '100%',
-      display :'flex',
-      paddingLeft : '1%',
-      flexDirection : 'column',
-      alignItems : 'start',
-      paddingBottom : '1%'
-
-  },
-  indexTitle : {
-      width : '100%',
-      fontSize : '18px',
-      marginBottom : '4px',
-  },
-  indexSubTitle : {
-      width : '100%',
-      paddingLeft : '15px',
-      fontSize : '16px',
-      marginBottom : '4px',
-  },
-  contentsContainer : {
-      width : '98%',
-      display : 'flex',
-      flexDirection : 'column',
-      alignItems : 'start',
-      marginTop : '3%',
-  },
-  contentsRow : {
-      display : 'flex',
-      justifyContent : 'space-between',
-
-  }
-}))
 
 export const boxStyles = makeStyles(()=>({
   boxShadow : {    

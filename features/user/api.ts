@@ -6,11 +6,12 @@ import { RegisterFormData, ReportPostFormInfo } from './type';
 export const loadMeAPI = async () => {
   const result = await axios.get(`${BACKEND_URL}/api/main`, {
     withCredentials: true,
-  });
+  });  
   return result;
 };
 
 export const loginAPI = async (email: string, password: string) => {
+  console.log(email, password);
   const result = await axios.post(
     `${BACKEND_URL}/api/user/login`,
     {

@@ -25,16 +25,16 @@ const LOGIN_NEEDED_CARD = [
 
 // count개씩 묶어주는 함수
 const bind3Subject = (subjects: FavoriteSubjectInfo[], count: number) => {
-  if (subjects.length <= count) return [subjects];
+  if (subjects?.length <= count) return [subjects];
   const newSubjects = [];
-  for (let i = 0; i < Math.floor(subjects.length / count); i++) {
+  for (let i = 0; i < Math.floor(subjects?.length / count); i++) {
     const j = i * count;
     newSubjects.push([subjects[j], subjects[j + 1], subjects[j + 2]]);
   }
   // 3개씩 묶고 남은 것들 처리
-  let rest = Math.floor(subjects.length / count) * count;
+  let rest = Math.floor(subjects?.length / count) * count;
   const rests = [];
-  while (rest < subjects.length) {
+  while (rest < subjects?.length) {
     rests.push(subjects[rest]);
     rest++;
   }

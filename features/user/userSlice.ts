@@ -41,7 +41,7 @@ export const userSlice = createSlice({
     [loadMe.fulfilled.type]: (state, action) => {
       console.log(action.payload);
       state.me = action.payload.data.user;
-      state.isLogined = true;
+      state.isLogined = true;                   
       state.favorites = action.payload.data.favorites;
     },
     [loadMe.rejected.type]: (

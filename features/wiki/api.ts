@@ -8,8 +8,7 @@ export const loadWikiApi = async (subjectId:number)=>{
             subjectId : subjectId
         }
     })
-    console.log(result);
-    return result;
+    return result.data;
 }
 
 export const updateWikiApi = async (wiki: UpdateWikiFormData) => {
