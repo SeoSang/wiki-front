@@ -11,6 +11,8 @@ import {
   IconButton,
   Typography,
   Popover,
+  Popper,
+  Card,
 } from '@material-ui/core/';
 import { Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -56,41 +58,7 @@ const columns = [
   '신고날짜',
   '처리유무',
 ];
-const PAGE_PER_BOARDS = 3;
-
-const dummy_reports = [
-  {
-    reportId: 1,
-    reportUserId: 2,
-    reportedUserId: 3,
-    reportContent: '쟤가 나 때렸어!!!!!',
-    reportedDate: 3,
-  },
-  {
-    reportId: 2,
-    reportUserId: 2,
-    reportedUserId: 3,
-    reportContent:
-      '쟤가 나 때렸어!!!!! 긴 내용@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',
-    reportedDate: 3,
-  },
-  {
-    reportId: 3,
-    reportUserId: 2,
-    reportedUserId: 3,
-    reportContent: '쟤나때 짧은내용',
-    reportedDate: 3,
-  },
-  {
-    reportId: 4,
-    reportUserId: 2,
-    reportedUserId: 3,
-    reportContent:
-      '쟤나때 완전긴내용 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#############',
-    reportedDate: 3,
-  },
-];
-
+const PAGE_PER_BOARDS = 10;
 const AMOUNT_PER_BOARDS = 10;
 
 export default function ReportBoard() {
@@ -101,11 +69,18 @@ export default function ReportBoard() {
   const tab = tableStyles();
   const router = useRouter();
   const [pagearray, setPagearray] = useState<number[]>([]);
-  const [popupOpen, setPopupOpen] = useState<boolean>(false);
+  const [popupOpen, setPopupOpen] = useState<boolean[]>(
+    _.fill(Array(reports?.length), false)
+  );
+  const [popperOpen, setPopperOpen] = useState<boolean[]>(
+    _.fill(Array(reports?.length), false)
+  );
   const [anchorEls, setAnchorEls] = React.useState<(HTMLElement | null)[]>(
-    _.fill(Array(dummy_reports.length), null)
+    _.fill(Array(reports?.length), null)
   );
   // console.log(moment(1607266800000).format('LLL'));
+  console.log({ reports });
+  console.log({ anchorEls });
 
   useEffect(() => {
     dispatch(getAllReports({ page: 1, amount: AMOUNT_PER_BOARDS }));
@@ -117,6 +92,7 @@ export default function ReportBoard() {
     for (let i: number = 1; i < pages + 1; i++) {
       setPagearray((pagearray) => pagearray.concat(i));
     }
+    setAnchorEls(_.fill(Array(reports?.length), null));
   }, [reportsTotal]);
 
   const handlePopoverOpen = (index: number) => (
@@ -127,7 +103,11 @@ export default function ReportBoard() {
       event.currentTarget,
       ...anchorEls.slice(index + 1, anchorEls.length),
     ]);
-    setPopupOpen(true);
+    setPopupOpen([
+      ...popupOpen.slice(0, index),
+      true,
+      ...popupOpen.slice(index + 1, anchorEls.length),
+    ]);
   };
 
   const handlePopoverClose = (index: number) => () => {
@@ -136,7 +116,11 @@ export default function ReportBoard() {
       null,
       ...anchorEls.slice(index + 1, anchorEls.length),
     ]);
-    setPopupOpen(false);
+    setPopupOpen([
+      ...popupOpen.slice(0, index),
+      false,
+      ...popupOpen.slice(index + 1, anchorEls.length),
+    ]);
   };
 
   const onClickOk = (reportId: number) => () => {
@@ -147,9 +131,6 @@ export default function ReportBoard() {
     dispatch(approveReport({ approve: 0, reportId }));
   };
 
-  const onClickPost = (reportId: number) => () => {
-    router.push({ pathname: '/post/', query: { id: reportId } });
-  };
   const changePage = (page: number) => {
     // router.push({ pathname: '/board/', query: { page: value } });
     dispatch(
@@ -220,16 +201,41 @@ export default function ReportBoard() {
               <TableCell align="center">
                 <IconButton
                   aria-label="accept"
-                  onClick={onClickOk(rp.reportId)}
+                  onClick={() => {
+                    setPopperOpen([
+                      ...popperOpen.slice(0, index),
+                      true,
+                      ...popperOpen.slice(index + 1, anchorEls.length),
+                    ]);
+                  }}
                 >
                   <CheckCircleOutline color="primary" />
                 </IconButton>
                 <IconButton
                   aria-label="reject"
-                  onClick={onClickNo(rp.reportId)}
+                  onClick={() => {
+                    console.log(anchorEls.length);
+                    setPopperOpen([
+                      ..._.fill(Array(index), false),
+                      true,
+                      ..._.fill(Array(anchorEls.length - index - 1), false),
+                    ]);
+                  }}
                 >
                   <HighlightOffIcon color="error" />
                 </IconButton>
+                <Popper
+                  open={popperOpen[index]}
+                  placement="top"
+                  disablePortal={false}
+                  anchorEl={anchorEls[index]}
+                >
+                  <Card className={pad.pad2}>
+                    <Typography>정말 처리하시겠습니까?</Typography>
+                    <Button variant="contained">예</Button>
+                    <Button variant="contained">아니오</Button>
+                  </Card>
+                </Popper>
               </TableCell>
             </TableRow>
           ))}
@@ -239,7 +245,13 @@ export default function ReportBoard() {
       <div className={tab.pagebuttons}>
         {pagearray.map((value) => (
           <List className={tab.pagebuttons} key={value}>
-            <Button onClick={() => {}}>{value}</Button>
+            <Button
+              onClick={() => {
+                changePage(value);
+              }}
+            >
+              {value}
+            </Button>
           </List>
         ))}
       </div>

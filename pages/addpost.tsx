@@ -64,7 +64,7 @@ function MyComponent() {
     dispatch(
       addPost({
         post: {
-          userId: 2,
+          userId: me ? me.userId : 2,
           subjectId: subjectValue,
           categoryId: categoryValue,
           title: title,

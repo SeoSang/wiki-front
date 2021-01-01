@@ -57,7 +57,7 @@ const columns = [
   '이메일',
   '신고당한수',
 ];
-const PAGE_PER_BOARDS = 3;
+const PAGE_PER_BOARDS = 10;
 const AMOUNT_PER_BOARDS = 10;
 
 export default function UserBoard() {
@@ -74,7 +74,7 @@ export default function UserBoard() {
   }, []);
 
   useEffect(() => {
-    const pages = Math.ceil(usersTotal / PAGE_PER_BOARDS);
+    const pages = Math.ceil(usersTotal / AMOUNT_PER_BOARDS);
     setPagearray([]);
     for (let i: number = 1; i < pages; i++) {
       setPagearray((pagearray) => pagearray.concat(i));
