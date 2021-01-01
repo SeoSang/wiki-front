@@ -36,12 +36,6 @@ const SubjectTable = () => {
   const subjects = useSelector(subjectsSelector);
   const dispatch = useDispatch();
   const me = useTypedSelector(meSelector);
-  useEffect(() => {
-    if (!me) {
-      alert('로그인하고 이용해주세요');
-      useRouter().push('/');
-    }
-  }, [me]);
 
   const onClickAddFavorite = (favorite: {
     userId: number;
@@ -81,7 +75,7 @@ const SubjectTable = () => {
                 <IconButton
                   color="secondary"
                   onClick={onClickAddFavorite({
-                    userId: me!.userId,
+                    userId: me ? me.userId : 1,
                     subjectId: subject.subjectId,
                   })}
                 >

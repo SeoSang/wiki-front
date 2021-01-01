@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { doubleCheck, register } from '../features/user/action';
 import { useTypedSelector } from '../features';
 import { RegisterFormData } from '../features/user/type';
+import { useRouter } from 'next/dist/client/router';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -66,7 +67,16 @@ export default function Register() {
   } = useForm<RegisterFormData>();
   const [validateText, setValidateText] = useState<string>('');
   const dispatch = useDispatch();
-  const { isDoubleCheckOK } = useTypedSelector((state) => state.user);
+  const { isDoubleCheckOK, isRegistered } = useTypedSelector(
+    (state) => state.user
+  );
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isRegistered) {
+      router.push('/');
+    }
+  }, [isRegistered]);
 
   const onSubmit = async (data: RegisterFormData) => {
     console.log(data);
