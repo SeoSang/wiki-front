@@ -34,11 +34,16 @@ export const getAllUsers = createAsyncThunk(
 export const approveReport = createAsyncThunk(
   `${NAME}/approveReport`, // 액션 이름 정의
   async (
-    { reportId, approve }: { reportId: number; approve: number },
+    {
+      reportId,
+      approve,
+      page,
+      amount,
+    }: { reportId: number; approve: number; page: number; amount: number },
     thunkAPI
   ) => {
     try {
-      const result = await approveReportAPI(reportId, approve);
+      const result = await approveReportAPI(reportId, approve, page, amount);
       console.log(result);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {

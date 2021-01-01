@@ -72,15 +72,13 @@ export default function ReportBoard() {
   const [popupOpen, setPopupOpen] = useState<boolean[]>(
     _.fill(Array(reports?.length), false)
   );
-  const [popperOpen, setPopperOpen] = useState<boolean[]>(
-    _.fill(Array(reports?.length), false)
-  );
   const [anchorEls, setAnchorEls] = React.useState<(HTMLElement | null)[]>(
     _.fill(Array(reports?.length), null)
   );
+  const [popperAnchorEls, setPopperAnchorEls] = React.useState<
+    (HTMLElement | null)[]
+  >(_.fill(Array(reports?.length), null));
   // console.log(moment(1607266800000).format('LLL'));
-  console.log({ reports });
-  console.log({ anchorEls });
 
   useEffect(() => {
     dispatch(getAllReports({ page: 1, amount: AMOUNT_PER_BOARDS }));
@@ -93,6 +91,7 @@ export default function ReportBoard() {
       setPagearray((pagearray) => pagearray.concat(i));
     }
     setAnchorEls(_.fill(Array(reports?.length), null));
+    setPopperAnchorEls(_.fill(Array(reports?.length), null));
   }, [reportsTotal]);
 
   const handlePopoverOpen = (index: number) => (
@@ -124,11 +123,27 @@ export default function ReportBoard() {
   };
 
   const onClickOk = (reportId: number) => () => {
-    dispatch(approveReport({ approve: 1, reportId }));
+    dispatch(
+      approveReport({
+        approve: 1,
+        reportId,
+        page: 1,
+        amount: AMOUNT_PER_BOARDS,
+      })
+    );
+    setPopperAnchorEls(_.fill(Array(reports?.length), null));
   };
 
   const onClickNo = (reportId: number) => () => {
-    dispatch(approveReport({ approve: 0, reportId }));
+    setPopperAnchorEls(_.fill(Array(reports?.length), null));
+  };
+
+  const onClickPopper = (index: number) => (e: any) => {
+    setPopperAnchorEls([
+      ..._.fill(Array(index), null),
+      e.currentTarget,
+      ..._.fill(Array(popperAnchorEls.length - index - 1), null),
+    ]);
   };
 
   const changePage = (page: number) => {
@@ -199,41 +214,32 @@ export default function ReportBoard() {
               </TableCell>
               <TableCell align="center">{rp.reportedDate}</TableCell>
               <TableCell align="center">
-                <IconButton
-                  aria-label="accept"
-                  onClick={() => {
-                    setPopperOpen([
-                      ...popperOpen.slice(0, index),
-                      true,
-                      ...popperOpen.slice(index + 1, anchorEls.length),
-                    ]);
-                  }}
-                >
+                <IconButton aria-label="accept" onClick={onClickPopper(index)}>
                   <CheckCircleOutline color="primary" />
                 </IconButton>
-                <IconButton
-                  aria-label="reject"
-                  onClick={() => {
-                    console.log(anchorEls.length);
-                    setPopperOpen([
-                      ..._.fill(Array(index), false),
-                      true,
-                      ..._.fill(Array(anchorEls.length - index - 1), false),
-                    ]);
-                  }}
-                >
+                <IconButton aria-label="reject" onClick={onClickPopper(index)}>
                   <HighlightOffIcon color="error" />
                 </IconButton>
                 <Popper
-                  open={popperOpen[index]}
+                  open={Boolean(popperAnchorEls[index])}
                   placement="top"
-                  disablePortal={false}
-                  anchorEl={anchorEls[index]}
+                  // disablePortal={false}
+                  anchorEl={popperAnchorEls[index]}
                 >
                   <Card className={pad.pad2}>
                     <Typography>정말 처리하시겠습니까?</Typography>
-                    <Button variant="contained">예</Button>
-                    <Button variant="contained">아니오</Button>
+                    <Button
+                      variant="contained"
+                      onClick={onClickOk(rp.reportId)}
+                    >
+                      예
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={onClickNo(rp.reportId)}
+                    >
+                      아니오
+                    </Button>
                   </Card>
                 </Popper>
               </TableCell>

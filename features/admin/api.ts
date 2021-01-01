@@ -23,11 +23,20 @@ export const getAllUsersAPI = async (page: number, amount: number) => {
   return result;
 };
 
-export const approveReportAPI = async (reportId: number, approve: number) => {
+export const approveReportAPI = async (
+  reportId: number,
+  approve: number,
+  page: number,
+  amount: number
+) => {
   const result = await axios.post(
     `${BACKEND_URL}/admin/approveReport`,
     { reportId, approve },
     {
+      params: {
+        page,
+        amount,
+      },
       withCredentials: true,
     }
   );
