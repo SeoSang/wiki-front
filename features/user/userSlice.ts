@@ -41,7 +41,7 @@ export const userSlice = createSlice({
     [loadMe.fulfilled.type]: (state, action) => {
       console.log(action.payload);
       state.me = action.payload.data.user;
-      state.isLogined = true;                   
+      state.isLogined = true;
       state.favorites = action.payload.data.favorites;
     },
     [loadMe.rejected.type]: (
@@ -111,11 +111,12 @@ export const userSlice = createSlice({
       action: PayloadAction<{ message: string; status: number }>
     ) => {
       state.isDoubleCheckOK = false;
-      alert('서버 오류!!');
+      if (action.payload.status === 409) {
+        alert('중복된 이메일입니다!!');
+      } else alert('서버 오류!!');
     },
     [addFavorite.fulfilled.type]: (state, action) => {
       alert('즐겨찾기 추가 완료!');
-      console.log(action.payload);
     },
     [addFavorite.rejected.type]: (
       state,
