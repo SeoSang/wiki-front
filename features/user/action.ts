@@ -121,7 +121,7 @@ export const reportPost = createAsyncThunk(
 
 export const passwordCheck = createAsyncThunk(
   `${NAME}/passwordCheck`, // 액션 이름 정의
-  async (password: string, thunkAPI) => {
+  async ({ password }: { password: string }, thunkAPI) => {
     try {
       const result = await passwordCheckAPI(password);
       return _.pick(result, ['data', 'status']);

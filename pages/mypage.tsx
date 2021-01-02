@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -21,6 +21,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import clsx from 'clsx';
 import IndexSlide from '../components/IndexSlide';
 import { subjects } from '../dummy';
+import { useTypedSelector } from '../features';
+import { useRouter } from 'next/dist/client/router';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -104,16 +106,25 @@ const Column = ({ label, value }: { label: string; value: string }) => {
   );
 };
 
-export default function SimpleTabs() {
+export default function MyPage() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [passwordCheck, setPasswordCheck] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
+  const { passCheckOK } = useTypedSelector((state) => state.user);
+  const router = useRouter();
 
   const typ = useTypicalStyles();
   const div = useDivStyles();
+
+  useEffect(() => {
+    if (!passCheckOK) {
+      alert('마이페이지 버튼을 통해 비밀번호 인증 후 접근해주세요!');
+      router.push('/');
+    }
+  }, [passCheckOK]);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);

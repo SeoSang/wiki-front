@@ -67,7 +67,7 @@ export default function Register() {
   } = useForm<RegisterFormData>();
   const [validateText, setValidateText] = useState<string>('');
   const dispatch = useDispatch();
-  const { isDoubleCheckOK, isRegistered } = useTypedSelector(
+  const { isDoubleCheckOK, isRegistered, me } = useTypedSelector(
     (state) => state.user
   );
   const router = useRouter();
@@ -77,6 +77,13 @@ export default function Register() {
       router.push('/');
     }
   }, [isRegistered]);
+
+  useEffect(() => {
+    if (me) {
+      alert('이미 로그인이 되어있습니다.');
+      router.push('/');
+    }
+  }, [me]);
 
   const onSubmit = async (data: RegisterFormData) => {
     console.log(data);

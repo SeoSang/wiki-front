@@ -1,9 +1,12 @@
 import { Button, TextField, Theme, Typography } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/styles';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDivStyles, useMarginStyles } from '../styles/cssStyle';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
+import { passwordCheck } from '../features/user/action';
+import { useTypedSelector } from '../features';
+import { useRouter } from 'next/dist/client/router';
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,8 +25,16 @@ const PasswordCheckForm = () => {
   const div = useDivStyles();
   const mar = useMarginStyles();
   const dispatch = useDispatch();
+  const { passCheckOK } = useTypedSelector((state) => state.user);
+  const router = useRouter();
 
-  const onClickPasswordCheck = () => {};
+  useEffect(() => {
+    if (passCheckOK) router.push('/mypage');
+  }, [passCheckOK]);
+
+  const onClickPasswordCheck = () => {
+    dispatch(passwordCheck({ password }));
+  };
 
   return (
     <div className={classes.paper}>
@@ -39,7 +50,9 @@ const PasswordCheckForm = () => {
         ></TextField>
       </div>
       <div className={clsx(div.centerColFlex, mar.mar2)}>
-        <Button variant="contained">확인</Button>
+        <Button variant="contained" onClick={onClickPasswordCheck}>
+          확인
+        </Button>
       </div>
       <div className={clsx(div.centerColFlex)}>
         <Typography color="error" variant="caption">

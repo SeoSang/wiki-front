@@ -7,6 +7,7 @@ import {
   loadMe,
   login,
   logout,
+  passwordCheck,
   register,
   reportPost,
 } from './action';
@@ -21,6 +22,7 @@ const initialState: UserState = {
   isLogined: false,
   isRegistered: false,
   isDoubleCheckOK: false,
+  passCheckOK: false,
 };
 
 export const userSlice = createSlice({
@@ -46,7 +48,7 @@ export const userSlice = createSlice({
     },
     [loadMe.rejected.type]: (
       state,
-      action: PayloadAction<{ message: string; status: number }>
+      action: PayloadAction<{ message: string; status: number; data: any }>
     ) => {
       state.me = null;
       state.isLogined = false;
@@ -91,12 +93,20 @@ export const userSlice = createSlice({
       alert('회원가입 성공!');
       console.log(action.payload);
     },
-    [register.rejected.type]: (
-      state,
-      action: PayloadAction<{ message: string; status: number }>
-    ) => {
+    [register.rejected.type]: (state, action) => {
       state.isRegistered = false;
       alert('회원가입 실패!');
+    },
+    [passwordCheck.pending.type]: (state, action) => {
+      state.passCheckOK = false;
+    },
+    [passwordCheck.fulfilled.type]: (state, action) => {
+      state.passCheckOK = true;
+      alert('인증되었습니다!');
+    },
+    [passwordCheck.rejected.type]: (state, action) => {
+      state.passCheckOK = false;
+      alert('실패!');
     },
     [doubleCheck.pending.type]: (state, action) => {
       state.isDoubleCheckOK = false;
@@ -120,9 +130,10 @@ export const userSlice = createSlice({
     },
     [addFavorite.rejected.type]: (
       state,
-      action: PayloadAction<{ message: string; status: number }>
+      action: PayloadAction<{ message: string; status: number; data: any }>
     ) => {
       alert('즐겨 찾기 추가 실패ㅠ');
+      state.favorites = action.payload.data.favorite;
     },
     [deleteFavorite.fulfilled.type]: (state, action) => {
       alert('즐겨찾기 삭제 완료!');
