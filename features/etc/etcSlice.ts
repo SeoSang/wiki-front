@@ -8,6 +8,7 @@ export const NAME = 'user';
 const initialState: EtcState = {
   reportPostModalOpen: false,
   pwCheckModalOpen: false,
+  IconNameModalOpen: false,
   notices: null,
 };
 
@@ -30,6 +31,12 @@ export const etcSclie = createSlice({
     closeReportPostModal: (state) => {
       state.reportPostModalOpen = false;
     },
+    openIconNameModal: (state) => {
+      state.IconNameModalOpen = true;
+    },
+    closeIconNameModal: (state) => {
+      state.IconNameModalOpen = false;
+    },
   },
   extraReducers: {
     [loadMainNotices.pending.type]: (state, action) => {
@@ -49,6 +56,8 @@ export const {
   closePwCheckModal,
   openReportPostModal,
   closeReportPostModal,
+  openIconNameModal,
+  closeIconNameModal,
 } = etcSclie.actions;
 
 export default etcSclie.reducer;

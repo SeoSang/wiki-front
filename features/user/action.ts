@@ -83,11 +83,15 @@ export const doubleCheck = createAsyncThunk(
 export const addFavorite = createAsyncThunk(
   `${NAME}/addFavorite`, // 액션 이름 정의
   async (
-    { userId, subjectId }: { userId: number; subjectId: number },
+    {
+      userId,
+      subjectId,
+      iconName,
+    }: { userId: number; subjectId: number; iconName: string },
     thunkAPI
   ) => {
     try {
-      const result = await addFavoriteAPI(userId, subjectId);
+      const result = await addFavoriteAPI(userId, subjectId, iconName);
       return _.pick(result, ['data', 'status']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);

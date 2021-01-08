@@ -6,7 +6,7 @@ import { RegisterFormData, ReportPostFormInfo } from './type';
 export const loadMeAPI = async () => {
   const result = await axios.get(`${BACKEND_URL}/api/main`, {
     withCredentials: true,
-  });  
+  });
   return result;
 };
 
@@ -71,10 +71,14 @@ export const doubleCheckAPI = async (email: string) => {
   return result;
 };
 
-export const addFavoriteAPI = async (userId: number, subjectId: number) => {
+export const addFavoriteAPI = async (
+  userId: number,
+  subjectId: number,
+  iconName: string
+) => {
   const result = await axios.post(
     `${BACKEND_URL}/api/fav/insert`,
-    { userId, subjectId },
+    { userId, subjectId, iconName },
     { withCredentials: true }
   );
   return result;

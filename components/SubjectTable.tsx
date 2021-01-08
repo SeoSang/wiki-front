@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,7 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { IconButton } from '@material-ui/core';
 import StarsIcon from '@material-ui/icons/Stars';
-import { FavoriteSubjectInfo, SubjectInfo } from '../features/subject/type';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   subjectSelector,
@@ -19,6 +18,8 @@ import { addFavorite } from '../features/user/action';
 import { useTypedSelector } from '../features';
 import { meSelector } from '../features/user/userSlice';
 import { useRouter } from 'next/dist/client/router';
+import IconNameForm from '../form/IconNameForm';
+import { openIconNameModal } from '../features/etc/etcSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,12 +37,14 @@ const SubjectTable = () => {
   const subjects = useSelector(subjectsSelector);
   const dispatch = useDispatch();
   const me = useTypedSelector(meSelector);
+  const [iconName, setIconName] = useState('');
+  const { IconNameModalOpen } = useTypedSelector((state) => state.etc);
 
   const onClickAddFavorite = (favorite: {
     userId: number;
     subjectId: number;
   }) => () => {
-    dispatch(addFavorite(favorite));
+    dispatch(openIconNameModal());
   };
 
   return (
@@ -58,6 +61,11 @@ const SubjectTable = () => {
             <TableCell align="center">과목</TableCell>
             <TableCell align="center">교수님</TableCell>
             <TableCell align="center">즐겨찾기</TableCell>
+            {IconNameModalOpen ? (
+              <TableCell align="center">선택</TableCell>
+            ) : (
+              ''
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -82,6 +90,16 @@ const SubjectTable = () => {
                   <StarsIcon />
                 </IconButton>
               </TableCell>
+              {IconNameModalOpen ? (
+                <TableCell align="center">
+                  <IconNameForm
+                    userId={me!.userId}
+                    subjectId={subject.subjectId}
+                  ></IconNameForm>
+                </TableCell>
+              ) : (
+                ''
+              )}
             </TableRow>
           ))}
         </TableBody>
