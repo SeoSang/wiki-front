@@ -8,7 +8,7 @@ import {
   TableBody,
   Button,
   List,
-  Typography
+  Typography,
 } from '@material-ui/core/';
 import { Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -48,6 +48,7 @@ const tableStyles = makeStyles({
 });
 
 const columns = ['게시물 번호', '학번', '강의', '제목', '생성 날짜'];
+const BOARDS = ['에러', '과목게시판', '자유게시판', '공지게시판'];
 const PAGE_PER_BOARDS = 3;
 
 export default function Board({
@@ -71,8 +72,8 @@ export default function Board({
   useEffect(() => {
     dispatch(
       loadPosts({
-        subjectId : 0,
-        categoryId : categoryId,
+        subjectId: 0,
+        categoryId: categoryId,
         page: 1,
       })
     );
@@ -100,11 +101,7 @@ export default function Board({
   return (
     <div className={useStyles.root}>
       <div className={clsx(div.centerStartFlex, typ.botMarginFour)}>
-        { categoryId == 1 ?
-          <Typography variant = "h4">과목게시판</Typography>
-        :
-          <Typography variant = "h4">자유게시판</Typography>
-        }
+        {<Typography variant="h4">{BOARDS[categoryId]}</Typography>}
       </div>
       <Table component={Paper}>
         <TableHead>
@@ -127,7 +124,9 @@ export default function Board({
             >
               <TableCell align="center">{p.boardId}</TableCell>
               <TableCell align="center">{p.userId}</TableCell>
-              <TableCell align="center">{p.subjectId === null ? "과목" : p.subjectId}</TableCell>
+              <TableCell align="center">
+                {p.subjectId === null ? '과목' : p.subjectId}
+              </TableCell>
               <TableCell align="center">{p.title}</TableCell>
               {/* <TableCell align="center">
                 {p.text.length < 10 ? p.text : p.text.slice(0, 10) + '...'}

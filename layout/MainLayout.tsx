@@ -175,7 +175,7 @@ const MainLayout: React.FC<{
           <MenuItem href="rooms" tag="채팅">
             <ChatIcon />
           </MenuItem>
-          <MenuItem href="board" tag="게시판">
+          <MenuItem href="/board?id=2" tag="자유게시판">
             <AssignmentIcon />
           </MenuItem>
           <MenuItem href="post" tag="게시글확인">

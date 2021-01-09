@@ -25,6 +25,7 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { useTypedSelector } from '../features';
 import { loadMainNotices } from '../features/etc/action';
 import { useRouter } from 'next/dist/client/router';
+import { PageLink } from '../components/PageLink';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -111,12 +112,14 @@ export default function Home() {
       >
         <Grid item xs={2} md={1}>
           <div className={div.centerFlex}>
-            <IconButton>
-              <SurroundSoundIcon
-                color="secondary"
-                fontSize="large"
-              ></SurroundSoundIcon>
-            </IconButton>
+            <PageLink href="/board?id=3">
+              <IconButton>
+                <SurroundSoundIcon
+                  color="secondary"
+                  fontSize="large"
+                ></SurroundSoundIcon>
+              </IconButton>
+            </PageLink>
           </div>
         </Grid>
         <Grid item xs={8} md={10}>

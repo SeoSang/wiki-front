@@ -8,6 +8,7 @@ import {
   createStyles,
   Divider,
   Fade,
+  Grid,
   makeStyles,
   Modal,
   Theme,
@@ -22,7 +23,7 @@ import { logout } from '../features/user/action';
 import { openPwCheckModal, closePwCheckModal } from '../features/etc/etcSlice';
 import { meSelector } from '../features/user/userSlice';
 import { mainUseStyles } from '../layout/MainLayoutStyle';
-import { PageLink } from './PageLink';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,27 +62,32 @@ const MainProfileCard = () => {
 
   return (
     <Card className={classes.popoverContainer}>
-      <CardHeader
-        classes={{
-          title: classes.title,
-        }}
-        avatar={
-          <Avatar
-            aria-label="recipe"
-            className={classes.popoverAvatar}
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTya3yidR9oENvi28M4HZMhUOOObxJFxvQExA&usqp=CAU"
-          ></Avatar>
-        }
-        title={me?.studentName}
-        subheader={me?.univName}
-      ></CardHeader>
-      {/*<Divider classes ={{root : classes.divider}}/>*/}
+      <Grid container alignItems="center">
+        <Grid item md={4}>
+          <Grid container justify="center">
+            <Avatar alt="Remy Sharp" src="http://placeimg.com/640/480" />
+          </Grid>
+        </Grid>
+        <Grid item md={8}>
+          <CardHeader
+            title={me?.studentName}
+            subheader={me?.univName}
+          ></CardHeader>
+        </Grid>
+      </Grid>
 
-      <Typography className={classes.popoverTodayState}>
-        오늘은 학교가는 날
+      <Typography variant="subtitle2">
+        {moment().format('MMMM Do , h:mm:ss a')}
       </Typography>
       <CardContent>
-        <Typography className={classes.popoverText}>강의표</Typography>
+        <Typography
+          className={classes.popoverText}
+          onClick={() => {
+            alert('준비중입니다!');
+          }}
+        >
+          강의표
+        </Typography>
         <Divider classes={{ root: classes.listdivider }} />
         <Typography className={classes.popoverText}>즐겨찾기</Typography>
         <Divider classes={{ root: classes.listdivider }} />
