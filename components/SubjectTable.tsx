@@ -36,6 +36,7 @@ const SubjectTable = () => {
   const classes = useStyles();
   const subjects = useSelector(subjectsSelector);
   const dispatch = useDispatch();
+  const router = useRouter();
   const me = useTypedSelector(meSelector);
   const [iconName, setIconName] = useState('');
   const { IconNameModalOpen } = useTypedSelector((state) => state.etc);
@@ -46,6 +47,10 @@ const SubjectTable = () => {
   }) => () => {
     dispatch(openIconNameModal());
   };
+
+  const handleOpenWiki = (subjectId : number)=>{
+    router.push({pathname: 'wikieditor', query : {subjectId : subjectId}});
+  }
 
   return (
     <TableContainer component={Paper} className={classes.root}>
@@ -70,7 +75,7 @@ const SubjectTable = () => {
         </TableHead>
         <TableBody>
           {subjects?.map((subject, i) => (
-            <TableRow key={subject.subjectId}>
+            <TableRow key={subject.subjectId} onClick ={() => handleOpenWiki(subject.subjectId)}>
               <TableCell style={{ width: 120 }} align="center">
                 {subject.year}
               </TableCell>

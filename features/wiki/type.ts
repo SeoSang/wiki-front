@@ -22,7 +22,7 @@ export interface WikiSubject {
 }
 
 export interface AddWikiFormData {
-    wikiId : number,  
+    wikiId : number | undefined,  
 	userId : number,
 	groupId : string, //사용자가 입력 한 그룹
 	title : string,
@@ -31,15 +31,21 @@ export interface AddWikiFormData {
 
 export interface UpdateWikiFormData{
     classificationId : number,
-    subjectId: number,
     wikiId : number,
     text : string
+}
+
+export interface CheckClassificationData {
+    wikiId : number | undefined,  
+	groupId : string 
 }
 
 export interface WikiState{
     classification : Classification[] | null,
     wiki : Wiki | null,
     isLoadingWiki: boolean;
-    updatingWikiSuccess : boolean;    
+    updatingWikiSuccess : boolean;      
     wikiSubject : WikiSubject | null;
-}
+    isWikiExist : boolean;
+    isAble : number;
+}   

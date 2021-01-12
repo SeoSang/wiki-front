@@ -57,14 +57,14 @@ function MyComponent() {
   useEffect(() => {
     dispatch(loadSubjects({}));
     dispatch(loadMe({}));
-    console.log(me);
+    console.log(me); 
   }, []);
   const submitPost = () => {
     // router.replace({pathname :'board'})
     dispatch(
       addPost({
         post: {
-          userId: me ? me.userId : 2,
+          userId: me?.userId,
           subjectId: subjectValue,
           categoryId: categoryValue,
           title: title,

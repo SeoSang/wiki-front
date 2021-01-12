@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BACKEND_URL } from '../../dummy/env';
-import { UpdateWikiFormData } from './type';
+import { UpdateWikiFormData, AddWikiFormData, CheckClassificationData } from './type';
 
 export const loadWikiApi = async (subjectId:number)=>{
     const result = await axios.get(`${BACKEND_URL}/wiki/showWiki/`,{
@@ -8,6 +8,7 @@ export const loadWikiApi = async (subjectId:number)=>{
             subjectId : subjectId
         }
     })
+    console.log(result);
     return result.data;
 }
 
@@ -18,3 +19,20 @@ export const updateWikiApi = async (wiki: UpdateWikiFormData) => {
   });
   return result;
 };
+
+export const checkClassficationApi = async (form : CheckClassificationData) => {
+  console.log(form);
+  const result = await axios.post(`${BACKEND_URL}/wiki/checkClassification`, form, {
+    withCredentials: true,
+  });
+  return result.data;
+}
+
+export const addWikiApi = async( wiki : AddWikiFormData ) => {
+
+  const result = await axios.post(`${BACKEND_URL}/wiki/addClassification`, wiki, {
+    withCredentials: true,
+  })
+
+  return result.data;
+}

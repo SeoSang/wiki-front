@@ -9,22 +9,22 @@ import {
 } from './type';
 
 export const loadPostsAPI = async (
-  subjectId: number | null,
+  subjectId: number,
   categoryId: number,
   page: number,
   amount: number
-) => {
-  console.log(subjectId, categoryId, page, amount);
+) => {  
   const result = await axios.get(`${BACKEND_URL}/board/list`, {
     params: { subjectId, categoryId, page, amount },
   });
+  console.log('????????????????',result);
   return result;
 };
 
 export const loadPostAPI = async (boardId: number) => {
   const result = await axios.get(`${BACKEND_URL}/board/viewDetail`, {
     params: { boardId: boardId },
-  });
+  });  
   console.log(result);
   return result;
 };

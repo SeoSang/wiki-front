@@ -37,14 +37,17 @@ const useStyles = makeStyles((theme: Theme) =>
     postHeaderContainer: {
       display: 'flex',
       width: '100%',
-    },
+    },    
     headerTitle: {
-      flexWrap: 'wrap',
+      width: '50%',      
+      display: 'flex',
+      justifyContent: 'flex-start',
     },
     headerButtons: {
-      width: '90%',
+      width: '50%',
       display: 'flex',
       justifyContent: 'flex-end',
+      paddingRight : '20px'
     },
     textContainer: {
       height: '100%',
@@ -94,13 +97,14 @@ const post = () => {
     <div className={div.columnCenterFlex}>
       <div className={div.startFlex}>
         <Typography variant="h4">자유게시판</Typography>
-        {me?.userId}
       </div>
       <div className={st.postContainer}>
         <div className={st.postHeaderContainer}>
-          <Typography className={clsx(mar.mar2, st.headerTitle)} variant="h5">
-            {post?.title}
-          </Typography>
+          <div className={st.headerTitle}>
+            <Typography className={clsx(mar.mar2, st.headerTitle)} variant="h5">
+              {post?.title}
+            </Typography>          
+          </div>
           <div className={st.headerButtons}>
             <Button
               onClick={() =>
@@ -111,7 +115,7 @@ const post = () => {
             </Button>
             <Button onClick={() => onDeletePost(parseInt(id))}>삭제</Button>
           </div>
-        </div>
+        </div>        
         <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
         <Grid container className={st.authorContainer}>
           <Grid

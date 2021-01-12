@@ -178,12 +178,15 @@ const MainLayout: React.FC<{
           <MenuItem href="/board?id=2" tag="자유게시판">
             <AssignmentIcon />
           </MenuItem>
-          <MenuItem href="post" tag="게시글확인">
+          <MenuItem href="subjectboard" tag="과목 게시판">
+            <AssignmentIcon />
+          </MenuItem>
+          {/* <MenuItem href="post" tag="게시글확인">
             <AssignmentIcon />
           </MenuItem>
           <MenuItem href="addpost" tag="게시글추가">
             <AssignmentIcon />
-          </MenuItem>
+          </MenuItem> */}
         </List>
         <Divider />
         <List>

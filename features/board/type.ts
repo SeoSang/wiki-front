@@ -13,7 +13,7 @@ export interface BoardState {
 export interface Post {
   boardId: number;
   userId: number;
-  subjectId: number | null;
+  subjectId: number;
   categoryId: number;
   title: string;
   text: string;
@@ -21,6 +21,7 @@ export interface Post {
   updateDate: Date;
   hitNum: number;
   usersVO : Author | null;
+  subjectVO : SubjectInfo;
 }
 
 export interface Author {
@@ -33,9 +34,17 @@ export interface Author {
   userId: number
 }
 
+export interface SubjectInfo {
+  professor: string,
+  semester: number,
+  subjectId: number,
+  subjectName: string,
+  year: number
+}
+
 export interface AddPostFormData {
   userId: number;
-  subjectId: number | null;
+  subjectId: number;
   categoryId: number;
   title: string;
   text: string;

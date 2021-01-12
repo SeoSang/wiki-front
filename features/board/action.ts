@@ -80,7 +80,7 @@ export const loadPosts = createAsyncThunk(
       subjectId,
       categoryId,
       page,
-    }: { subjectId: number | null; categoryId: number; page: number },
+    }: { subjectId: number; categoryId: number; page: number },
     thunkAPI
   ) => {
     try {
