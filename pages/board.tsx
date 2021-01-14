@@ -5,7 +5,7 @@ import Board from '../components/Board';
 export default function freeBoard() {
   const router = useRouter();
   const { id } = router.query as { id: string };
-  return <Board categoryId={id ? parseInt(id) : 2} subjectId={null}></Board>;
+  return <Board categoryId={id ? parseInt(id) : 2} subjectId={0}></Board>;
 }
 
 // export async function getStaticProps() {

@@ -93,10 +93,7 @@ export const boardSlice = createSlice({
     },
     [loadPosts.fulfilled.type]: (state, action) => {
       state.isLoadingPosts = false;
-      console.log(action.payload);
-      action.payload.data.BoardMap.forEach((item : Post)=> {
-        if(item.subjectId == 0) item.subjectId = null;
-      })
+      console.log(action.payload);  
       state.posts = action.payload.data.BoardMap;
       state.total = action.payload.data.TotalCount;
     },

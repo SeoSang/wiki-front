@@ -37,6 +37,11 @@ export const useDivStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       flexDirection: 'column',
     },
+    endFlex : {
+      width : '100%', 
+      display : 'flex', 
+      justifyContent : 'flex-end'
+    }
   })
 );
 

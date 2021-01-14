@@ -1,7 +1,7 @@
 import { FavoriteSubjectInfo } from '../subject/type';
 
 export interface UserInfo {
-  userId: number;
+  userId: number | undefined;
   email: string;
   password?: string;
   studentName: string;

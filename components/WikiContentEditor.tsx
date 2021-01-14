@@ -9,7 +9,7 @@ const WikiContentEditor = ({ item, id}:{ item: Classification , id: number }) =>
         const [value, setValue] = useState(item.text);
         const ReactQuill = typeof window === 'object' ? require('react-quill') : () => false;
         const updateContent =() => {
-            dispatch(updateWiki({wiki : {wikiId : item.wikiId, classificationId : item.classificationId, subjectId : id, text : value }}));
+            dispatch(updateWiki({wiki : {wikiId : item.wikiId, classificationId : item.classificationId, text : value }}));
             alert('수정이 완료되었습니다.')            
         }
         return(
