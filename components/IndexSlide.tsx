@@ -11,7 +11,11 @@ import {
 } from '@material-ui/core';
 import { FC } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
-import { useDivStyles, useTypicalStyles } from '../styles/cssStyle';
+import {
+  useDivStyles,
+  useMarginStyles,
+  useTypicalStyles,
+} from '../styles/cssStyle';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import { useDispatch } from 'react-redux';
 import { deleteFavorite } from '../features/user/action';
@@ -44,14 +48,15 @@ const bind3Subject = (subjects: FavoriteSubjectInfo[], count: number) => {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    slide: {
-      padding: theme.spacing(2),
-    },
+    slide: {},
+    cardContainer: {},
     cardWrapper: {
+      padding: theme.spacing(2),
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
+      border: '1px solid gray',
     },
     carousel: {
       width: '100%',
@@ -83,6 +88,7 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
   const classes = useStyles();
   const div = useDivStyles();
   const typ = useTypicalStyles();
+  const mar = useMarginStyles();
   const dispatch = useDispatch();
 
   const onClickDelete = (favoriteId: number) => () => {
@@ -99,6 +105,9 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
             xs={Math.floor(12 / item.length) as any}
           >
             <div className={classes.cardWrapper}>
+              <Typography variant="h4" className={mar.marBottom1}>
+                {subject.iconName}
+              </Typography>
               <div
                 className={
                   deleteable
@@ -116,7 +125,11 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
                 ) : (
                   ''
                 )}
-                <Typography variant="h6">{subject.subjectName}</Typography>
+                <Typography variant="subtitle1">
+                  {'<'}
+                  {subject.subjectName}
+                  {'>'}
+                </Typography>
                 {deleteable ? (
                   <IconButton
                     color="secondary"
@@ -129,8 +142,8 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
                   ''
                 )}
               </div>
-              <Typography variant="subtitle1" className={typ.botMarginOne}>
-                {subject.professor}
+              <Typography variant="caption" className={typ.botMarginOne}>
+                {subject.professor} 교수님
               </Typography>
               <Button
                 variant="contained"

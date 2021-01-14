@@ -26,6 +26,7 @@ import { useTypedSelector } from '../features';
 import { loadMainNotices } from '../features/etc/action';
 import { useRouter } from 'next/dist/client/router';
 import { PageLink } from '../components/PageLink';
+import { loadMe } from '../features/user/action';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -87,6 +88,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(loadMainNotices({}));
+    dispatch(loadMe({}));
   }, []);
 
   const onClickSearch = () => {
