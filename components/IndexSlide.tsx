@@ -20,6 +20,7 @@ import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import { useDispatch } from 'react-redux';
 import { deleteFavorite } from '../features/user/action';
 import { FavoriteSubjectInfo, SubjectInfo } from '../features/subject/type';
+import { useTypedSelector } from '../features';
 
 const COUNT = 3;
 
@@ -151,7 +152,7 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
                 className="CheckButton"
                 style={{ color: 'white' }}
               >
-                자세히보기
+                Wiki
               </Button>
             </div>
           </Grid>
@@ -162,12 +163,12 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
 };
 
 interface SlideProps {
-  subjects: FavoriteSubjectInfo[];
   deleteable?: boolean;
 }
 
-const IndexSlide: FC<SlideProps> = ({ subjects, deleteable }) => {
+const IndexSlide: FC<SlideProps> = ({ deleteable }) => {
   const classes = useStyles();
+  const { favorites } = useTypedSelector((state) => state.user);
 
   return (
     <Carousel
@@ -175,7 +176,7 @@ const IndexSlide: FC<SlideProps> = ({ subjects, deleteable }) => {
       animation="slide"
       className={classes.carousel}
     >
-      {bind3Subject(subjects, COUNT).map((subject, i) => (
+      {bind3Subject(favorites, COUNT).map((subject, i) => (
         <>
           <Item
             key={`${subject[0].subjectName}_${i}`}

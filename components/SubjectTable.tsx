@@ -48,9 +48,9 @@ const SubjectTable = () => {
     dispatch(openIconNameModal());
   };
 
-  const handleOpenWiki = (subjectId : number)=>{
-    router.push({pathname: 'wikieditor', query : {subjectId : subjectId}});
-  }
+  const handleOpenWiki = (subjectId: number) => {
+    router.push({ pathname: 'wikieditor', query: { subjectId: subjectId } });
+  };
 
   return (
     <TableContainer component={Paper} className={classes.root}>
@@ -75,7 +75,10 @@ const SubjectTable = () => {
         </TableHead>
         <TableBody>
           {subjects?.map((subject, i) => (
-            <TableRow key={subject.subjectId} onClick ={() => handleOpenWiki(subject.subjectId)}>
+            <TableRow
+              key={subject.subjectId}
+              onClick={() => handleOpenWiki(subject.subjectId)}
+            >
               <TableCell style={{ width: 120 }} align="center">
                 {subject.year}
               </TableCell>
@@ -88,7 +91,7 @@ const SubjectTable = () => {
                 <IconButton
                   color="secondary"
                   onClick={onClickAddFavorite({
-                    userId: me ? me.userId : 1,
+                    userId: me ? me.userId! : 1,
                     subjectId: subject.subjectId,
                   })}
                 >
@@ -98,7 +101,7 @@ const SubjectTable = () => {
               {IconNameModalOpen ? (
                 <TableCell align="center">
                   <IconNameForm
-                    userId={me!.userId}
+                    userId={me!.userId!}
                     subjectId={subject.subjectId}
                   ></IconNameForm>
                 </TableCell>

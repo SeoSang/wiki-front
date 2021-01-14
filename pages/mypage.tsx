@@ -20,9 +20,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import clsx from 'clsx';
 import IndexSlide from '../components/IndexSlide';
-import { subjects } from '../dummy';
 import { useTypedSelector } from '../features';
 import { useRouter } from 'next/dist/client/router';
+import { meSelector } from '../features/user/userSlice';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -88,7 +88,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Column = ({ label, value }: { label: string; value: string }) => {
+const Column = ({
+  label,
+  value,
+  setValue,
+}: {
+  label: string;
+  value: string;
+  setValue: React.SetStateAction<any>;
+}) => {
   const typ = useTypicalStyles();
 
   return (
@@ -97,7 +105,12 @@ const Column = ({ label, value }: { label: string; value: string }) => {
         <Typography variant="h5">{label}</Typography>
       </Grid>
       <Grid item xs={7}>
-        <TextField value={value} />
+        <TextField
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+        />
       </Grid>
       <Grid item xs={2}>
         <Button variant="contained">수정</Button>
@@ -115,6 +128,7 @@ export default function MyPage() {
   const [newPassword, setNewPassword] = React.useState('');
   const { passCheckOK } = useTypedSelector((state) => state.user);
   const router = useRouter();
+  const me = useTypedSelector(meSelector);
 
   const typ = useTypicalStyles();
   const div = useDivStyles();
@@ -147,14 +161,17 @@ export default function MyPage() {
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
             <div className={div.centerFlex}>
-              <ProfileCard name="이름" email="ddrrpg@naver.com"></ProfileCard>
+              <ProfileCard
+                name={me ? me.studentName : '오류'}
+                email={me ? me.email : '오류'}
+              ></ProfileCard>
             </div>
           </Grid>
           <Grid className={classes.labelContainer} item xs={12} md={8}>
-            <Column label="닉네임" value="닉네임입니다." />
-            <Column label="학교" value="학교입니다." />
-            <Column label="학번" value="학번입니다." />
-            <Column label="권한" value="권한입니다." />
+            <Column label="이름" value={me ? me.studentName : '오류'} />
+            <Column label="학교" value={me ? me.univName! : '오류'} />
+            <Column label="학번" value={me ? me.studentNumber : '오류'} />
+            <Column label="권한" value={me ? me.auth.toString() : '오류'} />
           </Grid>
         </Grid>
       </TabPanel>
@@ -241,7 +258,7 @@ export default function MyPage() {
               <SearchIcon />
             </IconButton>
           </Paper>
-          <IndexSlide subjects={subjects} deleteable={true}></IndexSlide>
+          <IndexSlide deleteable={true}></IndexSlide>
         </div>
       </TabPanel>
     </div>
