@@ -36,6 +36,10 @@ const IconNameForm = ({
   const me = useTypedSelector(meSelector);
 
   const onClickAddFavorite = () => {
+    if (iconName.length <= 1) {
+      alert('길이가 너무 짧습니다!');
+      return;
+    }
     dispatch(addFavorite({ iconName, userId: me!.userId, subjectId }));
   };
 

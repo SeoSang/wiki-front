@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '80%',
       marginTop: theme.spacing(3),
     },
+    subject: {
+      cursor: 'pointer',
+      '&:hover': {
+        background: '#ffb26b',
+      },
+    },
   })
 );
 
@@ -75,17 +81,20 @@ const SubjectTable = () => {
         </TableHead>
         <TableBody>
           {subjects?.map((subject, i) => (
-            <TableRow
-              key={subject.subjectId}
-              onClick={() => handleOpenWiki(subject.subjectId)}
-            >
+            <TableRow key={subject.subjectId}>
               <TableCell style={{ width: 120 }} align="center">
                 {subject.year}
               </TableCell>
               <TableCell style={{ width: 80 }} align="center">
                 {subject.semester}
               </TableCell>
-              <TableCell align="center">{subject.subjectName}</TableCell>
+              <TableCell
+                align="center"
+                className={classes.subject}
+                onClick={() => handleOpenWiki(subject.subjectId)}
+              >
+                {subject.subjectName}
+              </TableCell>
               <TableCell align="center">{subject.professor}</TableCell>
               <TableCell style={{ width: 120 }} align="center">
                 <IconButton
