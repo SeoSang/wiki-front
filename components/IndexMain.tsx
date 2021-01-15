@@ -8,7 +8,6 @@ import {
 } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { subjects } from '../dummy';
 import { useTypedSelector } from '../features';
 //import { addTest, resetTest } from '../features/user/userSclice';
 import IndexSlide from './IndexSlide';

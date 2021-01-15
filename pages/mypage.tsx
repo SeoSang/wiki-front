@@ -91,11 +91,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Column = ({
   label,
   value,
-  setValue,
+  setStateFunc,
 }: {
   label: string;
   value: string;
-  setValue: React.SetStateAction<any>;
+  setStateFunc: React.SetStateAction<any>;
 }) => {
   const typ = useTypicalStyles();
 
@@ -107,8 +107,8 @@ const Column = ({
       <Grid item xs={7}>
         <TextField
           value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
+          onChange={e => {
+            setStateFunc(e.target.value);
           }}
         />
       </Grid>
@@ -120,15 +120,24 @@ const Column = ({
 };
 
 export default function MyPage() {
+  const me = useTypedSelector(meSelector);
+
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [searchValue, setSearchValue] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [studentName, setStudentName] = React.useState(
+    me ? me.studentName : '오류'
+  );
+  const [univName, setUnivName] = React.useState(me ? me.univName! : '오류');
+  const [studentNumber, setStudentNumber] = React.useState(
+    me ? me.studentNumber : '오류'
+  );
+  const [auth, setAuth] = React.useState(me ? me.auth.toString() : '오류');
   const [passwordCheck, setPasswordCheck] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
-  const { passCheckOK } = useTypedSelector((state) => state.user);
+  const { passCheckOK } = useTypedSelector(state => state.user);
   const router = useRouter();
-  const me = useTypedSelector(meSelector);
 
   const typ = useTypicalStyles();
   const div = useDivStyles();
@@ -168,10 +177,18 @@ export default function MyPage() {
             </div>
           </Grid>
           <Grid className={classes.labelContainer} item xs={12} md={8}>
-            <Column label="이름" value={me ? me.studentName : '오류'} />
-            <Column label="학교" value={me ? me.univName! : '오류'} />
-            <Column label="학번" value={me ? me.studentNumber : '오류'} />
-            <Column label="권한" value={me ? me.auth.toString() : '오류'} />
+            <Column
+              label="이름"
+              value={studentName}
+              setStateFunc={setStudentName}
+            />
+            <Column label="학교" value={univName} setStateFunc={setUnivName} />
+            <Column
+              label="학번"
+              value={studentNumber}
+              setStateFunc={setStudentNumber}
+            />
+            <Column label="권한" value={auth} setStateFunc={setAuth} />
           </Grid>
         </Grid>
       </TabPanel>
@@ -192,7 +209,7 @@ export default function MyPage() {
                 <TextField
                   type="password"
                   value={password}
-                  onChange={(e) => {
+                  onChange={e => {
                     setPassword(e.target.value);
                   }}
                 />
@@ -208,7 +225,7 @@ export default function MyPage() {
                 <TextField
                   type="password"
                   value={passwordCheck}
-                  onChange={(e) => {
+                  onChange={e => {
                     setPasswordCheck(e.target.value);
                   }}
                 />
@@ -224,7 +241,7 @@ export default function MyPage() {
                 <TextField
                   type="password"
                   value={newPassword}
-                  onChange={(e) => {
+                  onChange={e => {
                     setNewPassword(e.target.value);
                   }}
                 />
@@ -246,14 +263,14 @@ export default function MyPage() {
               inputProps={{ 'aria-label': 'search google maps' }}
               name="searchKeyword"
               value={searchValue}
-              onChange={(e) => {
+              onChange={e => {
                 setSearchValue(e.target.value);
               }}
             />
             <IconButton
               className={classes.searchIconButton}
               aria-label="search"
-              onClick={(e) => {}}
+              onClick={e => {}}
             >
               <SearchIcon />
             </IconButton>

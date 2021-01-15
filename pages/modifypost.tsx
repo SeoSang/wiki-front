@@ -52,6 +52,13 @@ function MyComponent() {
   }, []);
 
   useEffect(() => {
+    if (!me || (post && me?.userId != post?.userId)) {
+      alert('로그인이 안되었거나 당신의 게시글이 아니에요');
+      router.push('/board');
+    }
+  }, [me]);
+
+  useEffect(() => {
     if (post) {
       setTitle(post.title);
       setValue(post.text);
@@ -63,7 +70,7 @@ function MyComponent() {
       updatePost({
         post: {
           boardId: parseInt(boardId),
-          userId: parseInt(userId),
+          userId: userId!,
           title: title,
           text: text,
         },

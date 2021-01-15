@@ -37,9 +37,9 @@ const useStyles = makeStyles((theme: Theme) =>
     postHeaderContainer: {
       display: 'flex',
       width: '100%',
-    },    
+    },
     headerTitle: {
-      width: '50%',      
+      width: '50%',
       display: 'flex',
       justifyContent: 'flex-start',
     },
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '50%',
       display: 'flex',
       justifyContent: 'flex-end',
-      paddingRight : '20px'
+      paddingRight: '20px',
     },
     textContainer: {
       height: '100%',
@@ -67,8 +67,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const post = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { post } = useTypedSelector((state) => state.board);
-  const { me } = useTypedSelector((state)=> state.user);
+  const { post } = useTypedSelector(state => state.board);
+  const { me } = useTypedSelector(state => state.user);
   const id = router.asPath.slice(9, 12);
   const [error, setError] = useState(false);
   const st = useStyles();
@@ -76,7 +76,7 @@ const post = () => {
   const mar = useMarginStyles();
   const box = boxStyles();
   const xs = useMediaQuery('(min-width:600px)');
-  const { comments } = useTypedSelector((state) => state.board);
+  const { comments } = useTypedSelector(state => state.board);
   // const ReactQuill =
   //   typeof window === 'object' ? require('react-quill') : () => false;
 
@@ -103,7 +103,7 @@ const post = () => {
           <div className={st.headerTitle}>
             <Typography className={clsx(mar.mar2, st.headerTitle)} variant="h5">
               {post?.title}
-            </Typography>          
+            </Typography>
           </div>
           <div className={st.headerButtons}>
             <Button
@@ -115,7 +115,7 @@ const post = () => {
             </Button>
             <Button onClick={() => onDeletePost(parseInt(id))}>삭제</Button>
           </div>
-        </div>        
+        </div>
         <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
         <Grid container className={st.authorContainer}>
           <Grid
@@ -157,25 +157,29 @@ const post = () => {
         </Grid>
         <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
         <div className={clsx(st.postContainer, div.centerStartFlex)}>
-          <div dangerouslySetInnerHTML={{ __html: post?.text }}></div>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: post?.text ? post.text : '에러',
+            }}
+          ></div>
         </div>
       </div>
       {comments?.length != 0 ? (
-        comments?.map((comment) => (
+        comments?.map(comment => (
           <CommentCard
             key={`userID_${comment.studentName}`}
             author={comment.studentName}
             createdAt={moment(comment.noticeDate).format('MMMM Do / a h:mm')}
-            commentText={comment.commentText} 
-            userId ={comment.userId}
-            boardId = {parseInt(id)}
-            commentId = {comment.commentId}            
+            commentText={comment.commentText}
+            userId={comment.userId}
+            boardId={parseInt(id)}
+            commentId={comment.commentId}
           />
         ))
       ) : (
         <div>아직 댓글이 작성되지 않았습니다</div>
       )}
-      <CommentForm boardId = {parseInt(id)}></CommentForm>
+      <CommentForm boardId={parseInt(id)}></CommentForm>
     </div>
   );
 };
