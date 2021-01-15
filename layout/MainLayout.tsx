@@ -34,11 +34,10 @@ import MainProfileCard from '../components/MainProfileCard';
 import { useTypedSelector } from '../features';
 import ReportPostModal from './modal/ReportPostModal';
 import { meSelector } from '../features/user/userSlice';
-import { Backdrop, Fade, Modal, TextField } from '@material-ui/core';
-import PasswordCheckForm from '../form/PasswordCheckForm';
 import PasswordCheckModal from './modal/PasswordCheckModal';
 import { mainUseStyles } from './MainLayoutStyle';
 import LoginNeededCard from '../components/LoginNeededCard';
+import BallotIcon from '@material-ui/icons/Ballot';
 
 const MenuItem = ({
   href,
@@ -190,9 +189,6 @@ const MainLayout: React.FC<{
         </List>
         <Divider />
         <List>
-          <MenuItem href="trash" tag="쓰레기통">
-            <DeleteIcon />
-          </MenuItem>
           <MenuItem href="login" tag="로그인">
             <PeopleIcon />
           </MenuItem>
@@ -206,7 +202,7 @@ const MainLayout: React.FC<{
             <SupervisorAccountIcon />
           </MenuItem>
           <MenuItem href="wikieditor" tag="위키 에디터">
-            <SupervisorAccountIcon />
+            <BallotIcon />
           </MenuItem>
         </List>
       </Drawer>
