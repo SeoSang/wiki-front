@@ -44,8 +44,7 @@ const SubjectTable = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const me = useTypedSelector(meSelector);
-  const [iconName, setIconName] = useState('');
-  const { IconNameModalOpen } = useTypedSelector((state) => state.etc);
+  const { IconNameModalOpen } = useTypedSelector(state => state.etc);
 
   const onClickAddFavorite = (favorite: {
     userId: number;

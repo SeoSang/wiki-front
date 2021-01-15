@@ -43,8 +43,8 @@ function MyComponent() {
   const st = useStyles();
   const router = useRouter();
   const dispatch = useDispatch();
-  const { subjects } = useTypedSelector((state) => state.subject);
-  const { isLoadingPosts } = useTypedSelector((state) => state.board);
+  const { subjects } = useTypedSelector(state => state.subject);
+  const { isLoadingPosts } = useTypedSelector(state => state.board);
   const me = useTypedSelector(meSelector);
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
@@ -57,15 +57,25 @@ function MyComponent() {
   useEffect(() => {
     dispatch(loadSubjects({}));
     dispatch(loadMe({}));
-    console.log(me); 
   }, []);
+
+  useEffect(() => {
+    if (!me) {
+      alert('로그인을 해주세요');
+      router.push('/');
+    }
+  }, [me]);
+
   const submitPost = () => {
+    if (title.length == 0 || text.length == 0) {
+      return alert('빈 내용은 안됩니다!');
+    }
     // router.replace({pathname :'board'})
     dispatch(
       addPost({
         post: {
-          userId: me?.userId,
-          subjectId: subjectValue,
+          userId: me?.userId!,
+          subjectId: subjectValue!,
           categoryId: categoryValue,
           title: title,
           text: text,
@@ -117,7 +127,7 @@ function MyComponent() {
               value={subjectValue}
               onChange={handleSubjectChange}
             >
-              {subjects?.map((subject) => (
+              {subjects?.map(subject => (
                 <MenuItem
                   key={`subjectid_${subject.subjectId}`}
                   value={subject.subjectId}
@@ -134,7 +144,7 @@ function MyComponent() {
         <Grid className={div.centerFlex} item xs={10} md={6}>
           <TextField
             value={title}
-            onChange={(e) => {
+            onChange={e => {
               setTitle(e.target.value);
             }}
             fullWidth

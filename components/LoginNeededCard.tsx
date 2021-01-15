@@ -1,9 +1,6 @@
 import { Button, Card, CardActions, Typography } from '@material-ui/core';
 
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../features';
-import { meSelector } from '../features/user/userSlice';
 import { PageLink } from './PageLink';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import { mainUseStyles } from '../layout/MainLayoutStyle';

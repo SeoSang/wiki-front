@@ -10,7 +10,6 @@ export const getAllReports = createAsyncThunk(
   async ({ page, amount }: { page: number; amount: number }, thunkAPI) => {
     try {
       const result = await getAllReportsAPI(page, amount);
-      console.log(result);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
@@ -23,7 +22,6 @@ export const getAllUsers = createAsyncThunk(
   async ({ page, amount }: { page: number; amount: number }, thunkAPI) => {
     try {
       const result = await getAllUsersAPI(page, amount);
-      console.log(result);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
@@ -44,7 +42,6 @@ export const approveReport = createAsyncThunk(
   ) => {
     try {
       const result = await approveReportAPI(reportId, approve, page, amount);
-      console.log(result);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);

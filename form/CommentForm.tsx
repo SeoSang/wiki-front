@@ -50,12 +50,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-const CommentForm = ({boardId} : {boardId : number}) => {
+const CommentForm = ({ boardId }: { boardId: number }) => {
   const st = useStyles();
-  const { me } = useTypedSelector((state) => state.user);
-  const { post, addingCommentSuccess } = useTypedSelector(
-    (state) => state.board
-  );
+  const { me } = useTypedSelector(state => state.user);
+  const { post, addingCommentSuccess } = useTypedSelector(state => state.board);
   const [commentText, setCommentText] = useState('');
   const dispatch = useDispatch();
   const onClickAddComment = () => {
@@ -63,11 +61,10 @@ const CommentForm = ({boardId} : {boardId : number}) => {
     //   alert('로그인이 필요합니다!');
     //   return;
     // }
-    console.log(me?.userId, boardId, commentText);
     dispatch(
       addComment({
         comment: {
-          userId: me?.userId,  
+          userId: me?.userId,
           boardId: boardId,
           commentText: commentText,
         },
@@ -94,7 +91,7 @@ const CommentForm = ({boardId} : {boardId : number}) => {
       >
         <TextField
           value={commentText}
-          onChange={(e) => {
+          onChange={e => {
             setCommentText(e.target.value);
           }}
           className={st.input}

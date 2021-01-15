@@ -15,7 +15,7 @@ import {
   AddCommentFormData,
   UpdatePostFormData,
   UpdateCommentFormData,
-  DeleteCommentFormData
+  DeleteCommentFormData,
 } from './type';
 import _ from 'lodash';
 import { UpdateWikiFormData } from './../wiki/type';
@@ -28,10 +28,8 @@ export const addPost = createAsyncThunk(
   async ({ post }: { post: AddPostFormData }, thunkAPI) => {
     try {
       const result = await addPostApi(post);
-      console.log(_.pick(result, ['status', 'data', 'statusText']));
       return _.pick(result, ['status', 'data', 'statusText']);
     } catch (e) {
-      console.log(e.response.data);
       return thunkAPI.rejectWithValue(await e.response.data);
     }
   }
@@ -43,7 +41,6 @@ export const loadPost = createAsyncThunk(
     try {
       return await loadPostAPI(boardId);
     } catch (e) {
-      console.log(e.response.data);
       return thunkAPI.rejectWithValue(await e.response.data);
     }
   }
@@ -56,7 +53,6 @@ export const deletePost = createAsyncThunk(
       const result = await deletePostApi(boardId);
       return result;
     } catch (e) {
-      console.log(e.response.data);
       return thunkAPI.rejectWithValue(await e.response.data);
     }
   }
@@ -99,7 +95,6 @@ export const loadComments = createAsyncThunk(
       const result = await loadCommentsAPI(boardId);
       return result;
     } catch (e) {
-      console.log(e);
       return thunkAPI.rejectWithValue(e);
     }
   }
@@ -119,26 +114,24 @@ export const addComment = createAsyncThunk(
 
 export const updateComment = createAsyncThunk(
   `${NAME}/updateComment`,
-  async ({comment} : {comment : UpdateCommentFormData}, thunkAPI) => {
+  async ({ comment }: { comment: UpdateCommentFormData }, thunkAPI) => {
     try {
-      const result  = await updateCommentAPI(comment);
+      const result = await updateCommentAPI(comment);
       return result;
-    }
-    catch (e){
+    } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }
   }
-)
+);
 
 export const deleteComment = createAsyncThunk(
   `${NAME}/deleteComment`,
-  async ({comment } : {comment : DeleteCommentFormData}, thunkAPI) => {
-      try{
-        const result = await deleteCommentAPI(comment);
-        return result;
-      }
-      catch (e){
-        return thunkAPI.rejectWithValue(await e.response.data);
-      }
+  async ({ comment }: { comment: DeleteCommentFormData }, thunkAPI) => {
+    try {
+      const result = await deleteCommentAPI(comment);
+      return result;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
   }
-)
+);

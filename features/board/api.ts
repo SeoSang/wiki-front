@@ -5,7 +5,7 @@ import {
   AddCommentFormData,
   UpdatePostFormData,
   UpdateCommentFormData,
-  DeleteCommentFormData
+  DeleteCommentFormData,
 } from './type';
 
 export const loadPostsAPI = async (
@@ -13,19 +13,17 @@ export const loadPostsAPI = async (
   categoryId: number,
   page: number,
   amount: number
-) => {  
+) => {
   const result = await axios.get(`${BACKEND_URL}/board/list`, {
     params: { subjectId, categoryId, page, amount },
   });
-  console.log('????????????????',result);
   return result;
 };
 
 export const loadPostAPI = async (boardId: number) => {
   const result = await axios.get(`${BACKEND_URL}/board/viewDetail`, {
     params: { boardId: boardId },
-  });  
-  console.log(result);
+  });
   return result;
 };
 
@@ -49,7 +47,6 @@ export const deletePostApi = async (boardId: number) => {
       boardId: boardId,
     },
   });
-  console.log(result);
   return result;
 };
 
@@ -69,20 +66,24 @@ export const addCommentAPI = async (comment: AddCommentFormData) => {
   return result;
 };
 
-export const updateCommentAPI= async (comment : UpdateCommentFormData) =>{
-  const result = await axios.put(`${BACKEND_URL}/board/updateComment`, comment, {
-    withCredentials : true
-  })
-
-  return result.data;
-}
-
-export const deleteCommentAPI = async (comment : DeleteCommentFormData) => {
-  const result = await axios.delete(`${BACKEND_URL}/board/deleteComment`, {
-    params : {
-      comment
+export const updateCommentAPI = async (comment: UpdateCommentFormData) => {
+  const result = await axios.put(
+    `${BACKEND_URL}/board/updateComment`,
+    comment,
+    {
+      withCredentials: true,
     }
-  })
+  );
 
   return result.data;
-}
+};
+
+export const deleteCommentAPI = async (comment: DeleteCommentFormData) => {
+  const result = await axios.delete(`${BACKEND_URL}/board/deleteComment`, {
+    params: {
+      comment,
+    },
+  });
+
+  return result.data;
+};

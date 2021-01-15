@@ -6,7 +6,6 @@ import theme from '../styles/theme';
 import { store, useTypedSelector } from '../features';
 import { Provider, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { meSelector } from '../features/user/userSlice';
 import { loadMe } from '../features/user/action';
 
 function MyApp({ Component, pageProps }: AppPropsType) {

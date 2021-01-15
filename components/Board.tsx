@@ -55,17 +55,17 @@ const PAGE_PER_BOARDS = 3;
 export default function Board({
   categoryId,
   subjectId,
-  subjectName
+  subjectName,
 }: {
   categoryId: number;
-  subjectId? : number;
-  subjectName? : string | string[];
+  subjectId?: number;
+  subjectName?: string | string[];
 }) {
   const dispatch = useDispatch();
   const { posts, page, total, isLoadingPosts } = useTypedSelector(
-    (state) => state.board
+    state => state.board
   );
-  
+
   const useStyles = tableStyles();
   const router = useRouter();
   const pages = total / PAGE_PER_BOARDS;
@@ -76,8 +76,8 @@ export default function Board({
   useEffect(() => {
     dispatch(
       loadPosts({
-        subjectId : subjectId,
-        categoryId : categoryId,
+        subjectId: subjectId ? subjectId : 0,
+        categoryId: categoryId,
         page: 1,
       })
     );
@@ -86,7 +86,7 @@ export default function Board({
   useEffect(() => {
     setPagearray([]);
     for (let i: number = 1; i < pages + 1; i++) {
-      setPagearray((pagearray) => pagearray.concat(i));
+      setPagearray(pagearray => pagearray.concat(i));
     }
   }, [total]);
   const onClickPost = (boardId: number) => () => {
@@ -96,8 +96,8 @@ export default function Board({
     // router.push({ pathname: '/board/', query: { page: value } });
     dispatch(
       loadPosts({
-        subjectId : subjectId,
-        categoryId : categoryId,
+        subjectId: subjectId ? subjectId : 0,
+        categoryId: categoryId,
         page: value,
       })
     );
@@ -105,31 +105,33 @@ export default function Board({
   return (
     <div className={useStyles.root}>
       <div className={clsx(div.centerStartFlex, typ.botMarginThree)}>
-        { categoryId == 1 ?
-          <Typography variant = "h4">질문 게시판</Typography>
-        :
-          <Typography variant = "h4">자유 게시판</Typography>
-        }        
+        {categoryId == 1 ? (
+          <Typography variant="h4">질문 게시판</Typography>
+        ) : (
+          <Typography variant="h4">자유 게시판</Typography>
+        )}
       </div>
-      <div className = {clsx(div.endFlex, typ.botMarginThree)}>
-      <Button onClick={()=> router.push('addpost')}>글 작성하기</Button>
+      <div className={clsx(div.endFlex, typ.botMarginThree)}>
+        <Button onClick={() => router.push('addpost')}>글 작성하기</Button>
       </div>
       <Table component={Paper}>
         <TableHead>
           <TableRow>
-            {categoryId == 1 ? columns.map((col) => (
-              <TableCell key={`col_${col.toLowerCase()}`} align="center">
-                {col}
-              </TableCell>
-            )) : freeBoardColumns.map((col) => (
-              <TableCell key={`col_${col.toLowerCase()}`} align="center">
-                {col}
-              </TableCell>
-            ))}
+            {categoryId == 1
+              ? columns.map(col => (
+                  <TableCell key={`col_${col.toLowerCase()}`} align="center">
+                    {col}
+                  </TableCell>
+                ))
+              : freeBoardColumns.map(col => (
+                  <TableCell key={`col_${col.toLowerCase()}`} align="center">
+                    {col}
+                  </TableCell>
+                ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {posts?.map((p) => (
+          {posts?.map(p => (
             <TableRow
               key={`table_key_${p.boardId}`}
               className={
@@ -139,8 +141,9 @@ export default function Board({
             >
               <TableCell align="center">{p.boardId}</TableCell>
               <TableCell align="center">{p.userId}</TableCell>
-                {p.subjectId === 0 ? null : 
-              <TableCell align="center">{p.subjectVO?.subjectName}</TableCell>}        
+              {p.subjectId === 0 ? null : (
+                <TableCell align="center">{p.subjectVO?.subjectName}</TableCell>
+              )}
               <TableCell align="center">{p.title}</TableCell>
               {/* <TableCell align="center">
                 {p.text.length < 10 ? p.text : p.text.slice(0, 10) + '...'}
@@ -167,7 +170,7 @@ export default function Board({
         ></Button>*/}
       </div>
       <div className={useStyles.pagebuttons}>
-        {pagearray.map((value) => (
+        {pagearray.map(value => (
           <List className={useStyles.pagebuttons} key={value}>
             <Button onClick={() => changePage(value)}>{value}</Button>
           </List>

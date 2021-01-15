@@ -36,7 +36,6 @@ export const login = createAsyncThunk(
   ) => {
     try {
       const result = await loginAPI(email, password);
-      console.log(result);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);

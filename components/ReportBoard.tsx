@@ -26,7 +26,6 @@ import { CheckCircleOutline } from '@material-ui/icons';
 import { usePaddingStyles } from '../styles/cssStyle';
 import _ from 'lodash';
 import clsx from 'clsx';
-import moment from 'moment';
 
 const tableStyles = makeStyles({
   root: {
@@ -65,7 +64,7 @@ export default function ReportBoard() {
   const pad = usePaddingStyles();
 
   const dispatch = useDispatch();
-  const { reports, reportsTotal } = useTypedSelector((state) => state.admin);
+  const { reports, reportsTotal } = useTypedSelector(state => state.admin);
   const tab = tableStyles();
   const router = useRouter();
   const [pagearray, setPagearray] = useState<number[]>([]);
@@ -88,7 +87,7 @@ export default function ReportBoard() {
     const pages = Math.ceil(reportsTotal / PAGE_PER_BOARDS);
     setPagearray([]);
     for (let i: number = 1; i < pages + 1; i++) {
-      setPagearray((pagearray) => pagearray.concat(i));
+      setPagearray(pagearray => pagearray.concat(i));
     }
     setAnchorEls(_.fill(Array(reports?.length), null));
     setPopperAnchorEls(_.fill(Array(reports?.length), null));
@@ -161,7 +160,7 @@ export default function ReportBoard() {
       <Table size="small" component={Paper}>
         <TableHead>
           <TableRow>
-            {columns.map((col) => (
+            {columns.map(col => (
               <TableCell key={`col_${col.toLowerCase()}`} align="center">
                 {col}
               </TableCell>
@@ -249,7 +248,7 @@ export default function ReportBoard() {
       </Table>
       <div></div>
       <div className={tab.pagebuttons}>
-        {pagearray.map((value) => (
+        {pagearray.map(value => (
           <List className={tab.pagebuttons} key={value}>
             <Button
               onClick={() => {

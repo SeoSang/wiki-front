@@ -36,7 +36,7 @@ export const boardSlice = createSlice({
   initialState: initialState,
 
   reducers: {
-    resetBoardState: (state) => {
+    resetBoardState: state => {
       state = initialState;
     },
   },
@@ -49,7 +49,6 @@ export const boardSlice = createSlice({
     [loadPost.fulfilled.type]: (state, action) => {
       // 성공
       state.isLoadingPost = false;
-      console.log(action.payload);
       action.payload.data.BoardVO.subjectId = null;
       state.post = action.payload.data.BoardVO;
       state.comments = action.payload.data.commentMap;
@@ -78,13 +77,8 @@ export const boardSlice = createSlice({
       alert('서버 에러가 발생했습니다.');
     },
     [deletePost.pending.type]: (state, action) => {},
-    [deletePost.fulfilled.type]: (state, action) => {
-      console.log('성공');
-    },
-    [deletePost.rejected.type]: (state, action) => {
-      console.log(action);
-      console.log('ㅇㅎ류');
-    },
+    [deletePost.fulfilled.type]: (state, action) => {},
+    [deletePost.rejected.type]: (state, action) => {},
 
     [loadPosts.pending.type]: (state, action) => {
       state.isLoadingPosts = true;
@@ -93,7 +87,6 @@ export const boardSlice = createSlice({
     },
     [loadPosts.fulfilled.type]: (state, action) => {
       state.isLoadingPosts = false;
-      console.log(action.payload);  
       state.posts = action.payload.data.BoardMap;
       state.total = action.payload.data.TotalCount;
     },
@@ -115,7 +108,6 @@ export const boardSlice = createSlice({
       state,
       action: PayloadAction<{ message: string; status: number }>
     ) => {
-      console.log(action);
       alert('오류가 발생하였습니다..');
       state.addingPostSuccess = false;
     },
@@ -126,28 +118,21 @@ export const boardSlice = createSlice({
     [addComment.fulfilled.type]: (state, action) => {
       alert('댓글 추가에 성공하셨습니다!');
       state.comments.push(action.payload.data);
-      console.log(action.payload.data);
     },
     [addComment.rejected.type]: (
       state,
       action: PayloadAction<{ message: string; status: number }>
     ) => {
-      console.log(action);
       alert('오류가 발생하였습니다..');
     },
-    [updateComment.fulfilled.type] : (state, action) =>{
+    [updateComment.fulfilled.type]: (state, action) => {
       state.comments = action.payload.commentList;
     },
-    [updateComment.rejected.type] : (state, action) => {
-      console.log(action);
-    },
-    [deleteComment.fulfilled.type] : (state, action)=> {
+    [updateComment.rejected.type]: (state, action) => {},
+    [deleteComment.fulfilled.type]: (state, action) => {
       state.comments = action.payload.commentList;
     },
-    [deleteComment.rejected.type] : (state, action) => {
-      console.log(action);
-    }
-
+    [deleteComment.rejected.type]: (state, action) => {},
   },
 });
 

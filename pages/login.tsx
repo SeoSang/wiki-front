@@ -11,7 +11,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,7 +30,7 @@ const LoginFormValidator = (errors: any) => {
   return '';
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -57,7 +56,7 @@ const Login = () => {
   const { register, handleSubmit, errors } = useForm<LoginFormValues>();
   const [validateText, setValidateText] = useState<string>();
   const dispatch = useDispatch();
-  const { me, isLogined } = useTypedSelector((state) => state.user);
+  const { me, isLogined } = useTypedSelector(state => state.user);
 
   useEffect(() => {
     if (me) {

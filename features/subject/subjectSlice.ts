@@ -21,7 +21,7 @@ export const subjectSlice = createSlice({
   initialState: initialState,
 
   reducers: {
-    resetSubjectState: (state) => {
+    resetSubjectState: state => {
       state = initialState;
     },
   },
@@ -33,7 +33,6 @@ export const subjectSlice = createSlice({
       state.isLoadingSubjects = false;
       state.loadingSubjectsSuccess = true;
       state.subjects = action.payload.data.subjects;
-      
     },
     [loadSubjects.rejected.type]: (
       state,
@@ -41,13 +40,11 @@ export const subjectSlice = createSlice({
     ) => {
       state.isLoadingSubjects = false;
       state.loadingSubjectsSuccess = false;
-      console.log('과목정보 받아오기 실패');
     },
     [searchSubjects.pending.type]: (state, action) => {
       state.isSearchingSubjects = true;
     },
     [searchSubjects.fulfilled.type]: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       state.isSearchingSubjects = false;
       state.searchingSubjectsSuccess = true;
       if (action.payload.empty) {

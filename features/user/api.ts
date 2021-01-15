@@ -11,7 +11,6 @@ export const loadMeAPI = async () => {
 };
 
 export const loginAPI = async (email: string, password: string) => {
-  console.log(email, password);
   const result = await axios.post(
     `${BACKEND_URL}/api/user/login`,
     {
@@ -22,7 +21,6 @@ export const loginAPI = async (email: string, password: string) => {
       withCredentials: true,
     }
   );
-  console.log(result);
   return result;
 };
 

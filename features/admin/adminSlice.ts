@@ -22,7 +22,6 @@ export const adminSlice = createSlice({
   reducers: {},
   extraReducers: {
     [getAllReports.fulfilled.type]: (state, action) => {
-      console.log(action.payload);
       state.reportsTotal = action.payload.data.TotalCount;
       state.reports = action.payload.data.reportList;
     },
@@ -33,7 +32,6 @@ export const adminSlice = createSlice({
       state.reports = null;
     },
     [getAllUsers.fulfilled.type]: (state, action) => {
-      console.log(action.payload);
       state.usersTotal = action.payload.data.TotalCount;
       state.users = action.payload.data.userList;
     },

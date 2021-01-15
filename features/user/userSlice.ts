@@ -32,7 +32,7 @@ export const userSlice = createSlice({
   initialState: Object.assign(initialState, {}),
 
   reducers: {
-    resetUserState: (state) => {
+    resetUserState: state => {
       state = Object.assign(initialState, {});
     },
   },
@@ -41,7 +41,6 @@ export const userSlice = createSlice({
       state = Object.assign(initialState, {});
     },
     [loadMe.fulfilled.type]: (state, action) => {
-      console.log(action.payload);
       state.me = action.payload.data.user;
       state.isLogined = true;
       state.favorites = action.payload.data.favorites;
@@ -59,7 +58,6 @@ export const userSlice = createSlice({
       state.isLogined = false;
     },
     [login.fulfilled.type]: (state, action) => {
-      console.log(action.payload);
       alert('로그인 성공!');
       state.me = action.payload.data.user;
       state.loginLoading = false;
@@ -69,8 +67,6 @@ export const userSlice = createSlice({
       state,
       action: PayloadAction<{ message: string; status: number }>
     ) => {
-      console.log(action.payload);
-      console.log(action.type);
       alert('로그인 실패!');
       state.loginLoading = false;
       state.me = null;
@@ -91,7 +87,6 @@ export const userSlice = createSlice({
     [register.fulfilled.type]: (state, action) => {
       state.isRegistered = true;
       alert('회원가입 성공!');
-      console.log(action.payload);
     },
     [register.rejected.type]: (state, action) => {
       state.isRegistered = false;
@@ -137,7 +132,6 @@ export const userSlice = createSlice({
     },
     [deleteFavorite.fulfilled.type]: (state, action) => {
       alert('즐겨찾기 삭제 완료!');
-      console.log(action.payload);
       state.favorites = action.payload.data;
     },
     [deleteFavorite.rejected.type]: (

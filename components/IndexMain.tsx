@@ -38,7 +38,7 @@ let intervalId = 0 as any;
 const IndexMain = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const { favorites } = useTypedSelector((state) => state.user);
+  const { favorites } = useTypedSelector(state => state.user);
 
   useEffect(() => {
     return () => {
@@ -60,7 +60,7 @@ const IndexMain = () => {
           <Typography variant="h3">즐겨찾기 등록된 과목이 없습니다.</Typography>
         </Card>
       ) : (
-        <IndexSlide subjects={favorites} />
+        <IndexSlide />
       )}
     </div>
   );

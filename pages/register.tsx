@@ -16,7 +16,7 @@ import { useTypedSelector } from '../features';
 import { RegisterFormData } from '../features/user/type';
 import { useRouter } from 'next/dist/client/router';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -68,7 +68,7 @@ export default function Register() {
   const [validateText, setValidateText] = useState<string>('');
   const dispatch = useDispatch();
   const { isDoubleCheckOK, isRegistered, me } = useTypedSelector(
-    (state) => state.user
+    state => state.user
   );
   const router = useRouter();
 
@@ -86,7 +86,6 @@ export default function Register() {
   }, [me]);
 
   const onSubmit = async (data: RegisterFormData) => {
-    console.log(data);
     if (!isDoubleCheckOK) {
       alert('이메일 중복확인을 해주세요!');
       return;
@@ -100,7 +99,6 @@ export default function Register() {
     }
     delete data.nickname;
     data.reportedNum = 0;
-    console.log(data);
     dispatch(register(data));
   };
 

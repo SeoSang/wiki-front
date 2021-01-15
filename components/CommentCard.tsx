@@ -7,9 +7,8 @@ import {
   Theme,
   Typography,
   Fade,
-  TextField
+  TextField,
 } from '@material-ui/core';
-import PersonIcon from '@material-ui/icons/Person';
 
 import React, { FC, useState } from 'react';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -35,14 +34,14 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: '#e9e9e9',
       padding: theme.spacing(1),
     },
-    inputContainer : {
-      width : '100%',
+    inputContainer: {
+      width: '100%',
       height: '100%',
       padding: theme.spacing(2),
     },
-    input : {
-      widht : '95%'
-    }
+    input: {
+      widht: '95%',
+    },
   })
 );
 
@@ -50,18 +49,25 @@ interface CommentCardProps {
   author: string;
   createdAt: string;
   commentText: string;
-  userId : number; 
-  boardId : number; 
-  commentId : number;
+  userId: number;
+  boardId: number;
+  commentId: number;
 }
 
-const CommentCard: FC<CommentCardProps> = ({ author, createdAt, commentText, userId, boardId, commentId }) => {
+const CommentCard: FC<CommentCardProps> = ({
+  author,
+  createdAt,
+  commentText,
+  userId,
+  boardId,
+  commentId,
+}) => {
   const dispatch = useDispatch();
   const st = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [content, setContent] = useState<string>('');
   const [isUpdate, setIsUpdate] = useState(false);
-  const handleClick = (event) => {
+  const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -69,28 +75,33 @@ const CommentCard: FC<CommentCardProps> = ({ author, createdAt, commentText, use
   };
   const open = Boolean(anchorEl);
 
-  const handleClickUpdateForm = ()=>{
+  const handleClickUpdateForm = () => {
     setIsUpdate(true);
     setContent(commentText);
     handleClose();
-  }
-  const updateCom = ()=> {
-    dispatch(updateComment({
-      comment : {
-        commentText: content,
-        userId : userId,
-        boardId : boardId,
-        commentId : commentId
-      }
-    }))
-  }
-  const deleteCom  = () => {
-    dispatch(deleteComment({
-      comment : {
-      commentId : commentId,
-      boardId : boardId
-    }}))
-  }
+  };
+  const updateCom = () => {
+    dispatch(
+      updateComment({
+        comment: {
+          commentText: content,
+          userId: userId,
+          boardId: boardId,
+          commentId: commentId,
+        },
+      })
+    );
+  };
+  const deleteCom = () => {
+    dispatch(
+      deleteComment({
+        comment: {
+          commentId: commentId,
+          boardId: boardId,
+        },
+      })
+    );
+  };
   return (
     <Grid className={st.cardContainer} container>
       <Grid className={st.authorContainer} container>
@@ -105,35 +116,36 @@ const CommentCard: FC<CommentCardProps> = ({ author, createdAt, commentText, use
         <Grid xs={4} md={4} container alignItems="center" justify="center">
           {createdAt}
         </Grid>
-        <Grid xs={1} md ={1}>
-          <Button aria-controls="fade-menu" onClick={handleClick}><MoreVertIcon/></Button>
+        <Grid xs={1} md={1}>
+          <Button aria-controls="fade-menu" onClick={handleClick}>
+            <MoreVertIcon />
+          </Button>
           <Menu
             anchorEl={anchorEl}
-            open={open}  
+            open={open}
             onClose={handleClose}
-            TransitionComponent={Fade}        
+            TransitionComponent={Fade}
           >
             <MenuItem onClick={handleClickUpdateForm}>수정</MenuItem>
-            <MenuItem onClick={()=>deleteCom()}>삭제</MenuItem>
+            <MenuItem onClick={() => deleteCom()}>삭제</MenuItem>
           </Menu>
         </Grid>
       </Grid>
-      {isUpdate ? 
-      <Grid className={st.inputContainer} container>
-        <TextField 
-          className = {st.input}
-          value={content}
-          onChange = {(e)=> setContent(e.target.value)}
-          variant="outlined"        
-        />
-        <Button onClick={()=> updateCom()}>
-          확인
-        </Button>
-      </Grid> :
-      <Grid className={st.textContainer} container>
-        {commentText}
-      </Grid>
-      }
+      {isUpdate ? (
+        <Grid className={st.inputContainer} container>
+          <TextField
+            className={st.input}
+            value={content}
+            onChange={e => setContent(e.target.value)}
+            variant="outlined"
+          />
+          <Button onClick={() => updateCom()}>확인</Button>
+        </Grid>
+      ) : (
+        <Grid className={st.textContainer} container>
+          {commentText}
+        </Grid>
+      )}
     </Grid>
   );
 };
