@@ -35,6 +35,7 @@ export const updatePostAPI = async (post: UpdatePostFormData) => {
 };
 
 export const addPostApi = async (post: AddPostFormData) => {
+  console.log(post);
   const result = await axios.post(`${BACKEND_URL}/board/insert`, post, {
     withCredentials: true,
   });

@@ -105,17 +105,19 @@ const post = () => {
               {post?.title}
             </Typography>
           </div>
-          <div className={st.headerButtons}>
-            <Button
-              onClick={() =>
-                router.push({ pathname: '/modifypost/', query: { id: id } })
-              }
-            >
-              수정
-            </Button>
-            <Button onClick={() => onDeletePost(parseInt(id))}>삭제</Button>
-          </div>
-        </div>
+          {me?.userId === post?.userId ?
+            <div className={st.headerButtons}>
+              <Button
+                onClick={() =>
+                  router.push({ pathname: '/modifypost/', query: { id: id } })
+                }
+              >
+                수정
+              </Button>
+              <Button onClick={() => onDeletePost(parseInt(id))}>삭제</Button>
+            </div> : null
+          }
+        </div>        
         <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
         <Grid container className={st.authorContainer}>
           <Grid
