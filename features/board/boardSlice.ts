@@ -36,7 +36,7 @@ export const boardSlice = createSlice({
   initialState: initialState,
 
   reducers: {
-    resetBoardState: state => {
+    resetBoardState: (state) => {
       state = initialState;
     },
   },
@@ -76,9 +76,9 @@ export const boardSlice = createSlice({
       state.updatingPostSuccess = false;
       alert('서버 에러가 발생했습니다.');
     },
-    [deletePost.pending.type]: (state, action) => {},
-    [deletePost.fulfilled.type]: (state, action) => {},
-    [deletePost.rejected.type]: (state, action) => {},
+    // [deletePost.pending.type]: (state, action) => {},
+    // [deletePost.fulfilled.type]: (state, action) => {},
+    // [deletePost.rejected.type]: (state, action) => {},
 
     [loadPosts.pending.type]: (state, action) => {
       state.isLoadingPosts = true;

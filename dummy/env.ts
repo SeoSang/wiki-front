@@ -1,3 +1,1 @@
-export const BACKEND_URL = process.env.BACKEND_URL
-  ? process.env.BACKEND_URL
-  : 'http://3.35.53.117:8080/project_wings';
+export const BACKEND_URL = 'http://localhost:8080/mywiki-war';
