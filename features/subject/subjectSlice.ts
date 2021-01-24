@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { loadSubjects, searchSubjects } from './action';
+import { loadSubjects, searchSubjects, addSubject } from './action';
 import { SubjectState } from './type';
 
 export const NAME = 'subject';
@@ -61,6 +61,11 @@ export const subjectSlice = createSlice({
       state.searchingSubjectsSuccess = false;
       alert('서버 오류가 발생하였습니다!');
     },
+    [addSubject.fulfilled.type] : (
+      state, action
+    ) =>{
+      state.isAddedSubjects = true;
+    }
   },
 });
 

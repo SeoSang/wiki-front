@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { loadSubjectsAPI, searchSubjectsAPI } from './api';
-import { FavoriteSubjectInfo } from './type';
+import { loadSubjectsAPI, searchSubjectsAPI, addSubjectApi } from './api';
+import { FavoriteSubjectInfo, AddSubjectFormData } from './type';
 import _ from 'lodash';
 
 const NAME = 'subject';
@@ -28,3 +28,16 @@ export const searchSubjects = createAsyncThunk(
     }
   }
 );
+
+export const addSubject = createAsyncThunk(
+  `${NAME}/addSubject`,
+  async({subject} : {subject : AddSubjectFormData}, thunkAPI) => {
+    try {
+      const result = await addSubjectApi(subject);
+      return result.data;
+    }
+    catch (e){
+      return thunkAPI.rejectWithValue(await e.response.data);
+    }
+  }
+)

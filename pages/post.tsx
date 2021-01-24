@@ -77,6 +77,7 @@ const post = () => {
   const box = boxStyles();
   const xs = useMediaQuery('(min-width:600px)');
   const { comments } = useTypedSelector(state => state.board);
+  
   // const ReactQuill =
   //   typeof window === 'object' ? require('react-quill') : () => false;
 
@@ -105,17 +106,19 @@ const post = () => {
               {post?.title}
             </Typography>
           </div>
-          <div className={st.headerButtons}>
-            <Button
-              onClick={() =>
-                router.push({ pathname: '/modifypost/', query: { id: id } })
-              }
-            >
-              수정
-            </Button>
-            <Button onClick={() => onDeletePost(parseInt(id))}>삭제</Button>
-          </div>
-        </div>
+          {me?.userId === post?.userId ?
+            <div className={st.headerButtons}>
+              <Button
+                onClick={() =>
+                  router.push({ pathname: '/modifypost/', query: { id: id } })
+                }
+              >
+                수정
+              </Button>
+              <Button onClick={() => onDeletePost(parseInt(id))}>삭제</Button>
+            </div> : null
+          }
+        </div>        
         <Divider style={{ alignSelf: 'stretch' }} variant="middle" />
         <Grid container className={st.authorContainer}>
           <Grid
@@ -126,7 +129,7 @@ const post = () => {
             justify="center"
             alignItems="center"
           >
-            <PhoneIphoneIcon></PhoneIphoneIcon>
+          <PhoneIphoneIcon></PhoneIphoneIcon>
           </Grid>
           <Grid container xs={9} md={6}>
             <Typography variant="subtitle1">
@@ -167,17 +170,17 @@ const post = () => {
       {comments?.length != 0 ? (
         comments?.map(comment => (
           <CommentCard
-            key={`userID_${comment.studentName}`}
-            author={comment.studentName}
-            createdAt={moment(comment.noticeDate).format('MMMM Do / a h:mm')}
-            commentText={comment.commentText}
-            userId={comment.userId}
+            key={`userID_${comment?.studentName}`}
+            author={comment?.studentName}
+            createdAt={moment(comment?.noticeDate).format('MMMM Do / a h:mm')}
+            commentText={comment?.commentText}
+            userId={comment?.userId}
             boardId={parseInt(id)}
-            commentId={comment.commentId}
+            commentId={comment?.commentId}
           />
         ))
       ) : (
-        <div>아직 댓글이 작성되지 않았습니다</div>
+        <div className={mar.marTop5}>아직 댓글이 작성되지 않았습니다</div>
       )}
       <CommentForm boardId={parseInt(id)}></CommentForm>
     </div>

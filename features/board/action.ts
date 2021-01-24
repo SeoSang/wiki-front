@@ -105,7 +105,7 @@ export const addComment = createAsyncThunk(
   async ({ comment }: { comment: AddCommentFormData }, thunkAPI) => {
     try {
       const result = await addCommentAPI(comment);
-      return _.pick(result, ['data, status']);
+      return result; /*_.pick(result, ['data, status']);*/
     } catch (e) {
       return thunkAPI.rejectWithValue(await e.response.data);
     }

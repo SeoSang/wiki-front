@@ -35,6 +35,7 @@ export const updatePostAPI = async (post: UpdatePostFormData) => {
 };
 
 export const addPostApi = async (post: AddPostFormData) => {
+  console.log(post);
   const result = await axios.post(`${BACKEND_URL}/board/insert`, post, {
     withCredentials: true,
   });
@@ -63,7 +64,7 @@ export const addCommentAPI = async (comment: AddCommentFormData) => {
     comment,
     { withCredentials: true }
   );
-  return result;
+  return result.data;
 };
 
 export const updateCommentAPI = async (comment: UpdateCommentFormData) => {
@@ -79,10 +80,9 @@ export const updateCommentAPI = async (comment: UpdateCommentFormData) => {
 };
 
 export const deleteCommentAPI = async (comment: DeleteCommentFormData) => {
+  console.log(comment);
   const result = await axios.delete(`${BACKEND_URL}/board/deleteComment`, {
-    params: {
-      comment,
-    },
+    params: comment,
   });
 
   return result.data;
