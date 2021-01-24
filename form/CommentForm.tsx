@@ -70,6 +70,7 @@ const CommentForm = ({ boardId }: { boardId: number }) => {
         },
       })
     );
+    setCommentText('');
   };
 
   useEffect(() => {

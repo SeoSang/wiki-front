@@ -82,6 +82,7 @@ function MyComponent() {
         },
       })
     );
+    router.back();
   };
   const handleSubjectChange = (
     event: React.ChangeEvent<{ value: unknown }>
