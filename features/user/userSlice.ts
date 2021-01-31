@@ -32,7 +32,7 @@ export const userSlice = createSlice({
   initialState: Object.assign(initialState, {}),
 
   reducers: {
-    resetUserState: state => {
+    resetUserState: (state) => {
       state = Object.assign(initialState, {});
     },
   },
@@ -67,7 +67,9 @@ export const userSlice = createSlice({
       state,
       action: PayloadAction<{ message: string; status: number }>
     ) => {
-      alert('로그인 실패!');
+      if (action.payload.status == 401)
+        alert('아이디와 비밀번호가 일치하지 않습니다!');
+      else alert('로그인 실패!');
       state.loginLoading = false;
       state.me = null;
       state.favorites = [];

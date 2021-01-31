@@ -198,9 +198,18 @@ const MainLayout: React.FC<{
         </List>
         <Divider />
         <List>
-          <MenuItem href="admin" tag="관리자">
-            <SupervisorAccountIcon />
-          </MenuItem>
+          <ListItem
+            button
+            onClick={() => {
+              if (me?.auth != 1) alert('권한이 없습니다!');
+              else router.push('/admin');
+            }}
+          >
+            <ListItemIcon>
+              <SupervisorAccountIcon />
+            </ListItemIcon>
+            <ListItemText primary={'관리자'} />
+          </ListItem>
         </List>
       </Drawer>
       <main

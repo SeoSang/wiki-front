@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,6 +13,9 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import Board from '../components/Board';
 import UserBoard from '../components/UserBoard';
 import ReportBoard from '../components/ReportBoard';
+import { useTypedSelector } from '../features';
+import { meSelector } from '../features/user/userSlice';
+import { useRouter } from 'next/dist/client/router';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -69,6 +72,15 @@ export default function admin() {
   const mar = useMarginStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const me = useTypedSelector(meSelector);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!me || me?.auth != 1) {
+      alert('권한이 없습니다!');
+      router.push('/');
+    }
+  }, [me]);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
