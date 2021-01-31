@@ -23,6 +23,7 @@ export const updateWikiApi = async (wiki: UpdateWikiFormData) => {
 };
 
 export const checkClassficationApi = async (form: CheckClassificationData) => {
+  console.log(form);
   const result = await axios.post(
     `${BACKEND_URL}/wiki/checkClassification`,
     form,

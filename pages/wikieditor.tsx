@@ -14,6 +14,9 @@ import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import { useDivStyles } from './../styles/cssStyle';
 import WikiAddEditor from './../components/WikiAddEditor';
+import { Classification } from './../features/wiki/type';
+import WikiContentTest from './../components/WikiContentTest';
+
 
 const popOverStyles = makeStyles((theme: Theme) => ({
   popover: {
@@ -37,11 +40,16 @@ export default function WikiEditor() {
     if (!isWikiExist) {
     }
   }, []);
-  const contentsRef = useRef<string[] | undefined>(['2']);
+  const contentsRef = useRef<number[]>([]);
   const classes = editorContainerStyles();
   const po = popOverStyles();
   const div = useDivStyles();
-  const onClickIndex = (id: string) => {};
+  const onClickIndex = (index : number) => {    
+    contentsRef?.current[index]?.scrollIntoView({
+      behavior : 'smooth'
+    })
+    console.log(contentsRef.current);
+  };
   const submit = () => {
     router.replace('/');
   };
@@ -88,7 +96,7 @@ export default function WikiEditor() {
       <Paper className={classes.indexContainer} variant="outlined">
         <h2>목차</h2>
         {isWikiExist ? (
-          classification?.map(item => (
+          classification?.map((item , index) => (
             <div
               className={
                 item.groupId.length > 1
@@ -98,7 +106,7 @@ export default function WikiEditor() {
                   : classes.indexTitle
               }
             >
-              <Button onClick={() => onClickIndex(item.groupId)}>
+              <Button onClick={() => onClickIndex(index)}>
                 {item.groupId}. {item.title}
               </Button>
             </div>
@@ -139,7 +147,10 @@ export default function WikiEditor() {
         <Typography>새로운 항목을 추가해보세요</Typography>
       </Popover>
       <div className={classes.contentsContainer}>
-        {<WikiContent classification={classification} />}
+        {/*<WikiContent classification={classification} />*/}
+        {classification?.map((c, index)=>{
+          return <WikiContentTest ref={el => contentsRef.current[index] = el} item={c} groupId={c.groupId} text={c.text} />
+        })}
       </div>
       {/* <Button className={classes.submitButton} onClick={()=> submit()}>수정 완료</Button> */}
       <WikiAddEditor

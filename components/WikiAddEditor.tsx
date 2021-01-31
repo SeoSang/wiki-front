@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import Paper from '@material-ui/core/Paper';
-import { Modal, Backdrop, TextField, Button } from '@material-ui/core';
+import { Modal, Backdrop, TextField, Button,Grid} from '@material-ui/core';
 import { modalStyles } from './../styles/componentStyle';
 import {
   AddWikiFormData,
@@ -24,12 +24,15 @@ const WikiAddEditor = ({
   handleModalClose: () => void;
 }) => {
   const dispatch = useDispatch();
-  const { isAble } = useTypedSelector(state => state.wiki);
-  const { me } = useTypedSelector(state => state.user);
   const st = modalStyles();
+  const { isAble } = useTypedSelector(state => state.wiki);
+  const { me } = useTypedSelector(state => state.user);  
   const { register, handleSubmit, errors } = useForm<AddWikiFormData>();
   const [wikiData, setWikiData] = useState<AddWikiFormData>();
   const [groupId, setGroupId] = useState<string>('');
+  const [content, setContent] = useState('');
+  const [isChecked, setIsChecked] = useState<boolean>(false);  
+
   const onSubmit = (data: AddWikiFormData) => {
     data.wikiId = wikiId;
     data.userId = me?.userId!;
@@ -40,6 +43,7 @@ const WikiAddEditor = ({
   };
 
   const onCheck = () => {
+    setIsChecked(true);
     dispatch(
       checkClassification({
         form: {
@@ -49,7 +53,6 @@ const WikiAddEditor = ({
       })
     );
   };
-  const [content, setContent] = useState('');
   const ReactQuill =
     typeof window === 'object' ? require('react-quill') : () => false;
   useEffect(() => {
@@ -57,19 +60,26 @@ const WikiAddEditor = ({
   }, []);
 
   return (
+    <div>
     <Modal
       className={st.modalContainer}
       open={open}
-      onClose={handleModalClose}
+      onClose={()=> {
+        setIsChecked(false);
+        handleModalClose()
+      }}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
         timeout: 500,
       }}
     >
+      {/*<Paper className={st.modalContentContainer}>*/}
       <Paper className={st.modalContentContainer}>
         <h1>새로운 목차를 추가</h1>
         <form className={st.modalContent} onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+              <Grid item xs = {6}>
           <TextField
             label="목차"
             onChange={e => {
@@ -82,7 +92,7 @@ const WikiAddEditor = ({
             variant="outlined"
             InputProps={{
               endAdornment:
-                isAble >= 0 ? (
+                isChecked ? (
                   isAble == 1 ? (
                     <CheckIcon style={{ color: 'green' }} />
                   ) : (
@@ -93,7 +103,11 @@ const WikiAddEditor = ({
                 ),
             }}
           />
+          </Grid>
+          <Grid style={{display: 'flex', alignItems : 'center'}} item xs ={6}>
           <Button onClick={onCheck}> 체크 </Button>
+          </Grid>
+          <Grid item xs={12}>
           <TextField
             label="제목"
             name="title"
@@ -104,14 +118,19 @@ const WikiAddEditor = ({
             inputRef={register}
             variant="outlined"
           />
+          </Grid>
+          <Grid item xs={12}>
           <ReactQuill
+            style={{height : '170px'}}
             value={content}
             onChange={(e: string) => {
               setContent(e);
             }}
-            fullWidth
+            fullWidth            
             theme="snow"
           />
+          </Grid>
+          <Grid item xs={12}>
           <Button
             className={st.modalButton}
             type="submit"
@@ -121,9 +140,12 @@ const WikiAddEditor = ({
           >
             등록
           </Button>
+          </Grid>
+          </Grid>
         </form>
       </Paper>
     </Modal>
+    </div>
   );
 };
 

@@ -68,24 +68,26 @@ export const modalStyles = makeStyles((theme:Theme) => ({
     modalContainer : {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center',        
       },
     modalContentContainer : {      
         width : '600px',
-        height : '400px',
+        height : '500px',
         display: 'flex',
         alignItems: 'center',
         flexDirection : 'column'
     },
     modalContent : {   
         width : '100%',
-        height : '60%',
+        height : '100%',
         display: 'flex',        
-        flexDirection : 'column' ,
+        flexDirection : 'column' ,        
         paddingRight : theme.spacing(4),
         paddingLeft : theme.spacing(4),
+        paddingBottom : theme.spacing(4),
         justifyContent : 'space-between',
     },
     modalButton : {
+        marginTop : '30px'
     }
 }))

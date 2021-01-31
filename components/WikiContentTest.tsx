@@ -9,14 +9,18 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import Divider from '@material-ui/core/Divider';
 import WikiContentEditor from './WikiContentEditor';
 
-const WikiContent = ({
-  //ref,
-  classification,
+const WikiContentTest = ({
+    ref,
+  item,
+  groupId,
+  text,
 }: {
-  //ref : Classification,
-  classification: Classification[] | null
+    ref : number,
+    item : Classification,
+  groupId : string,
+    text : string
 }) => {
-  
+  console.log(ref);
   const classes = editorContainerStyles();
   const [isContentOpened, setIsContentOpened] = useState<string[]>([]);
   const [isEditorOpened, setIsEditorOpened] = useState<string[]>([]);
@@ -42,47 +46,45 @@ const WikiContent = ({
   };
   return (
     <div className={classes.contentsContainer}>
-      {classification?.map((item, index) => (
         <div style={{ fontSize: '30px' }} className={classes.indexTitle}>
           <div className={classes.contentsRow}>
             <span>
-              {isContentOpened.find(c => c === item.groupId) ? (
-                <Button onClick={() => closeContent(item.groupId)}>
+              {isContentOpened.find(c => c === groupId) ? (
+                <Button onClick={() => closeContent(groupId)}>
                   <ExpandLessIcon />
                 </Button>
               ) : (
-                <Button onClick={() => openContent(item.groupId)}>
+                <Button onClick={() => openContent(groupId)}>
                   <ExpandMoreIcon />
                 </Button>
               )}
-              {item.groupId}. {item.title}
+              {groupId}. {item.title}
             </span>
             <span style={{ textDecoration: 'underline' }}>
-              {isEditorOpened.find(e => e === item.groupId) ? (
-                <Button onClick={() => closeEditor(item.groupId)}>
+              {isEditorOpened.find(e => e === groupId) ? (
+                <Button onClick={() => closeEditor(groupId)}>
                   <CancelIcon />
                 </Button>
               ) : (
-                <Button onClick={() => openEditor(item.groupId)}>수정</Button>
+                <Button onClick={() => openEditor(groupId)}>수정</Button>
               )}
             </span>
           </div>
           <Divider />
-          {isContentOpened.find(m => m === item.groupId) &&
-          !isEditorOpened.find(m => m === item.groupId) ? (
-            <div dangerouslySetInnerHTML={{ __html: item.text }}></div>
+          {isContentOpened.find(m => m === groupId) &&
+          !isEditorOpened.find(m => m === groupId) ? (
+            <div dangerouslySetInnerHTML={{ __html: text }}></div>
           ) : (
             ''
           )}
-          {isEditorOpened.find(e => e === item.groupId) ? (
+          {isEditorOpened.find(e => e === groupId) ? (
             <WikiContentEditor item={item} id={wikiSubject?.subjectId!} />
           ) : (
             ''
           )}
-        </div>
-      ))}
+        </div>      
     </div>
   );
 };
 
-export default WikiContent;
+export default WikiContentTest;

@@ -18,7 +18,6 @@ const SubjectAddEditor = ({open, onClose} : {
         onClose();
     }
     return(
-        <div>
             <Modal 
             className={st.modalContainer}
             open={open} 
@@ -74,7 +73,6 @@ const SubjectAddEditor = ({open, onClose} : {
                     </form>
                 </Paper>
             </Modal>
-        </div>
     )
 }
 
