@@ -10,13 +10,15 @@ import {
   TextField,
 } from '@material-ui/core';
 
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 import { updateComment, deleteComment } from '../features/board/action';
 import { UpdateCommentFormData } from '../features/board/type';
 import { useDispatch } from 'react-redux';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { loadMe } from './../features/user/action';
+import { useTypedSelector } from '../features';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,8 +63,14 @@ const CommentCard: FC<CommentCardProps> = ({
   userId,
   boardId,
   commentId,
-}) => {
+}) => {  
   const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(loadMe({}));
+  },[])
+  const {me} = useTypedSelector((state)=> state.user);
+  console.log('me is >>>> ',me);
+  console.log(commentId, boardId);
   const st = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [content, setContent] = useState<string>('');
@@ -91,6 +99,7 @@ const CommentCard: FC<CommentCardProps> = ({
         },
       })
     );
+    setIsUpdate(false);
   };
   const deleteCom = () => {
     dispatch(
@@ -109,14 +118,16 @@ const CommentCard: FC<CommentCardProps> = ({
           <AccountCircleIcon></AccountCircleIcon>
         </Grid>
         <Grid xs={6} md={6} container alignItems="center">
-          <Typography variant="subtitle1">작성자 {author}</Typography>
+          <Typography variant="subtitle1">{author}</Typography>
           {/* <Button onClick ={()=> updateCom}>수정</Button>
           <Button onClick ={()=>deleteCom}>삭제</Button> */}
         </Grid>
         <Grid xs={4} md={4} container alignItems="center" justify="center">
           {createdAt}
         </Grid>
+        {me?.studentName == author ?
         <Grid xs={1} md={1}>
+          
           <Button aria-controls="fade-menu" onClick={handleClick}>
             <MoreVertIcon />
           </Button>
@@ -129,7 +140,7 @@ const CommentCard: FC<CommentCardProps> = ({
             <MenuItem onClick={handleClickUpdateForm}>수정</MenuItem>
             <MenuItem onClick={() => deleteCom()}>삭제</MenuItem>
           </Menu>
-        </Grid>
+        </Grid> : null}
       </Grid>
       {isUpdate ? (
         <Grid className={st.inputContainer} container>

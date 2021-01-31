@@ -31,6 +31,7 @@ export default function WikiEditor() {
   const { classification, wiki, wikiSubject, isWikiExist } = useTypedSelector(
     state => state.wiki
   );
+  console.log('wiki info >>> ', wiki);
   useEffect(() => {
     dispatch(loadWiki({ subjectId: parseInt(subjectId) }));
     if (!isWikiExist) {

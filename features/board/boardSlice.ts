@@ -117,7 +117,7 @@ export const boardSlice = createSlice({
     // },
     [addComment.fulfilled.type]: (state, action) => {
       alert('댓글 추가에 성공하셨습니다!');
-      state.comments.push(action.payload.data);
+      state.comments = action.payload.commentList;
     },
     [addComment.rejected.type]: (
       state,
@@ -125,7 +125,7 @@ export const boardSlice = createSlice({
     ) => {
       alert('오류가 발생하였습니다..');
     },
-    [updateComment.fulfilled.type]: (state, action) => {
+    [updateComment.fulfilled.type]: (state, action) => {      
       state.comments = action.payload.commentList;
     },
     [updateComment.rejected.type]: (state, action) => {},

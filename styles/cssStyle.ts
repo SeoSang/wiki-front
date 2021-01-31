@@ -281,6 +281,17 @@ export const usePaddingStyles = makeStyles((theme: Theme) =>
   })
 );
 
+export const usePositionStyles = makeStyles(()=>({
+  relative : {
+    position : 'relative'
+  },
+  absolute : {
+    position : 'absolute',
+    top : '80%',
+    left : '75%'
+  }
+}))
+
 
 export const boxStyles = makeStyles(()=>({
   boxShadow : {    

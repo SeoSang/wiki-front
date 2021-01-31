@@ -20,3 +20,10 @@ export interface SubjectState {
   loadingSubjectsSuccess: boolean;
   searchingSubjectsSuccess: boolean;
 }
+
+export interface AddSubjectFormData {
+  subjectName: string,
+	professor: string,
+	year: number,
+	semester: number
+}

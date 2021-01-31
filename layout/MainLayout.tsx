@@ -201,9 +201,6 @@ const MainLayout: React.FC<{
           <MenuItem href="admin" tag="관리자">
             <SupervisorAccountIcon />
           </MenuItem>
-          <MenuItem href="wikieditor" tag="위키 에디터">
-            <BallotIcon />
-          </MenuItem>
         </List>
       </Drawer>
       <main

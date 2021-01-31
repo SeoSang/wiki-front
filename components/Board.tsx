@@ -114,6 +114,7 @@ export default function Board({
       <div className={clsx(div.endFlex, typ.botMarginThree)}>
         <Button onClick={() => router.push('addpost')}>글 작성하기</Button>
       </div>
+      { posts.length > 0 ?
       <Table component={Paper}>
         <TableHead>
           <TableRow>
@@ -154,6 +155,7 @@ export default function Board({
           ))}
         </TableBody>
       </Table>
+ : <h1>게시글을 추가해보세요!</h1>}
       <div>
         {/*<Button
           onClick={() => {
