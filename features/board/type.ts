@@ -1,14 +1,14 @@
 export interface BoardState {
   post: Post | null;
-  posts: Post[] | null;
+  posts: Post[];
   isLoadingPost: boolean;
   isLoadingPosts: boolean;
   addingPostSuccess: boolean;
   addingCommentSuccess: boolean;
   updatingPostSuccess: boolean;
   comments: Comment[];
-  page : number;
-  total : number;
+  page: number;
+  total: number;
 }
 export interface Post {
   boardId: number;
@@ -20,26 +20,26 @@ export interface Post {
   createDate: Date;
   updateDate: Date;
   hitNum: number;
-  usersVO : Author | null;
-  subjectVO : SubjectInfo;
+  usersVO: Author | null;
+  subjectVO: SubjectInfo;
 }
 
 export interface Author {
-  auth: number,
-  email: string,
-  password: string,
-  studentName: string,
-  studentNumber: string,
-  univName: string,
-  userId: number
+  auth: number;
+  email: string;
+  password: string;
+  studentName: string;
+  studentNumber: string;
+  univName: string;
+  userId: number;
 }
 
 export interface SubjectInfo {
-  professor: string,
-  semester: number,
-  subjectId: number,
-  subjectName: string,
-  year: number
+  professor: string;
+  semester: number;
+  subjectId: number;
+  subjectName: string;
+  year: number;
 }
 
 export interface AddPostFormData {
@@ -51,15 +51,15 @@ export interface AddPostFormData {
 }
 
 export interface UpdatePostFormData {
-  boardId : number;
-  userId :number;
-  title : string;
-  text : string
+  boardId: number;
+  userId: number;
+  title: string;
+  text: string;
 }
 
 export interface Comment {
   commentText: string;
-  studentName : string;
+  studentName: string;
   noticeDate: string;
   userId: number;
   boardId: number;
@@ -69,17 +69,17 @@ export interface Comment {
 export interface AddCommentFormData {
   userId: number | undefined;
   boardId: number;
-  commentText : string;
+  commentText: string;
 }
 
 export interface UpdateCommentFormData {
   userId: number | undefined;
   boardId: number;
-  commentId : number;
-  commentText : string;
+  commentId: number;
+  commentText: string;
 }
 
 export interface DeleteCommentFormData {
-  commentId : number;
-  boardId : number;
+  commentId: number;
+  boardId: number;
 }
