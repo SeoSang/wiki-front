@@ -27,10 +27,6 @@ You can experience the service on thi page.
 
 ### Testing by offline
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
 ```bash
 git clone https://github.com/class-wiki-project/wiki-front.git
 cd wiki-front
