@@ -7,6 +7,7 @@ export interface UserInfo {
   studentName: string;
   univName?: string;
   studentNumber: string;
+  nickName: string;
   auth: number; // 1이 관리자, 2가 학생
   reportedNum: number;
 }
@@ -29,6 +30,15 @@ export interface RegisterFormData {
   univName: string;
   nickname?: string;
   reportedNum?: number;
+}
+
+export interface UserUpdateFormData {
+  email: string;
+  password: string;
+  studentName: string;
+  studentNumber: string;
+  univName: string;
+  nickname: string;
 }
 
 export interface posts {

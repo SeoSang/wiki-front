@@ -10,6 +10,7 @@ import {
   passwordCheck,
   register,
   reportPost,
+  userUpdate,
 } from './action';
 import { UserState } from './type';
 
@@ -67,7 +68,7 @@ export const userSlice = createSlice({
       state,
       action: PayloadAction<{ message: string; status: number }>
     ) => {
-      if (action.payload.status == 401)
+      if (action.payload?.status === 401)
         alert('아이디와 비밀번호가 일치하지 않습니다!');
       else alert('로그인 실패!');
       state.loginLoading = false;
@@ -131,6 +132,19 @@ export const userSlice = createSlice({
     ) => {
       alert('즐겨 찾기 추가 실패ㅠ');
       state.favorites = action.payload.data.favorite;
+    },
+    [userUpdate.fulfilled.type]: (state, action) => {
+      alert('정보 수정 완료!');
+      state.me = action.payload.data.users;
+    },
+    [userUpdate.rejected.type]: (
+      state,
+      action: PayloadAction<{ message: string; status: number; data: any }>
+    ) => {
+      if (action.payload.status === 409) {
+        alert('값이 올바르지 않습니다!');
+      }
+      alert('서버 오류!');
     },
     [deleteFavorite.fulfilled.type]: (state, action) => {
       alert('즐겨찾기 삭제 완료!');

@@ -1,7 +1,11 @@
 import axios from 'axios';
 import { BACKEND_URL } from '../../dummy/env';
 import { FavoriteSubjectInfo } from '../subject/type';
-import { RegisterFormData, ReportPostFormInfo } from './type';
+import {
+  RegisterFormData,
+  ReportPostFormInfo,
+  UserUpdateFormData,
+} from './type';
 
 export const loadMeAPI = async () => {
   const result = await axios.get(`${BACKEND_URL}/api/main`, {
@@ -66,6 +70,13 @@ export const doubleCheckAPI = async (email: string) => {
     },
     { withCredentials: true }
   );
+  return result;
+};
+
+export const userUpdateAPI = async (formdata: UserUpdateFormData) => {
+  const result = await axios.post(`${BACKEND_URL}/api/user/update`, formdata, {
+    withCredentials: true,
+  });
   return result;
 };
 

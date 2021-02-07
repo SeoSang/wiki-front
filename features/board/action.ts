@@ -30,7 +30,8 @@ export const addPost = createAsyncThunk(
       const result = await addPostApi(post);
       return _.pick(result, ['status', 'data', 'statusText']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -41,7 +42,8 @@ export const loadPost = createAsyncThunk(
     try {
       return await loadPostAPI(boardId);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -53,7 +55,8 @@ export const deletePost = createAsyncThunk(
       const result = await deletePostApi(boardId);
       return result;
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -64,7 +67,8 @@ export const updatePost = createAsyncThunk(
     try {
       return await updatePostAPI(post);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -83,7 +87,8 @@ export const loadPosts = createAsyncThunk(
       const result = await loadPostsAPI(subjectId, categoryId, page, AMOUNT);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -107,7 +112,8 @@ export const addComment = createAsyncThunk(
       const result = await addCommentAPI(comment);
       return result; /*_.pick(result, ['data, status']);*/
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -119,7 +125,8 @@ export const updateComment = createAsyncThunk(
       const result = await updateCommentAPI(comment);
       return result;
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -131,7 +138,8 @@ export const deleteComment = createAsyncThunk(
       const result = await deleteCommentAPI(comment);
       return result;
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );

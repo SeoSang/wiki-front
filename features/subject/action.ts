@@ -12,7 +12,8 @@ export const loadSubjects = createAsyncThunk(
       const result = await loadSubjectsAPI();
       return _.pick(result, ['status', 'data', 'statusText']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -24,20 +25,21 @@ export const searchSubjects = createAsyncThunk(
       const result = await searchSubjectsAPI(searchName);
       return result.data;
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
 
 export const addSubject = createAsyncThunk(
   `${NAME}/addSubject`,
-  async({subject} : {subject : AddSubjectFormData}, thunkAPI) => {
+  async ({ subject }: { subject: AddSubjectFormData }, thunkAPI) => {
     try {
       const result = await addSubjectApi(subject);
       return result.data;
-    }
-    catch (e){
-      return thunkAPI.rejectWithValue(await e.response.data);
+    } catch (e) {
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
-)
+);

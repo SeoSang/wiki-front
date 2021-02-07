@@ -10,8 +10,13 @@ import {
   loadMeAPI,
   reportPostAPI,
   passwordCheckAPI,
+  userUpdateAPI,
 } from './api';
-import { RegisterFormData, ReportPostFormInfo } from './type';
+import {
+  RegisterFormData,
+  ReportPostFormInfo,
+  UserUpdateFormData,
+} from './type';
 import _ from 'lodash';
 
 const NAME = 'user';
@@ -23,7 +28,8 @@ export const loadMe = createAsyncThunk(
       const result = await loadMeAPI();
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -38,7 +44,8 @@ export const login = createAsyncThunk(
       const result = await loginAPI(email, password);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -50,7 +57,8 @@ export const logout = createAsyncThunk(
       const result = await logoutAPI();
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -61,7 +69,20 @@ export const register = createAsyncThunk(
     try {
       return await registerAPI(formData);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
+    }
+  }
+);
+
+export const userUpdate = createAsyncThunk(
+  `${NAME}/userUpdate`, // 액션 이름 정의
+  async (formData: UserUpdateFormData, thunkAPI) => {
+    try {
+      return await userUpdateAPI(formData);
+    } catch (e) {
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -93,7 +114,8 @@ export const addFavorite = createAsyncThunk(
       const result = await addFavoriteAPI(userId, subjectId, iconName);
       return _.pick(result, ['data', 'status']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -105,7 +127,8 @@ export const deleteFavorite = createAsyncThunk(
       const result = await deleteFavoriteAPI(favoriteId);
       return _.pick(result, ['data', 'status']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -117,7 +140,8 @@ export const reportPost = createAsyncThunk(
       const result = await reportPostAPI(reportForm);
       return _.pick(result, ['data', 'status']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -129,7 +153,8 @@ export const passwordCheck = createAsyncThunk(
       const result = await passwordCheckAPI(password);
       return _.pick(result, ['data', 'status']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );

@@ -12,6 +12,7 @@ const initialState: SubjectState = {
   isSearchingSubjects: false,
   searchingSubjectsSuccess: false,
   loadingSubjectsSuccess: false,
+  isAddedSubjects: false,
 };
 
 export const subjectSlice = createSlice({
@@ -21,7 +22,7 @@ export const subjectSlice = createSlice({
   initialState: initialState,
 
   reducers: {
-    resetSubjectState: state => {
+    resetSubjectState: (state) => {
       state = initialState;
     },
   },
@@ -61,11 +62,9 @@ export const subjectSlice = createSlice({
       state.searchingSubjectsSuccess = false;
       alert('서버 오류가 발생하였습니다!');
     },
-    [addSubject.fulfilled.type] : (
-      state, action
-    ) =>{
+    [addSubject.fulfilled.type]: (state, action) => {
       state.isAddedSubjects = true;
-    }
+    },
   },
 });
 

@@ -11,7 +11,8 @@ export const loadMainNotices = createAsyncThunk(
       const result = await loadMainNoticesAPI();
       return _.pick(result, ['status', 'data', 'statusText']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );

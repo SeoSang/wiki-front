@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { approveReportAPI, getAllReportsAPI, getAllUsersAPI } from './api';
 import _ from 'lodash';
-import { report } from 'process';
 
 const NAME = 'admin';
 
@@ -12,7 +11,8 @@ export const getAllReports = createAsyncThunk(
       const result = await getAllReportsAPI(page, amount);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -24,7 +24,8 @@ export const getAllUsers = createAsyncThunk(
       const result = await getAllUsersAPI(page, amount);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
@@ -44,7 +45,8 @@ export const approveReport = createAsyncThunk(
       const result = await approveReportAPI(reportId, approve, page, amount);
       return _.pick(result, ['data', 'status', 'statusText']);
     } catch (e) {
-      return thunkAPI.rejectWithValue(await e.response.data);
+      const result = _.pick(e.response, ['data', 'status', 'statusText']);
+      return thunkAPI.rejectWithValue(result);
     }
   }
 );
