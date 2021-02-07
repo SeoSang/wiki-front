@@ -95,7 +95,7 @@ export const addFavoriteAPI = async (
 
 export const deleteFavoriteAPI = async (favoriteId: number) => {
   const result = await axios.delete(`${BACKEND_URL}/api/fav/delete`, {
-    params: { favSubjectId: favoriteId },
+    data: { favSubjectId: favoriteId },
     withCredentials: true,
   });
   return result;

@@ -121,7 +121,7 @@ export const addFavorite = createAsyncThunk(
 );
 
 export const deleteFavorite = createAsyncThunk(
-  `${NAME}/addFavorite`, // 액션 이름 정의
+  `${NAME}/deleteFavorite`, // 액션 이름 정의
   async ({ favoriteId }: { favoriteId: number }, thunkAPI) => {
     try {
       const result = await deleteFavoriteAPI(favoriteId);
