@@ -9,9 +9,11 @@ import subject from './subject/subjectSlice';
 import admin from './admin/adminSlice';
 import wiki from './wiki/wikiSlice';
 import etc from './etc/etcSlice';
+import updatenotification from './notification/notificationSlice';
 import { SubjectState } from './subject/type';
 import { AdminState } from './admin/type';
 import { EtcState } from './etc/type';
+import { UpdateNotificationState } from './notification/type';
 
 export interface RootState {
   user: UserState;
@@ -21,6 +23,7 @@ export interface RootState {
   admin: AdminState;
   wiki: WikiState;
   etc: EtcState;
+  updatenotification : UpdateNotificationState;
 }
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -32,6 +35,7 @@ export const reducer = combineReducers({
   admin,
   wiki,
   etc,
+  updatenotification
 });
 
 export const store = configureStore({ reducer: reducer });

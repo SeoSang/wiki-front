@@ -179,7 +179,7 @@ const IndexSlide: FC<SlideProps> = ({ deleteable }) => {
       {bind3Subject(favorites, COUNT).map((subject, i) => (
         <>
           <Item
-            key={`${subject[0].subjectName}_${i}`}
+            key={`${subject[i].subjectName}_${i}`}
             item={subject}
             deleteable={deleteable}
           />

@@ -19,8 +19,7 @@ const WikiContentTest = ({
     item : Classification,
   groupId : string,
     text : string
-}) => {
-  console.log(ref);
+}) => {  
   const classes = editorContainerStyles();
   const [isContentOpened, setIsContentOpened] = useState<string[]>([]);
   const [isEditorOpened, setIsEditorOpened] = useState<string[]>([]);
