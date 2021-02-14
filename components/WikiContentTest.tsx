@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { editorContainerStyles } from '../styles/componentStyle';
 import { Classification } from '../features/wiki/type';
 import { Button } from '@material-ui/core';
@@ -9,17 +9,26 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import Divider from '@material-ui/core/Divider';
 import WikiContentEditor from './WikiContentEditor';
 
-const WikiContentTest = ({
+/*const WikiContentTest = ({
     ref,
   item,
   groupId,
   text,
 }: {
-    ref : number,
+    ref : any,
     item : Classification,
-  groupId : string,
+    groupId : string,
     text : string
-}) => {  
+})*/
+const WikiContentTest = React.forwardRef<HTMLDivElement, {
+  item : Classification,
+  groupId : string,
+  text : string,
+}>(({
+  item,
+  groupId,
+  text,
+} , ref) => {   
   const classes = editorContainerStyles();
   const [isContentOpened, setIsContentOpened] = useState<string[]>([]);
   const [isEditorOpened, setIsEditorOpened] = useState<string[]>([]);
@@ -46,8 +55,8 @@ const WikiContentTest = ({
   return (
     <div className={classes.contentsContainer}>
         <div style={{ fontSize: '30px' }} className={classes.indexTitle}>
-          <div className={classes.contentsRow}>
-            <span>
+          <div ref={ref} className={classes.contentsRow}>
+            <span> 
               {isContentOpened.find(c => c === groupId) ? (
                 <Button onClick={() => closeContent(groupId)}>
                   <ExpandLessIcon />
@@ -84,6 +93,7 @@ const WikiContentTest = ({
         </div>      
     </div>
   );
-};
+}
+);
 
 export default WikiContentTest;

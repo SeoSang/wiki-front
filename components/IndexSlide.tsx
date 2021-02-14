@@ -21,6 +21,7 @@ import { useDispatch } from 'react-redux';
 import { deleteFavorite } from '../features/user/action';
 import { FavoriteSubjectInfo, SubjectInfo } from '../features/subject/type';
 import { useTypedSelector } from '../features';
+import { useRouter } from 'next/dist/client/router';
 
 const COUNT = 3;
 
@@ -91,7 +92,7 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
   const typ = useTypicalStyles();
   const mar = useMarginStyles();
   const dispatch = useDispatch();
-
+  const router = useRouter();
   const onClickDelete = (favoriteId: number) => () => {
     dispatch(deleteFavorite({ favoriteId }));
   };
@@ -146,11 +147,18 @@ const Item: FC<ItemProps> = ({ item, deleteable }) => {
               <Typography variant="caption" className={typ.botMarginOne}>
                 {subject.professor} 교수님
               </Typography>
+                  
               <Button
                 variant="contained"
                 color="secondary"
                 className="CheckButton"
                 style={{ color: 'white' }}
+                onClick={()=> router.push({
+                  pathname : 'wikieditor',
+                  query : {
+                    subjectId : subject.subjectId
+                  }
+                })}
               >
                 Wiki
               </Button>

@@ -37,18 +37,21 @@ export default function WikiEditor() {
   console.log('wiki info >>> ', wiki);
   useEffect(() => {
     dispatch(loadWiki({ subjectId: parseInt(subjectId) }));
-    if (!isWikiExist) {
-    }
+    // for(let i=0; i<classification?.length; i++){      
+    //   contentsRef.current.push(i);
+    // }
   }, []);
-  const contentsRef = useRef<number[]>([]);
+  const contentsRef = useRef<any[]>([]);
   const classes = editorContainerStyles();
   const po = popOverStyles();
   const div = useDivStyles();
   const onClickIndex = (index : number) => {    
     contentsRef?.current[index]?.scrollIntoView({
-      behavior : 'smooth'
-    })
-    console.log(contentsRef.current);
+      behavior : 'smooth',
+      block : 'start',
+      inline : 'start'
+    })    
+    console.log(contentsRef?.current[index]);
   };
   const submit = () => {
     router.replace('/');
@@ -98,6 +101,7 @@ export default function WikiEditor() {
         {isWikiExist ? (
           classification?.map((item , index) => (
             <div
+              key={index}
               className={
                 item.groupId.length > 1
                   ? item.groupId.length > 3
@@ -147,9 +151,9 @@ export default function WikiEditor() {
         <Typography>새로운 항목을 추가해보세요</Typography>
       </Popover>
       <div className={classes.contentsContainer}>
-        {/*<WikiContent classification={classification} />*/}
+        {/*<WikiContent classification={classification} />*/}        
         {classification?.map((c, index)=>{
-          return <WikiContentTest ref={el => contentsRef.current[index] = el} item={c} groupId={c.groupId} text={c.text} />
+          return <WikiContentTest key={index} ref={(el : any) => {contentsRef.current[index] = el; console.log(contentsRef.current[index])}} item={c} groupId={c.groupId} text={c.text}  />
         })}
       </div>
       {/* <Button className={classes.submitButton} onClick={()=> submit()}>수정 완료</Button> */}

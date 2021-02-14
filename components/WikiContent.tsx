@@ -16,7 +16,6 @@ const WikiContent = ({
   //ref : Classification,
   classification: Classification[] | null
 }) => {
-  
   const classes = editorContainerStyles();
   const [isContentOpened, setIsContentOpened] = useState<string[]>([]);
   const [isEditorOpened, setIsEditorOpened] = useState<string[]>([]);
@@ -83,6 +82,7 @@ const WikiContent = ({
       ))}
     </div>
   );
-};
+}
+;
 
 export default WikiContent;
