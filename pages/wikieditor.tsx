@@ -8,15 +8,14 @@ import { editorContainerStyles } from '../styles/componentStyle';
 import { loadWiki, updateWiki } from './../features/wiki/action';
 import { useTypedSelector } from '../features';
 import { useRouter } from 'next/dist/client/router';
-import WikiContent from '../components/WikiContent';
 import { AddCircle } from '@material-ui/icons';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import { useDivStyles } from './../styles/cssStyle';
 import WikiAddEditor from './../components/WikiAddEditor';
-import { Classification } from './../features/wiki/type';
-import WikiContentTest from './../components/WikiContentTest';
-
+import WikiContent from '../components/WikiContent';
+import Notification from './../components/Notification';
+import { notificateExpired } from '../features/notification/notificationSlice';
 
 const popOverStyles = makeStyles((theme: Theme) => ({
   popover: {
@@ -32,29 +31,23 @@ export default function WikiEditor() {
   const subjectId = router.asPath.slice(22, 23);
   const dispatch = useDispatch();
   const { classification, wiki, wikiSubject, isWikiExist } = useTypedSelector(
-    state => state.wiki
+    (state) => state.wiki
   );
+  const { success, message } = useTypedSelector((state) => state.notification);
   console.log('wiki info >>> ', wiki);
   useEffect(() => {
     dispatch(loadWiki({ subjectId: parseInt(subjectId) }));
-    // for(let i=0; i<classification?.length; i++){      
-    //   contentsRef.current.push(i);
-    // }
   }, []);
   const contentsRef = useRef<any[]>([]);
   const classes = editorContainerStyles();
   const po = popOverStyles();
   const div = useDivStyles();
-  const onClickIndex = (index : number) => {    
+  const onClickIndex = (index: number) => {
     contentsRef?.current[index]?.scrollIntoView({
-      behavior : 'smooth',
-      block : 'start',
-      inline : 'start'
-    })    
-    console.log(contentsRef?.current[index]);
-  };
-  const submit = () => {
-    router.replace('/');
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'start',
+    });
   };
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
@@ -73,9 +66,21 @@ export default function WikiEditor() {
     setAnchorEl(null);
   };
 
+  const handleClose = (event: any, reason: any) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    dispatch(notificateExpired());
+  };
+
   const isPopOverOpen = Boolean(anchorEl);
   return (
     <Paper className={classes.root}>
+      {/* <Notification
+        success={success}
+        message={message}
+        handleClose={handleClose}
+      /> */}
       <div className={classes.titleContainer}>
         <h1 className={classes.title}>{wikiSubject?.subjectName}</h1>
         <Button
@@ -99,7 +104,7 @@ export default function WikiEditor() {
       <Paper className={classes.indexContainer} variant="outlined">
         <h2>목차</h2>
         {isWikiExist ? (
-          classification?.map((item , index) => (
+          classification?.map((item, index) => (
             <div
               key={index}
               className={
@@ -151,12 +156,20 @@ export default function WikiEditor() {
         <Typography>새로운 항목을 추가해보세요</Typography>
       </Popover>
       <div className={classes.contentsContainer}>
-        {/*<WikiContent classification={classification} />*/}        
-        {classification?.map((c, index)=>{
-          return <WikiContentTest key={index} ref={(el : any) => {contentsRef.current[index] = el; console.log(contentsRef.current[index])}} item={c} groupId={c.groupId} text={c.text}  />
+        {classification?.map((c, index) => {
+          return (
+            <WikiContent
+              key={index}
+              ref={(el: any) => {
+                contentsRef.current[index] = el;
+              }}
+              item={c}
+              groupId={c.groupId}
+              text={c.text}
+            />
+          );
         })}
       </div>
-      {/* <Button className={classes.submitButton} onClick={()=> submit()}>수정 완료</Button> */}
       <WikiAddEditor
         wikiId={wiki?.wikiId}
         open={open}

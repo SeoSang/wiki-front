@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postSelector, postsSelector } from '../features/board/boardSlice';
 import { loadPost, updatePost } from '../features/board/action';
 import { useTypedSelector } from '../features';
+import { notificateSuccess } from '../features/notification/notificationSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -76,6 +77,7 @@ function MyComponent() {
         },
       })
     );
+    dispatch(notificateSuccess({message : "수정에 성공했습니다."}));
     router.back();
   };
 

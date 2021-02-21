@@ -23,6 +23,7 @@ import { addPost } from '../features/board/action';
 import { loadSubjects } from '../features/subject/action';
 import { meSelector } from '../features/user/userSlice';
 import { loadMe } from './../features/user/action';
+import { notificateSuccess } from '../features/notification/notificationSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -82,6 +83,7 @@ function MyComponent() {
         },
       })
     );
+    dispatch(notificateSuccess({message : "추가에 성공했습니다."}));
     router.back();
   };
   const handleSubjectChange = (

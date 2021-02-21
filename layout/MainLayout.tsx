@@ -38,6 +38,8 @@ import PasswordCheckModal from './modal/PasswordCheckModal';
 import { mainUseStyles } from './MainLayoutStyle';
 import LoginNeededCard from '../components/LoginNeededCard';
 import BallotIcon from '@material-ui/icons/Ballot';
+import Notification from '../components/Notification';
+import { notificateExpired } from '../features/notification/notificationSlice';
 
 const MenuItem = ({
   href,
@@ -67,7 +69,13 @@ const MainLayout: React.FC<{
   const router = useRouter();
   const dispatch = useDispatch();
   const me = useTypedSelector(meSelector);
-
+  const {success, message} = useTypedSelector((state)=> state.notification);
+  const handleNotificationClose = (event: any, reason: any) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    dispatch(notificateExpired());
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -142,7 +150,6 @@ const MainLayout: React.FC<{
                 horizontal: 'left',
               }}
             >
-              {/* {me ? <MainProfileCard /> : <LoginNeededCard />} */}
               {me ? <MainProfileCard /> : <LoginNeededCard />}
             </Popover>
           </div>
@@ -180,12 +187,6 @@ const MainLayout: React.FC<{
           <MenuItem href="subjectboard" tag="과목 게시판">
             <AssignmentIcon />
           </MenuItem>
-          {/* <MenuItem href="post" tag="게시글확인">
-            <AssignmentIcon />
-          </MenuItem>
-          <MenuItem href="addpost" tag="게시글추가">
-            <AssignmentIcon />
-          </MenuItem> */}
         </List>
         <Divider />
         <List>
@@ -218,6 +219,11 @@ const MainLayout: React.FC<{
         })}
       >
         <div className={classes.drawerHeader} />
+        <Notification
+              success={success}
+              message={message}
+              handleNotificationClose={handleNotificationClose}
+            />
         {children}
         <PasswordCheckModal />
         <ReportPostModal />

@@ -9,21 +9,21 @@ export const notificationSlice = createSlice({
     name : "notification",
     initialState : initialState,
     reducers : {
-        updateSuccess : ((state)=>{
+        notificateSuccess : ((state, action)=>{
             state.success = true;
-            state.message = "수정이 완료되었습니다.";            
+            state.message = action.payload.message;
         }),
-        updateExpired : ((state)=> {
+        notificateExpired : ((state)=> {
             state.success= false;
             state.message = "";
         }),
-        updateFailed : ((state)=>{
+        notificateFailed : ((state, action)=>{
             state.success = false;
-            state.message = "수정이 실패하였습니다.";
+            state.message = action.payload.message;
             console.log(state.success)
         })
     }
 })
 
-export const {updateSuccess, updateFailed, updateExpired} = notificationSlice.actions;
+export const {notificateSuccess, notificateFailed, notificateExpired} = notificationSlice.actions;
 export default notificationSlice.reducer;

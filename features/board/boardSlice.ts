@@ -101,7 +101,6 @@ export const boardSlice = createSlice({
       state.addingPostSuccess = false;
     },
     [addPost.fulfilled.type]: (state, action) => {
-      alert('게시글 추가에 성공하셨습니다!');
       state.addingPostSuccess = true;
     },
     [addPost.rejected.type]: (
@@ -115,8 +114,7 @@ export const boardSlice = createSlice({
     // [loadComments.fulfilled.type] : (state, action)=> {
     //   state.comments = action.payload.data.
     // },
-    [addComment.fulfilled.type]: (state, action) => {
-      alert('댓글 추가에 성공하셨습니다!');
+    [addComment.fulfilled.type]: (state, action) => {      
       state.comments = action.payload.commentList;
     },
     [addComment.rejected.type]: (
